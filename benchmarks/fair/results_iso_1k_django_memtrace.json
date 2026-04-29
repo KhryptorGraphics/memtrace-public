@@ -1,0 +1,31 @@
+{
+  "n_queries": 1000,
+  "repo": "django",
+  "repo_path": "/Users/alexthh/School/ZeroToDemo/django",
+  "dataset": "dataset_1k_django.json",
+  "memtrace_backend": "memdb-v0.3.22",
+  "tools": {
+    "memtrace": {
+      "adapter": "memtrace",
+      "description": "Rust binary, MCP JSON-RPC over stdio, find_symbol \u2014 backend=memdb-v0.3.22",
+      "n_queries": 1000,
+      "coverage_pct": 100.0,
+      "acc_at_1_pct": 79.7,
+      "acc_at_5_pct": 91.1,
+      "acc_at_10_pct": 91.2,
+      "recall_at_10_pct": 91.2,
+      "precision_at_10": 0.807,
+      "mrr": 0.8443,
+      "conditional_acc_at_1_pct": 79.7,
+      "avg_latency_ms": 0.19,
+      "median_latency_ms": 0.06,
+      "p95_latency_ms": 0.44,
+      "p99_latency_ms": 3.37,
+      "avg_tokens": 594.0,
+      "wall_seconds": 0.22,
+      "peak_rss_mb": 26.2,
+      "index_time_s": 3.865,
+      "embedding_time_s": 0.0
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "n_queries": 1000,
+  "repo": "mempalace",
+  "repo_path": "/Users/alexthh/School/ZeroToDemo/mempalace",
+  "dataset": "dataset.json",
+  "memtrace_backend": "memdb-v0.3.22",
+  "tools": {
+    "memtrace": {
+      "adapter": "memtrace",
+      "description": "Rust binary, MCP JSON-RPC over stdio, find_symbol \u2014 backend=memdb-v0.3.22",
+      "n_queries": 1000,
+      "coverage_pct": 100.0,
+      "acc_at_1_pct": 96.6,
+      "acc_at_5_pct": 99.7,
+      "acc_at_10_pct": 99.7,
+      "recall_at_10_pct": 99.7,
+      "precision_at_10": 0.967,
+      "mrr": 0.9792,
+      "conditional_acc_at_1_pct": 96.6,
+      "avg_latency_ms": 0.07,
+      "median_latency_ms": 0.06,
+      "p95_latency_ms": 0.11,
+      "p99_latency_ms": 0.31,
+      "avg_tokens": 383.0,
+      "wall_seconds": 0.12,
+      "peak_rss_mb": 26.2,
+      "index_time_s": 4.295,
+      "embedding_time_s": 0.0
+    }
+  }
+}

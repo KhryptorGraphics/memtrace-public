@@ -1,0 +1,31 @@
+{
+  "n_queries": 1000,
+  "repo": "mempalace",
+  "repo_path": "/Users/alexthh/School/ZeroToDemo/mempalace",
+  "dataset": "dataset.json",
+  "memtrace_backend": "memdb-v0.3.22",
+  "tools": {
+    "chromadb": {
+      "adapter": "chromadb",
+      "description": "chromadb 1.5 + sentence-transformers all-MiniLM-L6-v2, 800-char code chunks",
+      "n_queries": 1000,
+      "coverage_pct": 100.0,
+      "acc_at_1_pct": 62.4,
+      "acc_at_5_pct": 86.0,
+      "acc_at_10_pct": 87.8,
+      "recall_at_10_pct": 87.8,
+      "precision_at_10": 0.188,
+      "mrr": 0.7251,
+      "conditional_acc_at_1_pct": 62.4,
+      "avg_latency_ms": 54.59,
+      "median_latency_ms": 54.23,
+      "p95_latency_ms": 56.72,
+      "p99_latency_ms": 60.13,
+      "avg_tokens": 1937.0,
+      "wall_seconds": 54.61,
+      "peak_rss_mb": 1060.0,
+      "index_time_s": 19.31,
+      "embedding_time_s": 19.31
+    }
+  }
+}

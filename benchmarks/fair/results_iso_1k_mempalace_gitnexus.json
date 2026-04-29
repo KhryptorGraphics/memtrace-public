@@ -1,0 +1,31 @@
+{
+  "n_queries": 1000,
+  "repo": "mempalace",
+  "repo_path": "/Users/alexthh/School/ZeroToDemo/mempalace",
+  "dataset": "dataset.json",
+  "memtrace_backend": "memdb-v0.3.22",
+  "tools": {
+    "gitnexus": {
+      "adapter": "gitnexus",
+      "description": "GitNexus eval-server (POST /tool/query, JSON body)",
+      "n_queries": 1000,
+      "coverage_pct": 100.0,
+      "acc_at_1_pct": 97.0,
+      "acc_at_5_pct": 100.0,
+      "acc_at_10_pct": 100.0,
+      "recall_at_10_pct": 100.0,
+      "precision_at_10": 0.7017,
+      "mrr": 0.9817,
+      "conditional_acc_at_1_pct": 97.0,
+      "avg_latency_ms": 8.95,
+      "median_latency_ms": 9.02,
+      "p95_latency_ms": 12.48,
+      "p99_latency_ms": 13.3,
+      "avg_tokens": 90.0,
+      "wall_seconds": 8.95,
+      "peak_rss_mb": 31.0,
+      "index_time_s": 3.0,
+      "embedding_time_s": 0.0
+    }
+  }
+}
