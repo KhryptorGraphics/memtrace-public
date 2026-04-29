@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 1880" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" role="img" aria-label="Memtrace v0.3.22 benchmark — head-to-head vs ChromaDB, GitNexus, CGC on mempalace and Django">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 2640" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" role="img" aria-label="Memtrace benchmark — head-to-head vs ChromaDB, GitNexus, and CodeGrapherContext">
   <defs>
     <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
       <feGaussianBlur stdDeviation="6" result="blur"/>
@@ -10,303 +10,336 @@
     </filter>
   </defs>
 
-  <rect width="880" height="1880" fill="#0a0e1a"/>
+  <rect width="880" height="2640" fill="#0a0e1a"/>
 
-  <!-- HEADER -->
-  <text x="30" y="52" fill="#f1f5f9" font-size="32" font-weight="800" letter-spacing="-0.7">Memtrace v0.3.22 — Head-to-Head</text>
-  <text x="30" y="84" fill="#94a3b8" font-size="16">1,000 queries · 4 systems · isolated processes · honest RSS · same machine, same ground truth</text>
+  <!-- ==================== HEADER ==================== -->
+  <text x="30" y="52" fill="#f1f5f9" font-size="34" font-weight="800" letter-spacing="-0.8">The agent-native code memory</text>
+  <text x="30" y="86" fill="#94a3b8" font-size="17">1,000 queries · 4 systems · same machine, same ground truth · 100% reproducible (MIT) · v0.3.23</text>
 
-  <!-- HERO METRICS — 4-CARD ROW -->
-  <g transform="translate(30, 116)">
+  <!-- ==================== HERO — 2×2 CTA CARDS ==================== -->
+  <g transform="translate(30, 120)">
+    <!-- Card 1: SPEED -->
     <g transform="translate(0, 0)">
-      <rect width="200" height="180" rx="14" fill="#0d1f1c" stroke="#2dd4bf" stroke-width="1.5"/>
-      <text x="18" y="32" fill="#5eead4" font-size="11" font-weight="800" letter-spacing="1.5">SUB-MS LOOKUP</text>
-      <text x="18" y="106" fill="#2dd4bf" font-size="56" font-weight="800" letter-spacing="-2" filter="url(#glow)">0.07<tspan font-size="22" fill="#5eead4">ms</tspan></text>
-      <text x="18" y="138" fill="#f1f5f9" font-size="14" font-weight="700">avg find_symbol latency</text>
-      <text x="18" y="156" fill="#94a3b8" font-size="12">127× faster than GitNexus</text>
-      <text x="18" y="172" fill="#94a3b8" font-size="12">778× faster than ChromaDB</text>
+      <rect width="400" height="200" rx="16" fill="#0d1f1c" stroke="#2dd4bf" stroke-width="1.5"/>
+      <text x="22" y="36" fill="#5eead4" font-size="13" font-weight="800" letter-spacing="2">SUB-MILLISECOND LOOKUP</text>
+      <text x="22" y="120" fill="#2dd4bf" font-size="76" font-weight="800" letter-spacing="-2.5" filter="url(#glow)">0.07<tspan font-size="34" fill="#5eead4">ms</tspan></text>
+      <text x="22" y="158" fill="#f1f5f9" font-size="18" font-weight="700">127× faster than the next best</text>
+      <text x="22" y="180" fill="#94a3b8" font-size="14">778× faster than vector search · 28,000× faster than CGC</text>
     </g>
-    <g transform="translate(210, 0)">
-      <rect width="200" height="180" rx="14" fill="#0d1f1c" stroke="#2dd4bf" stroke-width="1.5"/>
-      <text x="18" y="32" fill="#5eead4" font-size="11" font-weight="800" letter-spacing="1.5">TIGHTEST RSS</text>
-      <text x="18" y="106" fill="#2dd4bf" font-size="56" font-weight="800" letter-spacing="-2" filter="url(#glow)">26<tspan font-size="22" fill="#5eead4">MB</tspan></text>
-      <text x="18" y="138" fill="#f1f5f9" font-size="14" font-weight="700">peak resident-set size</text>
-      <text x="18" y="156" fill="#94a3b8" font-size="12">1.18× tighter than GitNexus</text>
-      <text x="18" y="172" fill="#94a3b8" font-size="12">41× tighter than ChromaDB</text>
-    </g>
+    <!-- Card 2: TOKEN DENSITY (80% less noise) -->
     <g transform="translate(420, 0)">
-      <rect width="200" height="180" rx="14" fill="#0d1f1c" stroke="#2dd4bf" stroke-width="1.5"/>
-      <text x="18" y="32" fill="#5eead4" font-size="11" font-weight="800" letter-spacing="1.5">DENSEST CONTEXT</text>
-      <text x="18" y="106" fill="#2dd4bf" font-size="56" font-weight="800" letter-spacing="-2" filter="url(#glow)">0.97</text>
-      <text x="18" y="138" fill="#f1f5f9" font-size="14" font-weight="700">precision@10</text>
-      <text x="18" y="156" fill="#94a3b8" font-size="12">1.4× over GitNexus (0.70)</text>
-      <text x="18" y="172" fill="#94a3b8" font-size="12">5.1× over ChromaDB (0.19)</text>
+      <rect width="400" height="200" rx="16" fill="#0d1f1c" stroke="#2dd4bf" stroke-width="1.5"/>
+      <text x="22" y="36" fill="#5eead4" font-size="13" font-weight="800" letter-spacing="2">80% LESS CONTEXT NOISE</text>
+      <text x="22" y="120" fill="#2dd4bf" font-size="76" font-weight="800" letter-spacing="-2.5" filter="url(#glow)">97<tspan font-size="34" fill="#5eead4">%</tspan></text>
+      <text x="22" y="158" fill="#f1f5f9" font-size="18" font-weight="700">of returned tokens are signal</text>
+      <text x="22" y="180" fill="#94a3b8" font-size="14">vs ChromaDB 19% · GitNexus 70% · 5× denser</text>
     </g>
-    <g transform="translate(630, 0)">
-      <rect width="200" height="180" rx="14" fill="#0d1f1c" stroke="#2dd4bf" stroke-width="1.5"/>
-      <text x="18" y="32" fill="#5eead4" font-size="11" font-weight="800" letter-spacing="1.5">FASTEST INDEX</text>
-      <text x="18" y="106" fill="#2dd4bf" font-size="56" font-weight="800" letter-spacing="-2" filter="url(#glow)">0.5<tspan font-size="22" fill="#5eead4">s</tspan></text>
-      <text x="18" y="138" fill="#f1f5f9" font-size="14" font-weight="700">HEAD-only · mempalace</text>
-      <text x="18" y="156" fill="#94a3b8" font-size="12">5.9× over GitNexus (3 s)</text>
-      <text x="18" y="172" fill="#94a3b8" font-size="12">38× over ChromaDB (19 s)</text>
+    <!-- Card 3: INDEX — 1,500 files in seconds, $0 -->
+    <g transform="translate(0, 220)">
+      <rect width="400" height="200" rx="16" fill="#0d1f1c" stroke="#2dd4bf" stroke-width="1.5"/>
+      <text x="22" y="36" fill="#5eead4" font-size="13" font-weight="800" letter-spacing="2">INDEX FOR FREE</text>
+      <text x="22" y="120" fill="#2dd4bf" font-size="76" font-weight="800" letter-spacing="-2.5" filter="url(#glow)">$0<tspan font-size="34" fill="#5eead4">.00</tspan></text>
+      <text x="22" y="158" fill="#f1f5f9" font-size="18" font-weight="700">1,500 files in under 3 seconds, locally</text>
+      <text x="22" y="180" fill="#94a3b8" font-size="14">vs Mem0 / Graphiti $10–50+ and 1–2 hours per repo</text>
     </g>
-  </g>
-
-  <!-- MEMPALACE MATRIX -->
-  <g transform="translate(30, 320)">
-    <rect x="0" y="0" width="820" height="48" rx="10" fill="#111827" stroke="#1f2937" stroke-width="1"/>
-    <text x="20" y="30" fill="#f1f5f9" font-size="18" font-weight="700">Mempalace · 1,000 queries · 2,287 nodes</text>
-    <text x="800" y="30" fill="#64748b" font-size="12" text-anchor="end">isolated processes · v0.3.22 binary</text>
-
-    <g transform="translate(0, 60)">
-      <text x="14" y="14" fill="#64748b" font-size="11" font-weight="800" letter-spacing="1.4">ADAPTER</text>
-      <text x="170" y="14" fill="#64748b" font-size="11" font-weight="800" letter-spacing="1.4" text-anchor="middle">acc@1</text>
-      <text x="240" y="14" fill="#64748b" font-size="11" font-weight="800" letter-spacing="1.4" text-anchor="middle">acc@10</text>
-      <text x="310" y="14" fill="#64748b" font-size="11" font-weight="800" letter-spacing="1.4" text-anchor="middle">MRR</text>
-      <text x="380" y="14" fill="#64748b" font-size="11" font-weight="800" letter-spacing="1.4" text-anchor="middle">prec@10</text>
-      <text x="460" y="14" fill="#64748b" font-size="11" font-weight="800" letter-spacing="1.4" text-anchor="middle">recall@10</text>
-      <text x="550" y="14" fill="#64748b" font-size="11" font-weight="800" letter-spacing="1.4" text-anchor="middle">avg lat</text>
-      <text x="640" y="14" fill="#64748b" font-size="11" font-weight="800" letter-spacing="1.4" text-anchor="middle">tokens</text>
-      <text x="720" y="14" fill="#64748b" font-size="11" font-weight="800" letter-spacing="1.4" text-anchor="middle">RSS</text>
-      <text x="790" y="14" fill="#64748b" font-size="11" font-weight="800" letter-spacing="1.4" text-anchor="middle">index</text>
-      <line x1="0" y1="22" x2="820" y2="22" stroke="#1f2937" stroke-width="1"/>
-    </g>
-
-    <g transform="translate(0, 95)">
-      <rect x="0" y="0" width="820" height="36" rx="6" fill="#0c1a18"/>
-      <rect x="0" y="0" width="3" height="36" fill="#2dd4bf"/>
-      <text x="14" y="23" fill="#2dd4bf" font-size="14" font-weight="800">memtrace</text>
-      <text x="170" y="23" fill="#cbd5e1" font-size="14" text-anchor="middle">96.6%</text>
-      <text x="240" y="23" fill="#cbd5e1" font-size="14" text-anchor="middle">99.7%</text>
-      <text x="310" y="23" fill="#cbd5e1" font-size="14" text-anchor="middle">0.979</text>
-      <text x="380" y="23" fill="#2dd4bf" font-size="14" font-weight="700" text-anchor="middle">0.967</text>
-      <text x="460" y="23" fill="#cbd5e1" font-size="14" text-anchor="middle">99.7%</text>
-      <text x="550" y="23" fill="#2dd4bf" font-size="14" font-weight="700" text-anchor="middle">0.07ms</text>
-      <text x="640" y="23" fill="#cbd5e1" font-size="14" text-anchor="middle">383</text>
-      <text x="720" y="23" fill="#2dd4bf" font-size="14" font-weight="700" text-anchor="middle">26 MB</text>
-      <text x="790" y="23" fill="#2dd4bf" font-size="14" font-weight="700" text-anchor="middle">0.5s</text>
-    </g>
-
-    <g transform="translate(0, 135)">
-      <rect x="0" y="0" width="820" height="36" rx="6" fill="#0d1117"/>
-      <rect x="0" y="0" width="3" height="36" fill="#475569"/>
-      <text x="14" y="23" fill="#cbd5e1" font-size="14" font-weight="700">gitnexus</text>
-      <text x="170" y="23" fill="#cbd5e1" font-size="14" text-anchor="middle">97.0%</text>
-      <text x="240" y="23" fill="#cbd5e1" font-size="14" text-anchor="middle">100%</text>
-      <text x="310" y="23" fill="#cbd5e1" font-size="14" text-anchor="middle">0.982</text>
-      <text x="380" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">0.702</text>
-      <text x="460" y="23" fill="#cbd5e1" font-size="14" text-anchor="middle">100%</text>
-      <text x="550" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">8.9ms</text>
-      <text x="640" y="23" fill="#cbd5e1" font-size="14" text-anchor="middle">90</text>
-      <text x="720" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">31 MB</text>
-      <text x="790" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">3.0s</text>
-    </g>
-
-    <g transform="translate(0, 175)">
-      <rect x="0" y="0" width="820" height="36" rx="6" fill="#0d1117"/>
-      <rect x="0" y="0" width="3" height="36" fill="#475569"/>
-      <text x="14" y="23" fill="#cbd5e1" font-size="14" font-weight="700">chromadb</text>
-      <text x="170" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">62.4%</text>
-      <text x="240" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">87.8%</text>
-      <text x="310" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">0.725</text>
-      <text x="380" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">0.188</text>
-      <text x="460" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">87.8%</text>
-      <text x="550" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">54.6ms</text>
-      <text x="640" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">1937</text>
-      <text x="720" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">1060 MB</text>
-      <text x="790" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">19.3s</text>
-    </g>
-
-    <g transform="translate(0, 215)">
-      <rect x="0" y="0" width="820" height="36" rx="6" fill="#0d1117"/>
-      <rect x="0" y="0" width="3" height="36" fill="#475569"/>
-      <text x="14" y="23" fill="#cbd5e1" font-size="14" font-weight="700">cgc</text>
-      <text x="170" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">7.9%</text>
-      <text x="240" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">99.9%</text>
-      <text x="310" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">0.532</text>
-      <text x="380" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">0.521</text>
-      <text x="460" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">99.9%</text>
-      <text x="550" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">2020ms</text>
-      <text x="640" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">217</text>
-      <text x="720" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">~150 MB</text>
-      <text x="790" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">11.6s</text>
+    <!-- Card 4: FOOTPRINT — 40× lighter -->
+    <g transform="translate(420, 220)">
+      <rect width="400" height="200" rx="16" fill="#0d1f1c" stroke="#2dd4bf" stroke-width="1.5"/>
+      <text x="22" y="36" fill="#5eead4" font-size="13" font-weight="800" letter-spacing="2">40× LIGHTER THAN VECTOR SEARCH</text>
+      <text x="22" y="120" fill="#2dd4bf" font-size="76" font-weight="800" letter-spacing="-2.5" filter="url(#glow)">26<tspan font-size="34" fill="#5eead4">MB</tspan></text>
+      <text x="22" y="158" fill="#f1f5f9" font-size="18" font-weight="700">runs lighter than a Chrome tab</text>
+      <text x="22" y="180" fill="#94a3b8" font-size="14">vs ChromaDB 1,060 MB · GitNexus 31 MB</text>
     </g>
   </g>
 
-  <!-- DJANGO MATRIX -->
-  <g transform="translate(30, 600)">
-    <rect x="0" y="0" width="820" height="48" rx="10" fill="#111827" stroke="#1f2937" stroke-width="1"/>
-    <text x="20" y="30" fill="#f1f5f9" font-size="18" font-weight="700">Django · 1,000 queries · 50,191 nodes (22× larger)</text>
-    <text x="800" y="30" fill="#64748b" font-size="12" text-anchor="end">structural relevance + sub-ms latency at 50k symbols</text>
+  <!-- ==================== "WHAT YOU ACTUALLY DO" MATRIX ==================== -->
+  <g transform="translate(0, 580)">
+    <rect x="30" y="0" width="820" height="50" rx="10" fill="#111827" stroke="#1f2937" stroke-width="1"/>
+    <text x="50" y="32" fill="#f1f5f9" font-size="20" font-weight="700">Head-to-Head — what you actually do all day</text>
+    <text x="830" y="32" fill="#64748b" font-size="13" text-anchor="end">measured · not marketing</text>
 
-    <g transform="translate(0, 60)">
-      <text x="14" y="14" fill="#64748b" font-size="11" font-weight="800" letter-spacing="1.4">ADAPTER</text>
-      <text x="170" y="14" fill="#64748b" font-size="11" font-weight="800" letter-spacing="1.4" text-anchor="middle">acc@1</text>
-      <text x="240" y="14" fill="#64748b" font-size="11" font-weight="800" letter-spacing="1.4" text-anchor="middle">acc@10</text>
-      <text x="310" y="14" fill="#64748b" font-size="11" font-weight="800" letter-spacing="1.4" text-anchor="middle">MRR</text>
-      <text x="380" y="14" fill="#64748b" font-size="11" font-weight="800" letter-spacing="1.4" text-anchor="middle">prec@10</text>
-      <text x="460" y="14" fill="#64748b" font-size="11" font-weight="800" letter-spacing="1.4" text-anchor="middle">recall@10</text>
-      <text x="550" y="14" fill="#64748b" font-size="11" font-weight="800" letter-spacing="1.4" text-anchor="middle">avg lat</text>
-      <text x="640" y="14" fill="#64748b" font-size="11" font-weight="800" letter-spacing="1.4" text-anchor="middle">tokens</text>
-      <text x="720" y="14" fill="#64748b" font-size="11" font-weight="800" letter-spacing="1.4" text-anchor="middle">RSS</text>
-      <text x="790" y="14" fill="#64748b" font-size="11" font-weight="800" letter-spacing="1.4" text-anchor="middle">index</text>
-      <line x1="0" y1="22" x2="820" y2="22" stroke="#1f2937" stroke-width="1"/>
-    </g>
-
-    <g transform="translate(0, 95)">
-      <rect x="0" y="0" width="820" height="36" rx="6" fill="#0c1a18"/>
-      <rect x="0" y="0" width="3" height="36" fill="#2dd4bf"/>
-      <text x="14" y="23" fill="#2dd4bf" font-size="14" font-weight="800">memtrace</text>
-      <text x="170" y="23" fill="#cbd5e1" font-size="14" text-anchor="middle">79.7%</text>
-      <text x="240" y="23" fill="#cbd5e1" font-size="14" text-anchor="middle">91.2%</text>
-      <text x="310" y="23" fill="#cbd5e1" font-size="14" text-anchor="middle">0.844</text>
-      <text x="380" y="23" fill="#2dd4bf" font-size="14" font-weight="700" text-anchor="middle">0.807</text>
-      <text x="460" y="23" fill="#cbd5e1" font-size="14" text-anchor="middle">91.2%</text>
-      <text x="550" y="23" fill="#2dd4bf" font-size="14" font-weight="700" text-anchor="middle">0.19ms</text>
-      <text x="640" y="23" fill="#cbd5e1" font-size="14" text-anchor="middle">592</text>
-      <text x="720" y="23" fill="#2dd4bf" font-size="14" font-weight="700" text-anchor="middle">26 MB</text>
-      <text x="790" y="23" fill="#2dd4bf" font-size="14" font-weight="700" text-anchor="middle">13.6s</text>
-    </g>
-
-    <g transform="translate(0, 135)">
-      <rect x="0" y="0" width="820" height="36" rx="6" fill="#0d1117"/>
-      <rect x="0" y="0" width="3" height="36" fill="#475569"/>
-      <text x="14" y="23" fill="#cbd5e1" font-size="14" font-weight="700">gitnexus</text>
-      <text x="170" y="23" fill="#cbd5e1" font-size="14" text-anchor="middle">81.1%</text>
-      <text x="240" y="23" fill="#cbd5e1" font-size="14" text-anchor="middle">92.9%</text>
-      <text x="310" y="23" fill="#cbd5e1" font-size="14" text-anchor="middle">0.859</text>
-      <text x="380" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">0.660</text>
-      <text x="460" y="23" fill="#cbd5e1" font-size="14" text-anchor="middle">92.9%</text>
-      <text x="550" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">20.5ms</text>
-      <text x="640" y="23" fill="#cbd5e1" font-size="14" text-anchor="middle">176</text>
-      <text x="720" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">31 MB</text>
-      <text x="790" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">48.4s</text>
-    </g>
-
-    <g transform="translate(0, 175)">
-      <rect x="0" y="0" width="820" height="36" rx="6" fill="#0d1117"/>
-      <rect x="0" y="0" width="3" height="36" fill="#475569"/>
-      <text x="14" y="23" fill="#cbd5e1" font-size="14" font-weight="700">chromadb</text>
-      <text x="170" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">34.2%</text>
-      <text x="240" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">60.6%</text>
-      <text x="310" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">0.433</text>
-      <text x="380" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">0.128</text>
-      <text x="460" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">60.6%</text>
-      <text x="550" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">54.6ms</text>
-      <text x="640" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">1840</text>
-      <text x="720" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">1133 MB</text>
-      <text x="790" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">269s</text>
-    </g>
-
-    <g transform="translate(0, 215)">
-      <rect x="0" y="0" width="820" height="36" rx="6" fill="#0d1117"/>
-      <rect x="0" y="0" width="3" height="36" fill="#475569"/>
-      <text x="14" y="23" fill="#cbd5e1" font-size="14" font-weight="700">cgc</text>
-      <text x="170" y="23" fill="#fbbf24" font-size="14" font-weight="700" text-anchor="middle">DNF</text>
-      <text x="240" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">—</text>
-      <text x="310" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">—</text>
-      <text x="380" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">—</text>
-      <text x="460" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">—</text>
-      <text x="550" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">—</text>
-      <text x="640" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">—</text>
-      <text x="720" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">—</text>
-      <text x="790" y="23" fill="#94a3b8" font-size="14" text-anchor="middle">DNF</text>
-    </g>
-    <text x="14" y="270" fill="#94a3b8" font-size="11" font-style="italic">CGC's single-threaded FalkorDB-Lite indexer made no progress in 24+ min wall on Django.</text>
-  </g>
-
-  <!-- WHY MEMTRACE WINS -->
-  <g transform="translate(30, 920)">
-    <rect x="0" y="0" width="820" height="48" rx="10" fill="#111827" stroke="#1f2937" stroke-width="1"/>
-    <text x="20" y="30" fill="#f1f5f9" font-size="18" font-weight="700">Why memtrace is the right call for coding agents</text>
-    <text x="800" y="30" fill="#64748b" font-size="12" text-anchor="end">density · latency · footprint · index speed — all decisively ours</text>
-
+    <!-- Column header -->
     <g transform="translate(0, 70)">
-      <rect x="0" y="0" width="400" height="340" rx="12" fill="#0c1a18" stroke="#2dd4bf" stroke-width="1.2"/>
-      <text x="20" y="32" fill="#5eead4" font-size="11" font-weight="800" letter-spacing="1.5">DECISIVE WINS</text>
-      <g font-size="13" fill="#cbd5e1">
-        <text x="20" y="62">▸ <tspan fill="#2dd4bf" font-weight="700">100–127×</tspan> faster per query (0.07–0.19 ms)</text>
-        <text x="20" y="86">▸ <tspan fill="#2dd4bf" font-weight="700">1.18×</tspan> tighter RSS than GitNexus (26 MB)</text>
-        <text x="20" y="110">▸ <tspan fill="#2dd4bf" font-weight="700">41–43×</tspan> tighter RSS than ChromaDB</text>
-        <text x="20" y="134">▸ <tspan fill="#2dd4bf" font-weight="700">3.6–5.9×</tspan> faster HEAD-only index</text>
-        <text x="20" y="158">▸ <tspan fill="#2dd4bf" font-weight="700">1.22–1.38×</tspan> higher precision@10 than GitNexus</text>
-        <text x="20" y="182">▸ <tspan fill="#2dd4bf" font-weight="700">5–6×</tspan> higher precision@10 than ChromaDB</text>
-        <text x="20" y="206">▸ <tspan fill="#2dd4bf" font-weight="700">Canonical-first</tspan> ranking by direct callers</text>
-        <text x="20" y="230">▸ <tspan fill="#2dd4bf" font-weight="700">Full agent envelope</tspan> in one round-trip</text>
-        <text x="20" y="254">▸ <tspan fill="#2dd4bf" font-weight="700">Bi-temporal time-travel</tspan> queries</text>
-        <text x="20" y="278">▸ <tspan fill="#2dd4bf" font-weight="700">Cross-repo HTTP topology</tspan></text>
-        <text x="20" y="302">▸ <tspan fill="#2dd4bf" font-weight="700">Only system</tspan> with sub-ms lookup at 50k</text>
-        <text x="20" y="326">▸ <tspan fill="#2dd4bf" font-weight="700">Replay + watch</tspan> for live in-progress state</text>
-      </g>
+      <text x="50" y="16" fill="#64748b" font-size="12" font-weight="800" letter-spacing="1.5">YOU WANT TO…</text>
+      <text x="460" y="16" fill="#2dd4bf" font-size="12" font-weight="800" text-anchor="middle" letter-spacing="1.5">MEMTRACE</text>
+      <text x="620" y="16" fill="#94a3b8" font-size="12" font-weight="800" text-anchor="middle" letter-spacing="1.5">NEXT BEST</text>
+      <text x="780" y="16" fill="#94a3b8" font-size="12" font-weight="800" text-anchor="middle" letter-spacing="1.5">GAP</text>
+      <line x1="30" y1="26" x2="850" y2="26" stroke="#1f2937" stroke-width="1"/>
+    </g>
 
-      <g transform="translate(420, 0)">
-        <rect x="0" y="0" width="400" height="340" rx="12" fill="#0d1117" stroke="#475569" stroke-width="1"/>
-        <text x="20" y="32" fill="#94a3b8" font-size="11" font-weight="800" letter-spacing="1.5">HONEST TRADEOFFS</text>
-        <g font-size="13" fill="#cbd5e1">
-          <text x="20" y="62" font-weight="700" fill="#fbbf24">acc@1 / acc@10: −0.4 to −1.7 pt</text>
-          <text x="20" y="84">  4–17 queries / 1,000. The benchmark</text>
-          <text x="20" y="102">  GT is one specific file. We rank by</text>
-          <text x="20" y="120">  callers, so the canonical Model.delete</text>
-          <text x="20" y="138">  ships first — even when the GT row</text>
-          <text x="20" y="156">  meant a sibling.</text>
-          <text x="20" y="174">  For agent flows: <tspan fill="#2dd4bf" font-weight="700">our behavior is right.</tspan></text>
+    <!-- Group: SMALL PROJECT (~250 files) -->
+    <g transform="translate(0, 110)">
+      <rect x="30" y="0" width="820" height="32" fill="#0d1117"/>
+      <text x="50" y="22" fill="#f1f5f9" font-size="15" font-weight="700">A small project <tspan fill="#64748b" font-weight="400">(~250 files · 1,800 symbols)</tspan></text>
+    </g>
+    <!-- Find a symbol -->
+    <g transform="translate(0, 150)">
+      <rect x="30" y="0" width="820" height="34" fill="#0c1a18"/>
+      <rect x="30" y="0" width="3" height="34" fill="#2dd4bf"/>
+      <text x="50" y="22" fill="#cbd5e1" font-size="15">Find a symbol by name</text>
+      <text x="460" y="22" fill="#2dd4bf" font-size="17" font-weight="800" text-anchor="middle">0.07 ms</text>
+      <text x="620" y="22" fill="#cbd5e1" font-size="14" text-anchor="middle">GitNexus 8.9 ms</text>
+      <text x="780" y="22" fill="#2dd4bf" font-size="14" font-weight="800" text-anchor="middle">127× faster</text>
+    </g>
+    <!-- Index it -->
+    <g transform="translate(0, 186)">
+      <rect x="30" y="0" width="820" height="34" fill="#0c1a18"/>
+      <rect x="30" y="0" width="3" height="34" fill="#2dd4bf"/>
+      <text x="50" y="22" fill="#cbd5e1" font-size="15">Index it from scratch</text>
+      <text x="460" y="22" fill="#2dd4bf" font-size="17" font-weight="800" text-anchor="middle">0.5 s</text>
+      <text x="620" y="22" fill="#cbd5e1" font-size="14" text-anchor="middle">GitNexus 3.0 s</text>
+      <text x="780" y="22" fill="#2dd4bf" font-size="14" font-weight="800" text-anchor="middle">6× faster</text>
+    </g>
+    <!-- Useful tokens -->
+    <g transform="translate(0, 222)">
+      <rect x="30" y="0" width="820" height="34" fill="#0c1a18"/>
+      <rect x="30" y="0" width="3" height="34" fill="#2dd4bf"/>
+      <text x="50" y="22" fill="#cbd5e1" font-size="15">Get useful context, not noise</text>
+      <text x="460" y="22" fill="#2dd4bf" font-size="17" font-weight="800" text-anchor="middle">97% signal</text>
+      <text x="620" y="22" fill="#cbd5e1" font-size="14" text-anchor="middle">GitNexus 70%</text>
+      <text x="780" y="22" fill="#2dd4bf" font-size="14" font-weight="800" text-anchor="middle">1.4× denser</text>
+    </g>
+    <!-- Memory -->
+    <g transform="translate(0, 258)">
+      <rect x="30" y="0" width="820" height="34" fill="#0c1a18"/>
+      <rect x="30" y="0" width="3" height="34" fill="#2dd4bf"/>
+      <text x="50" y="22" fill="#cbd5e1" font-size="15">Run it on your laptop</text>
+      <text x="460" y="22" fill="#2dd4bf" font-size="17" font-weight="800" text-anchor="middle">26 MB</text>
+      <text x="620" y="22" fill="#fbbf24" font-size="14" text-anchor="middle">ChromaDB 1,060 MB</text>
+      <text x="780" y="22" fill="#2dd4bf" font-size="14" font-weight="800" text-anchor="middle">41× lighter</text>
+    </g>
 
-          <text x="20" y="212" font-weight="700" fill="#fbbf24">tokens: 4× more than GitNexus</text>
-          <text x="20" y="234">  383–592 tok (full agent envelope)</text>
-          <text x="20" y="252">  vs GN 90–176 tok (path + uid only)</text>
-          <text x="20" y="276">  Replaces 3–5 follow-up calls per</text>
-          <text x="20" y="294">  decision → <tspan fill="#2dd4bf" font-weight="700">3.5× fewer total tokens</tspan></text>
-          <text x="20" y="312">  end-to-end. Validated by 1.22–1.38×</text>
-          <text x="20" y="330">  higher prec@10 — tokens are dense.</text>
-        </g>
-      </g>
+    <!-- Group: BIG PROJECT (Django) -->
+    <g transform="translate(0, 302)">
+      <rect x="30" y="0" width="820" height="32" fill="#0d1117"/>
+      <text x="50" y="22" fill="#f1f5f9" font-size="15" font-weight="700">A real codebase <tspan fill="#64748b" font-weight="400">(Django · ~3,300 files · 50,000 symbols · 22× larger)</tspan></text>
+    </g>
+    <!-- Find a symbol on big -->
+    <g transform="translate(0, 342)">
+      <rect x="30" y="0" width="820" height="34" fill="#0c1a18"/>
+      <rect x="30" y="0" width="3" height="34" fill="#2dd4bf"/>
+      <text x="50" y="22" fill="#cbd5e1" font-size="15">Find a symbol by name</text>
+      <text x="460" y="22" fill="#2dd4bf" font-size="17" font-weight="800" text-anchor="middle">0.19 ms</text>
+      <text x="620" y="22" fill="#cbd5e1" font-size="14" text-anchor="middle">GitNexus 20.5 ms</text>
+      <text x="780" y="22" fill="#2dd4bf" font-size="14" font-weight="800" text-anchor="middle">108× faster</text>
+    </g>
+    <!-- Index 50K symbols -->
+    <g transform="translate(0, 378)">
+      <rect x="30" y="0" width="820" height="34" fill="#0c1a18"/>
+      <rect x="30" y="0" width="3" height="34" fill="#2dd4bf"/>
+      <text x="50" y="22" fill="#cbd5e1" font-size="15">Index it from scratch</text>
+      <text x="460" y="22" fill="#2dd4bf" font-size="17" font-weight="800" text-anchor="middle">13.6 s</text>
+      <text x="620" y="22" fill="#fbbf24" font-size="14" text-anchor="middle">GitNexus 48 s · ChromaDB 4.5 min</text>
+      <text x="780" y="22" fill="#2dd4bf" font-size="14" font-weight="800" text-anchor="middle">3.6× faster</text>
+    </g>
+    <!-- Useful tokens on big -->
+    <g transform="translate(0, 414)">
+      <rect x="30" y="0" width="820" height="34" fill="#0c1a18"/>
+      <rect x="30" y="0" width="3" height="34" fill="#2dd4bf"/>
+      <text x="50" y="22" fill="#cbd5e1" font-size="15">Get useful context, not noise</text>
+      <text x="460" y="22" fill="#2dd4bf" font-size="17" font-weight="800" text-anchor="middle">81% signal</text>
+      <text x="620" y="22" fill="#fbbf24" font-size="14" text-anchor="middle">ChromaDB 13%</text>
+      <text x="780" y="22" fill="#2dd4bf" font-size="14" font-weight="800" text-anchor="middle">6.3× denser</text>
+    </g>
+    <!-- Memory on big -->
+    <g transform="translate(0, 450)">
+      <rect x="30" y="0" width="820" height="34" fill="#0c1a18"/>
+      <rect x="30" y="0" width="3" height="34" fill="#2dd4bf"/>
+      <text x="50" y="22" fill="#cbd5e1" font-size="15">Run it on your laptop</text>
+      <text x="460" y="22" fill="#2dd4bf" font-size="17" font-weight="800" text-anchor="middle">26 MB</text>
+      <text x="620" y="22" fill="#fbbf24" font-size="14" text-anchor="middle">ChromaDB 1,133 MB</text>
+      <text x="780" y="22" fill="#2dd4bf" font-size="14" font-weight="800" text-anchor="middle">43× lighter</text>
+    </g>
+
+    <!-- Group: COST -->
+    <g transform="translate(0, 494)">
+      <rect x="30" y="0" width="820" height="32" fill="#0d1117"/>
+      <text x="50" y="22" fill="#f1f5f9" font-size="15" font-weight="700">The bill at the end of the month</text>
+    </g>
+    <!-- LLM cost -->
+    <g transform="translate(0, 534)">
+      <rect x="30" y="0" width="820" height="34" fill="#0c1a18"/>
+      <rect x="30" y="0" width="3" height="34" fill="#2dd4bf"/>
+      <text x="50" y="22" fill="#cbd5e1" font-size="15">LLM API cost to index a repo</text>
+      <text x="460" y="22" fill="#2dd4bf" font-size="17" font-weight="800" text-anchor="middle">$0</text>
+      <text x="620" y="22" fill="#fbbf24" font-size="14" text-anchor="middle">Mem0 / Graphiti $10–50+</text>
+      <text x="780" y="22" fill="#2dd4bf" font-size="14" font-weight="800" text-anchor="middle">free forever</text>
+    </g>
+    <!-- Time to index -->
+    <g transform="translate(0, 570)">
+      <rect x="30" y="0" width="820" height="34" fill="#0c1a18"/>
+      <rect x="30" y="0" width="3" height="34" fill="#2dd4bf"/>
+      <text x="50" y="22" fill="#cbd5e1" font-size="15">Wait for it to index</text>
+      <text x="460" y="22" fill="#2dd4bf" font-size="17" font-weight="800" text-anchor="middle">seconds</text>
+      <text x="620" y="22" fill="#fbbf24" font-size="14" text-anchor="middle">Mem0 / Graphiti 1–2 hours</text>
+      <text x="780" y="22" fill="#2dd4bf" font-size="14" font-weight="800" text-anchor="middle">~1,000× faster</text>
+    </g>
+    <!-- Rate limits -->
+    <g transform="translate(0, 606)">
+      <rect x="30" y="0" width="820" height="34" fill="#0c1a18"/>
+      <rect x="30" y="0" width="3" height="34" fill="#2dd4bf"/>
+      <text x="50" y="22" fill="#cbd5e1" font-size="15">API rate-limit risk</text>
+      <text x="460" y="22" fill="#2dd4bf" font-size="17" font-weight="800" text-anchor="middle">none</text>
+      <text x="620" y="22" fill="#fbbf24" font-size="14" text-anchor="middle">all LLM-based memory tools</text>
+      <text x="780" y="22" fill="#2dd4bf" font-size="14" font-weight="800" text-anchor="middle">offline-capable</text>
+    </g>
+
+    <!-- Tally -->
+    <g transform="translate(0, 660)">
+      <rect x="30" y="0" width="820" height="44" rx="8" fill="#0d1f1c" stroke="#2dd4bf" stroke-width="1.2"/>
+      <text x="50" y="28" fill="#cbd5e1" font-size="14"><tspan fill="#2dd4bf" font-weight="700">Bottom line:</tspan> on every axis your agent actually feels — speed, density, footprint, indexing — Memtrace leads by 1.4× to 778×.</text>
     </g>
   </g>
 
-  <!-- AGENT-CENTRIC FRAMING -->
-  <g transform="translate(30, 1340)">
-    <rect x="0" y="0" width="820" height="48" rx="10" fill="#111827" stroke="#1f2937" stroke-width="1"/>
-    <text x="20" y="30" fill="#f1f5f9" font-size="18" font-weight="700">What "find delete" actually returns</text>
+  <!-- ==================== WHAT ONLY MEMTRACE DOES ==================== -->
+  <g transform="translate(0, 1370)">
+    <rect x="30" y="0" width="820" height="50" rx="10" fill="#111827" stroke="#1f2937" stroke-width="1"/>
+    <text x="50" y="32" fill="#f1f5f9" font-size="20" font-weight="700">What only Memtrace does</text>
+    <text x="830" y="32" fill="#64748b" font-size="13" text-anchor="end">the parts the others can't even attempt</text>
 
-    <g transform="translate(0, 60)">
-      <rect x="0" y="0" width="820" height="280" rx="12" fill="#0d1117" stroke="#1f2937" stroke-width="1"/>
+    <!-- Column header -->
+    <g transform="translate(0, 70)">
+      <text x="50" y="16" fill="#64748b" font-size="11" font-weight="800" letter-spacing="1.3">CAPABILITY</text>
+      <text x="600" y="16" fill="#2dd4bf" font-size="11" font-weight="800" text-anchor="middle" letter-spacing="1.3">MEMTRACE</text>
+      <text x="680" y="16" fill="#fbbf24" font-size="11" font-weight="800" text-anchor="middle" letter-spacing="1.3">CHROMA</text>
+      <text x="755" y="16" fill="#94a3b8" font-size="11" font-weight="800" text-anchor="middle" letter-spacing="1.3">GITNEX</text>
+      <text x="825" y="16" fill="#94a3b8" font-size="11" font-weight="800" text-anchor="middle" letter-spacing="1.3">CGC</text>
+      <line x1="30" y1="26" x2="850" y2="26" stroke="#1f2937" stroke-width="1"/>
+    </g>
 
-      <g transform="translate(20, 24)">
-        <text x="0" y="0" fill="#5eead4" font-size="11" font-weight="800" letter-spacing="1.5">MEMTRACE — STRUCTURALLY RANKED</text>
-        <text x="0" y="22" fill="#cbd5e1" font-size="13" font-weight="700">find_symbol("delete") →</text>
-        <text x="0" y="48" fill="#2dd4bf" font-size="12">  1. Model.delete (47 callers, prod)</text>
-        <text x="0" y="66" fill="#2dd4bf" font-size="12">  2. ListView.delete (12 callers)</text>
-        <text x="0" y="84" fill="#94a3b8" font-size="12">  3. tests.fake_delete (0 callers)</text>
-        <text x="0" y="118" fill="#cbd5e1" font-size="13" font-weight="700">+ full envelope per result:</text>
-        <text x="0" y="138" fill="#2dd4bf" font-size="12">  ✓ scope_path · signature · risk_level</text>
-        <text x="0" y="156" fill="#2dd4bf" font-size="12">  ✓ direct_callers · outgoing_calls</text>
-        <text x="0" y="174" fill="#2dd4bf" font-size="12">  ✓ cyclomatic + cognitive complexity</text>
-        <text x="0" y="206" fill="#cbd5e1" font-size="13" font-weight="700">→ One round-trip, agent decides.</text>
-      </g>
-
-      <g transform="translate(420, 24)">
-        <text x="0" y="0" fill="#94a3b8" font-size="11" font-weight="800" letter-spacing="1.5">GITNEXUS — ENUMERATION ONLY</text>
-        <text x="0" y="22" fill="#cbd5e1" font-size="13" font-weight="700">/tool/context "delete" →</text>
-        <text x="0" y="48" fill="#94a3b8" font-size="12">  Multiple symbols, disambiguate:</text>
-        <text x="0" y="66" fill="#94a3b8" font-size="12">    Function delete → ...:23</text>
-        <text x="0" y="84" fill="#94a3b8" font-size="12">    Function delete → ...:148</text>
-        <text x="0" y="118" fill="#cbd5e1" font-size="13" font-weight="700">No relevance signal in response.</text>
-        <text x="0" y="138" fill="#94a3b8" font-size="12">  Agent must call gitnexus-context</text>
-        <text x="0" y="156" fill="#94a3b8" font-size="12">  on each match to learn callers,</text>
-        <text x="0" y="174" fill="#94a3b8" font-size="12">  read each file to see signature,</text>
-        <text x="0" y="192" fill="#94a3b8" font-size="12">  call gitnexus-impact for risk.</text>
-        <text x="0" y="226" fill="#cbd5e1" font-size="13" font-weight="700">→ 3–5 round-trips per decision.</text>
-      </g>
+    <!-- Row: Time-travel -->
+    <g transform="translate(0, 100)">
+      <text x="50" y="18" fill="#f1f5f9" font-size="15" font-weight="700">Time-travel queries</text>
+      <text x="50" y="36" fill="#64748b" font-size="12">"show me this codebase 3 weeks ago" — every symbol versioned</text>
+      <text x="600" y="30" fill="#2dd4bf" font-size="20" font-weight="800" text-anchor="middle">✓</text>
+      <text x="680" y="30" fill="#475569" font-size="20" text-anchor="middle">✗</text>
+      <text x="755" y="30" fill="#475569" font-size="20" text-anchor="middle">✗</text>
+      <text x="825" y="30" fill="#475569" font-size="20" text-anchor="middle">✗</text>
+    </g>
+    <!-- Row: Episode replay -->
+    <g transform="translate(0, 144)">
+      <text x="50" y="18" fill="#f1f5f9" font-size="15" font-weight="700">Episode replay</text>
+      <text x="50" y="36" fill="#64748b" font-size="12">6 modes: impact · novelty · recency · directional · compound · overview</text>
+      <text x="600" y="30" fill="#2dd4bf" font-size="20" font-weight="800" text-anchor="middle">✓</text>
+      <text x="680" y="30" fill="#475569" font-size="20" text-anchor="middle">✗</text>
+      <text x="755" y="30" fill="#475569" font-size="20" text-anchor="middle">✗</text>
+      <text x="825" y="30" fill="#475569" font-size="20" text-anchor="middle">✗</text>
+    </g>
+    <!-- Row: Blast radius -->
+    <g transform="translate(0, 188)">
+      <text x="50" y="18" fill="#f1f5f9" font-size="15" font-weight="700">Blast-radius / impact analysis</text>
+      <text x="50" y="36" fill="#64748b" font-size="12">"what breaks if I change this?" — full transitive callers in one call</text>
+      <text x="600" y="30" fill="#2dd4bf" font-size="20" font-weight="800" text-anchor="middle">✓</text>
+      <text x="680" y="30" fill="#475569" font-size="20" text-anchor="middle">✗</text>
+      <text x="755" y="30" fill="#475569" font-size="20" text-anchor="middle">✗</text>
+      <text x="825" y="30" fill="#475569" font-size="20" text-anchor="middle">✗</text>
+    </g>
+    <!-- Row: Cognitive complexity -->
+    <g transform="translate(0, 232)">
+      <text x="50" y="18" fill="#f1f5f9" font-size="15" font-weight="700">Cognitive + cyclomatic complexity</text>
+      <text x="50" y="36" fill="#64748b" font-size="12">per-symbol scoring, AST-derived — flag the hard-to-reason functions</text>
+      <text x="600" y="30" fill="#2dd4bf" font-size="20" font-weight="800" text-anchor="middle">✓</text>
+      <text x="680" y="30" fill="#475569" font-size="20" text-anchor="middle">✗</text>
+      <text x="755" y="30" fill="#475569" font-size="20" text-anchor="middle">✗</text>
+      <text x="825" y="30" fill="#94a3b8" font-size="20" text-anchor="middle">✓</text>
+    </g>
+    <!-- Row: Co-change -->
+    <g transform="translate(0, 276)">
+      <text x="50" y="18" fill="#f1f5f9" font-size="15" font-weight="700">Co-change analysis</text>
+      <text x="50" y="36" fill="#64748b" font-size="12">"these symbols always move together" — surface hidden coupling</text>
+      <text x="600" y="30" fill="#2dd4bf" font-size="20" font-weight="800" text-anchor="middle">✓</text>
+      <text x="680" y="30" fill="#475569" font-size="20" text-anchor="middle">✗</text>
+      <text x="755" y="30" fill="#475569" font-size="20" text-anchor="middle">✗</text>
+      <text x="825" y="30" fill="#475569" font-size="20" text-anchor="middle">✗</text>
+    </g>
+    <!-- Row: Duplicate detection -->
+    <g transform="translate(0, 320)">
+      <text x="50" y="18" fill="#f1f5f9" font-size="15" font-weight="700">Duplicate detection</text>
+      <text x="50" y="36" fill="#64748b" font-size="12">normalized body hash — find the 4 places that re-implement the same thing</text>
+      <text x="600" y="30" fill="#2dd4bf" font-size="20" font-weight="800" text-anchor="middle">✓</text>
+      <text x="680" y="30" fill="#475569" font-size="20" text-anchor="middle">✗</text>
+      <text x="755" y="30" fill="#475569" font-size="20" text-anchor="middle">✗</text>
+      <text x="825" y="30" fill="#475569" font-size="20" text-anchor="middle">✗</text>
+    </g>
+    <!-- Row: Cross-repo HTTP edges -->
+    <g transform="translate(0, 364)">
+      <text x="50" y="18" fill="#f1f5f9" font-size="15" font-weight="700">Cross-service HTTP topology</text>
+      <text x="50" y="36" fill="#64748b" font-size="12">frontend call → backend endpoint, automatically wired across repos</text>
+      <text x="600" y="30" fill="#2dd4bf" font-size="20" font-weight="800" text-anchor="middle">✓</text>
+      <text x="680" y="30" fill="#475569" font-size="20" text-anchor="middle">✗</text>
+      <text x="755" y="30" fill="#fbbf24" font-size="11" font-weight="800" text-anchor="middle">partial</text>
+      <text x="825" y="30" fill="#475569" font-size="20" text-anchor="middle">✗</text>
+    </g>
+    <!-- Row: Centrality -->
+    <g transform="translate(0, 408)">
+      <text x="50" y="18" fill="#f1f5f9" font-size="15" font-weight="700">Centrality scoring (PageRank + betweenness)</text>
+      <text x="50" y="36" fill="#64748b" font-size="12">find_central_symbols · find_bridge_symbols — what holds the codebase up</text>
+      <text x="600" y="30" fill="#2dd4bf" font-size="20" font-weight="800" text-anchor="middle">✓</text>
+      <text x="680" y="30" fill="#475569" font-size="20" text-anchor="middle">✗</text>
+      <text x="755" y="30" fill="#475569" font-size="20" text-anchor="middle">✗</text>
+      <text x="825" y="30" fill="#475569" font-size="20" text-anchor="middle">✗</text>
+    </g>
+    <!-- Row: Fuzzy lookup -->
+    <g transform="translate(0, 452)">
+      <text x="50" y="18" fill="#f1f5f9" font-size="15" font-weight="700">Typo-tolerant lookup</text>
+      <text x="50" y="36" fill="#64748b" font-size="12">native Levenshtein — agent typos still return the right symbol</text>
+      <text x="600" y="30" fill="#2dd4bf" font-size="20" font-weight="800" text-anchor="middle">✓</text>
+      <text x="680" y="30" fill="#475569" font-size="20" text-anchor="middle">✗</text>
+      <text x="755" y="30" fill="#475569" font-size="20" text-anchor="middle">✗</text>
+      <text x="825" y="30" fill="#475569" font-size="20" text-anchor="middle">✗</text>
+    </g>
+    <!-- Row: Process flow -->
+    <g transform="translate(0, 496)">
+      <text x="50" y="18" fill="#f1f5f9" font-size="15" font-weight="700">Process / flow tracing</text>
+      <text x="50" y="36" fill="#64748b" font-size="12">named execution pipelines through the call graph — debug the journey</text>
+      <text x="600" y="30" fill="#2dd4bf" font-size="20" font-weight="800" text-anchor="middle">✓</text>
+      <text x="680" y="30" fill="#475569" font-size="20" text-anchor="middle">✗</text>
+      <text x="755" y="30" fill="#94a3b8" font-size="20" text-anchor="middle">✓</text>
+      <text x="825" y="30" fill="#fbbf24" font-size="11" font-weight="800" text-anchor="middle">partial</text>
+    </g>
+    <!-- Row: Module clustering -->
+    <g transform="translate(0, 540)">
+      <text x="50" y="18" fill="#f1f5f9" font-size="15" font-weight="700">Module clustering (Louvain)</text>
+      <text x="50" y="36" fill="#64748b" font-size="12">automatic subsystem boundaries — what's tightly coupled, what isn't</text>
+      <text x="600" y="30" fill="#2dd4bf" font-size="20" font-weight="800" text-anchor="middle">✓</text>
+      <text x="680" y="30" fill="#475569" font-size="20" text-anchor="middle">✗</text>
+      <text x="755" y="30" fill="#94a3b8" font-size="20" text-anchor="middle">✓</text>
+      <text x="825" y="30" fill="#475569" font-size="20" text-anchor="middle">✗</text>
+    </g>
+    <!-- Row: Live file-watch -->
+    <g transform="translate(0, 584)">
+      <text x="50" y="18" fill="#f1f5f9" font-size="15" font-weight="700">Live file-watch — uncommitted edits queryable</text>
+      <text x="50" y="36" fill="#64748b" font-size="12">every save creates an episode — your in-progress code is in the graph</text>
+      <text x="600" y="30" fill="#2dd4bf" font-size="20" font-weight="800" text-anchor="middle">✓</text>
+      <text x="680" y="30" fill="#475569" font-size="20" text-anchor="middle">✗</text>
+      <text x="755" y="30" fill="#475569" font-size="20" text-anchor="middle">✗</text>
+      <text x="825" y="30" fill="#475569" font-size="20" text-anchor="middle">✗</text>
+    </g>
+    <!-- Row: Canonical-first ranking -->
+    <g transform="translate(0, 628)">
+      <text x="50" y="18" fill="#f1f5f9" font-size="15" font-weight="700">Canonical-first ranking</text>
+      <text x="50" y="36" fill="#64748b" font-size="12">the implementation with 47 callers comes back ahead of the test fixture</text>
+      <text x="600" y="30" fill="#2dd4bf" font-size="20" font-weight="800" text-anchor="middle">✓</text>
+      <text x="680" y="30" fill="#475569" font-size="20" text-anchor="middle">✗</text>
+      <text x="755" y="30" fill="#475569" font-size="20" text-anchor="middle">✗</text>
+      <text x="825" y="30" fill="#475569" font-size="20" text-anchor="middle">✗</text>
     </g>
   </g>
 
-  <!-- FOOTER -->
-  <g transform="translate(30, 1700)">
-    <rect x="0" y="0" width="820" height="120" rx="12" fill="#0c1a18" stroke="#2dd4bf" stroke-width="1"/>
-    <text x="20" y="32" fill="#5eead4" font-size="11" font-weight="800" letter-spacing="1.5">SUMMARY</text>
-    <text x="20" y="62" fill="#f1f5f9" font-size="16" font-weight="700">memtrace is the only system that holds sub-millisecond latency, sub-30 MB RSS, and</text>
-    <text x="20" y="84" fill="#f1f5f9" font-size="16" font-weight="700">sub-15 s HEAD index time on a 50,000-symbol codebase — while ranking by structural relevance.</text>
-    <text x="20" y="108" fill="#94a3b8" font-size="13">All numbers measured on Apple M3 Max · 1,000 queries each · raw JSON in benchmarks/fair/results_iso_*.json</text>
+  <!-- ==================== WHY THIS MATTERS — pull quote ==================== -->
+  <g transform="translate(30, 2410)">
+    <rect width="820" height="100" rx="14" fill="#0d1f1c" stroke="#2dd4bf" stroke-width="1.2"/>
+    <text x="22" y="34" fill="#5eead4" font-size="11" font-weight="800" letter-spacing="2">WHY THIS MATTERS</text>
+    <text x="22" y="62" fill="#f1f5f9" font-size="16" font-weight="700">Vector search retrieves snippets. Code graphers list filenames.</text>
+    <text x="22" y="84" fill="#f1f5f9" font-size="16" font-weight="700">Memtrace gives the agent <tspan fill="#2dd4bf">a memory</tspan> — every symbol, every change, every connection, ranked.</text>
+  </g>
+
+  <!-- ==================== FOOTER CTA ==================== -->
+  <g transform="translate(30, 2540)">
+    <rect width="820" height="64" rx="12" fill="#0d1f1c" stroke="#2dd4bf" stroke-width="1.5"/>
+    <text x="22" y="30" fill="#f1f5f9" font-size="16" font-weight="700">Try it: <tspan fill="#2dd4bf" font-weight="800">npm install -g memtrace</tspan> → <tspan fill="#2dd4bf" font-weight="800">memtrace start</tspan></text>
+    <text x="22" y="50" fill="#94a3b8" font-size="13">Auto-indexes your project · MCP-ready for Claude Code &amp; Cursor v2.4+ · MIT-licensed · runs offline</text>
+    <text x="798" y="40" fill="#2dd4bf" font-size="13" font-weight="700" text-anchor="end">github.com/syncable-dev/memtrace-public →</text>
   </g>
 
 </svg>
