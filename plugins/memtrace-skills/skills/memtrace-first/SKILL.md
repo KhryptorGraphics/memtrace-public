@@ -9,12 +9,61 @@ description: "Use when working on any indexed codebase before searching files, r
 
 ```
 IF THE REPO IS INDEXED IN MEMTRACE → USE MEMTRACE TOOLS FIRST.
-NEVER reach for Grep/Glob/Read to discover or understand code.
+Memtrace returns exact file_path + start_line + end_line for every result.
+Read the file at THAT location. Do not Grep/Glob/Find to "locate" anything
+already in the graph.
 ```
 
 Memtrace is the memory layer of the codebase. It has the full knowledge graph: every symbol, call, import, community, process, and API — with time dimension. File tools are blind to this structure.
 
-**97% better accuracy. 83% fewer wasted tokens. No exceptions.**
+**97% better accuracy. 83% fewer wasted tokens. No exceptions for what's in the graph.**
+
+## Show the Value Receipt
+
+Every Memtrace MCP result may include `_memtrace_receipt`. Use it when reporting work back to the user. Keep it compact and concrete:
+
+```
+Memtrace used:
+- Located N target symbol(s)
+- Found N callers and N callees
+- Found N affected API route(s)
+- Returned ~N tokens of graph context
+- Avoided ~N tokens of raw file context
+```
+
+If the receipt has zeros for a category, omit that line. Treat token and file-read savings as estimates, not billing guarantees.
+
+## What Memtrace actually indexes
+
+Memtrace's hybrid search = **BM25 over symbol metadata** (name, signature, file_path, kind) **+ semantic vector search over embedded code bodies** (first ~1500 chars of every Function / Method / Class / Struct / Interface body), fused via Reciprocal Rank Fusion.
+
+The semantic side means **string literals, error messages, magic constants, log strings, and any text inside an indexed symbol's body are findable through `find_code`**. The body got embedded; the embedding catches it. You do NOT need `Grep` to hunt for `STRIPE_KEY_FOO_BAR` if it lives inside a function in your indexed codebase.
+
+## The narrow exceptions where grep/glob are still right
+
+These are the ONLY cases where file tools beat memtrace:
+
+- **Files outside the indexed repo.** Vendored deps, system headers, dirs `walker::is_excluded_path` skipped (`.git`, `node_modules`, `target`, `dist`). Memtrace literally cannot see them.
+- **Non-source artifacts.** `.env`, `package.json`, build scripts, top-level `README.md`, raw config files. Memtrace indexes parseable code, not configuration text.
+- **Pure file-inventory questions.** "How many `*.test.ts` files exist", "list every Markdown file in `docs/`". You're asking for a file count, not a symbol search.
+- **Reading at a known path.** Once memtrace has handed you `file_path:start_line:end_line`, use `Read` — never substitute `Grep` for `Read`.
+
+For everything else inside the indexed repo, memtrace is the right tool.
+
+## The decision rule
+
+| Question Claude is asking | Right tool |
+|---|---|
+| "Where is symbol `foo` defined?" | `find_symbol(name="foo")` → file:line. Then `Read` that range. |
+| "What calls `foo`?" | `get_symbol_context(name="foo")` → callers with file:line each. |
+| "How does authentication work?" | `find_code(query="authentication")` → ranked symbols with file:line. |
+| "Find the function that uses `STRIPE_KEY_FOO_BAR`" | `find_code(query="STRIPE_KEY_FOO_BAR")` → semantic finds it inside any embedded body. |
+| "Where's that error message `'connection refused for tenant'`?" | `find_code(query="connection refused for tenant")` → semantic catches it. |
+| "What breaks if I change `foo`?" | `get_impact(name="foo")` → blast radius with file:line. |
+| "What changed in `auth.ts` last week?" | `get_evolution(file_path="auth.ts", from="7d ago")`. |
+| "List all `*.test.ts` files." | `Glob` (file inventory, not symbol search). |
+| "Find this string in my `.env`." | `Grep` (non-source artifact). |
+| "Read file I already have the path of." | `Read` (path is known). |
 
 ## Parameter Types — Read This Before Calling Any Tool
 
