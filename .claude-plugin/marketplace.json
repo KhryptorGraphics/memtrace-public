@@ -19,17 +19,25 @@
         "email": "support@syncable.dev"
       },
       "homepage": "https://memtrace.io",
-      "repository": "https://github.com/syncable-dev/memtrace",
+      "repository": "https://github.com/syncable-dev/memtrace-public",
       "license": "SEE LICENSE IN LICENSE",
       "keywords": [
         "memtrace",
+        "ai-agents",
+        "coding-agents",
         "code-intelligence",
+        "code-search",
+        "developer-tools",
         "knowledge-graph",
         "mcp",
+        "mcp-server",
+        "semantic-search",
         "temporal-analysis",
         "blast-radius",
         "refactoring",
-        "architecture"
+        "architecture",
+        "static-analysis",
+        "local-first"
       ]
     }
   ]

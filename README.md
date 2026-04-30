@@ -14,9 +14,16 @@
   <a href="https://github.com/syncable-dev/memtrace-public/stargazers"><img src="https://img.shields.io/github/stars/syncable-dev/memtrace-public?style=flat-square&color=00D4B8&label=GitHub%20stars" alt="GitHub stars" /></a>
   <a href="https://github.com/syncable-dev/memtrace-public/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-Proprietary%20EULA-0A1628?style=flat-square" alt="license" /></a>
   <a href="https://memtrace.io"><img src="https://img.shields.io/badge/docs-memtrace.io-00D4B8?style=flat-square" alt="docs" /></a>
+  <a href="https://discord.gg/gzedUSNbna"><img src="https://img.shields.io/badge/Discord-join%20discussion-5865F2?style=flat-square&logo=discord&logoColor=white" alt="Discord" /></a>
+</p>
+
+<p align="center">
+  <code>ai-agents</code> · <code>coding-agents</code> · <code>mcp-server</code> · <code>code-intelligence</code> · <code>knowledge-graph</code> · <code>semantic-search</code> · <code>temporal-analysis</code> · <code>local-first</code>
 </p>
 
 > **Waitlist & Early Access** — Memtrace is currently in a private beta. We are slowly rolling out access to ensure stability. **You must join the waitlist at [memtrace.io](https://memtrace.io) to use the product right now.**
+>
+> Join the discussion, ask questions, and follow beta updates in [Discord](https://discord.gg/gzedUSNbna).
 >
 > Core indexing and structural search are stable. Temporal features (evolution scoring, timeline replay) are functional but may have rough edges. [Report issues here.](https://github.com/syncable-dev/memtrace-public/issues)
 
@@ -294,7 +301,7 @@ Uses **Structural Significance Budgeting** to surface the minimum set of changes
 For manual setup:
 
 ```bash
-claude plugin marketplace add syncable-dev/memtrace
+claude plugin marketplace add https://github.com/syncable-dev/memtrace-public.git
 claude plugin install memtrace-skills@memtrace --scope user
 claude mcp add memtrace -- memtrace mcp -e MEMTRACE_ARCADEDB_BOLT_URL=bolt://localhost:7687
 ```
@@ -442,7 +449,7 @@ Memtrace does parsing, graph construction, and embedding generation locally. Exp
 <br/>
 
 <p align="center">
-  <a href="https://memtrace.io">Documentation</a> · <a href="https://www.npmjs.com/package/memtrace">npm</a> · <a href="https://github.com/syncable-dev/memtrace-public/issues">Issues</a>
+  <a href="https://memtrace.io">Documentation</a> · <a href="https://discord.gg/gzedUSNbna">Discord</a> · <a href="https://www.npmjs.com/package/memtrace">npm</a> · <a href="https://github.com/syncable-dev/memtrace-public/issues">Issues</a>
 </p>
 
 <p align="center">
