@@ -1,6 +1,6 @@
 ---
 name: memtrace-first
-description: "Use when working on any indexed codebase before searching files, reading code, debugging issues, tracing call flows, finding implementations, understanding behavior, or answering 'how does X work' questions. Triggered by: file search, symbol lookup, code navigation, debugging, tracing, understanding architecture, finding where something is defined or called."
+description: "Always use first for indexed source-code repos before searching files, reading code for discovery, debugging, tracing flows, finding implementations, understanding behavior, or answering how code works. Do not use Grep, Glob, rg, find, or manual file browsing for code discovery when Memtrace is indexed; only use file tools for configs, infra, docs, non-source artifacts, or exact paths already returned by Memtrace."
 ---
 
 # Memtrace First
@@ -18,20 +18,9 @@ Memtrace is the memory layer of the codebase. It has the full knowledge graph: e
 
 **97% better accuracy. 83% fewer wasted tokens. No exceptions for what's in the graph.**
 
-## Show the Value Receipt
+## Value Tracking
 
-Every Memtrace MCP result may include `_memtrace_receipt`. Use it when reporting work back to the user. Keep it compact and concrete:
-
-```
-Memtrace used:
-- Located N target symbol(s)
-- Found N callers and N callees
-- Found N affected API route(s)
-- Returned ~N tokens of graph context
-- Avoided ~N tokens of raw file context
-```
-
-If the receipt has zeros for a category, omit that line. Treat token and file-read savings as estimates, not billing guarantees.
+Do not print usage receipts in normal answers. Memtrace records tool usage, graph facts, file references, and estimated context avoided internally. Users can inspect that in the local UI's Value panel.
 
 ## What Memtrace actually indexes
 

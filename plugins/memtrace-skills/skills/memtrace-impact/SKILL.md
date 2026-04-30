@@ -1,6 +1,6 @@
 ---
 name: memtrace-impact
-description: "Use when the user asks about blast radius, what will break if I change this, risk of modifying a symbol, upstream or downstream dependencies, impact analysis before refactoring, or wants to understand the consequences of a code change"
+description: "Always use before or during source-code changes when the user asks about blast radius, impact, what breaks, risk, upstream callers, downstream dependencies, or consequences of modifying a symbol. Do not use Grep or manual reference search; Memtrace computes transitive graph impact."
 ---
 
 ## Overview

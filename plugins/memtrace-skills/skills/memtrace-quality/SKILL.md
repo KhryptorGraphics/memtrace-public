@@ -1,6 +1,6 @@
 ---
 name: memtrace-quality
-description: "Use when the user asks about dead code, unused functions, code complexity, cyclomatic complexity, refactoring candidates, code smells, code quality metrics, functions that are too complex, or wants to find code that should be cleaned up"
+description: "Always use for source-code quality, dead code, unused functions, zero callers, complexity, cyclomatic complexity, hotspots, refactoring candidates, or code smell questions. Do not use Grep, Glob, rg, or manual reference search for unused code; Memtrace uses graph reachability and complexity metrics."
 ---
 
 ## Overview

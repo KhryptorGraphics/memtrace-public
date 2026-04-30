@@ -1,6 +1,6 @@
 ---
 name: memtrace-graph
-description: "Use when the user asks about architectural bottlenecks, important symbols, PageRank, centrality, bridge functions, code communities, logical modules, service boundaries, chokepoints, dependency paths between symbols, or wants to understand the high-level architecture of a codebase"
+description: "Always use for source-code architecture, important symbols, centrality, PageRank, bridge functions, communities, logical modules, chokepoints, service boundaries, or dependency path questions. Do not use Glob, find, tree, or directory browsing to infer architecture; Memtrace runs graph algorithms over the AST graph."
 ---
 
 ## Overview

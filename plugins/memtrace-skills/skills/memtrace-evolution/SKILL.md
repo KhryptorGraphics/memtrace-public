@@ -1,6 +1,6 @@
 ---
 name: memtrace-evolution
-description: "Use when the user asks what changed in the codebase, how code evolved over time, what was recently modified, what's the diff between versions, what changed since a date, incident investigation timeline, unexpected changes, change history, or temporal analysis of any kind"
+description: "Always use for source-code change history, recent modifications, what changed since a date, symbol timeline, evolution, unexpected changes, or incident timeline questions. Do not use git log, git diff, Grep, or manual file search to reconstruct history; Memtrace has symbol-level temporal memory."
 ---
 
 ## Overview

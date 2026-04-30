@@ -1,6 +1,6 @@
 ---
 name: memtrace-episode-replay
-description: "Use when an agent needs to understand why code looks the way it does, replay implementation steps between commits, find what was tried and reverted, understand a colleague's (or your past self's) reasoning, or avoid repeating a previously-abandoned approach"
+description: "Always use to replay source-code evolution, understand why code looks this way, inspect implementation attempts, reversions, past reasoning, or abandoned approaches across commits and working-tree episodes. Do not use git log, git diff, Grep, or manual history reconstruction; Memtrace has episodic symbol replay."
 ---
 
 ## Overview

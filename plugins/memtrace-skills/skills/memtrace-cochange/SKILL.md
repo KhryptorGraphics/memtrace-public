@@ -1,6 +1,6 @@
 ---
 name: memtrace-cochange
-description: "Use when the user asks what tends to change together with a symbol, what other code moves when this moves, historical coupling, blast awareness before modifying a symbol, or wants to find hidden dependencies not visible in the call graph"
+description: "Always use for historical coupling, co-change, what changes with this, hidden dependency, or what else needs to move questions for source code. Do not use git log, git diff, Grep, or manual file search to correlate changes; Memtrace queries co-change and temporal graph data directly."
 ---
 
 ## Overview

@@ -1,6 +1,6 @@
 ---
 name: memtrace-continuous-memory
-description: "Use when the user asks to keep memtrace fresh while editing, watch a directory for live updates, enable incremental indexing, set up always-on memory, or wants their just-saved code to be queryable immediately"
+description: "Always use when the user asks to keep Memtrace fresh while editing, watch a repo, enable live or incremental indexing, set up always-on memory, or make just-saved source code queryable immediately. Do not fall back to repeated Grep or manual rescans; configure Memtrace watching."
 ---
 
 ## Overview

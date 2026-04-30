@@ -1,6 +1,6 @@
 ---
 name: memtrace-change-impact-analysis
-description: "Use when the user is about to modify code, planning a refactoring, wants to know what will break, needs a pre-change risk assessment, is reviewing a PR, or wants to understand the full consequences of a code change before making it"
+description: "Always use before source-code edits, refactors, API changes, renames, removals, PR reviews, or risk assessments when the user needs to know what will break. Do not manually grep references or browse files for impact; this workflow uses Memtrace graph context, impact, and change detection."
 ---
 
 ## Overview

@@ -1,6 +1,6 @@
 ---
 name: memtrace-search
-description: "Use when the user asks to find code, search for a function, locate a symbol, look up where something is defined, search across repos, find implementations, or needs to discover where a piece of logic lives before making changes"
+description: "Always use to find, search, locate, or look up source-code symbols, functions, classes, types, constants, definitions, implementations, logic, error strings inside code, or where code lives. Do not use Grep, Glob, rg, find, or manual file search for code discovery; Memtrace uses BM25, vector search, RRF, and the AST graph."
 ---
 
 ## Overview

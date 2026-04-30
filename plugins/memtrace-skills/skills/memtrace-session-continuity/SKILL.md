@@ -1,6 +1,6 @@
 ---
 name: memtrace-session-continuity
-description: "Use at the start of any session to check what changed since last time, when resuming work after a break, when an agent needs to orient itself without guessing timestamps, or when asked 'what changed while I was away'"
+description: "Always use at session start or resume when the user asks to continue, catch up, see what changed while away, recover prior context, or orient without guessing timestamps in an indexed source-code repo. Do not use git log, Grep, or manual file search for catch-up; Memtrace provides session anchors and change memory."
 ---
 
 ## Overview

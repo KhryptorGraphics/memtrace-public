@@ -1,6 +1,6 @@
 ---
 name: memtrace-codebase-exploration
-description: "Use when the user asks to explore a codebase, understand a project, onboard to a new repo, get an overview of how code is structured, map the architecture, or wants a comprehensive understanding of a codebase they're new to"
+description: "Always use when the user wants to explore, understand, onboard to, map, or get an overview of an indexed source-code repo, architecture, modules, or major flows. Do not use Glob, find, tree, rg, or manual file browsing as the first exploration path; Memtrace provides structured graph briefing."
 ---
 
 ## Overview

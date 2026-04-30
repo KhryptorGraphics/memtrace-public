@@ -1,6 +1,6 @@
 ---
 name: memtrace-refactoring-guide
-description: "Use when the user wants to refactor code, reduce complexity, clean up technical debt, split a large function, extract a module, reorganize code, identify refactoring priorities, or improve code structure"
+description: "Always use when the user wants to refactor source code, reduce complexity, clean technical debt, split large functions, extract modules, reorganize code, or choose refactoring priorities. Do not use Grep or manual reference search to plan refactors; Memtrace provides complexity, dead-code, relationships, and impact context."
 ---
 
 ## Overview

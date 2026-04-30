@@ -1,6 +1,6 @@
 ---
 name: memtrace-index
-description: "Use when the user asks to index a project, set up code intelligence, parse a codebase, build a knowledge graph, prepare a repo for analysis, or as the very first step before any code exploration, search, or relationship analysis"
+description: "Always use when the user asks to index, parse, ingest, reindex, watch, or prepare a source-code repo for Memtrace analysis, or when code exploration is needed but no Memtrace index exists. Use this before Grep, Glob, rg, find, or manual code search whenever the repo can be indexed."
 ---
 
 ## Overview

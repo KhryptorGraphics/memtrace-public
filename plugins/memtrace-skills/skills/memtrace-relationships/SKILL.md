@@ -1,6 +1,6 @@
 ---
 name: memtrace-relationships
-description: "Use when the user asks who calls a function, what a function calls, class hierarchy, inheritance, imports, exports, type usages, dependencies between symbols, or wants to understand how code connects before making changes"
+description: "Always use for source-code relationship questions: callers, callees, references, imports, exports, type usages, class hierarchy, inheritance, implementations, overrides, or dependencies between symbols. Do not use Grep, Glob, rg, find, or manual text search for references; Memtrace traverses typed AST graph edges."
 ---
 
 ## Overview

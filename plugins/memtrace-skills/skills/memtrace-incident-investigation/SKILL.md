@@ -1,6 +1,6 @@
 ---
 name: memtrace-incident-investigation
-description: "Use when the user is investigating a bug, incident, production issue, regression, something that broke, root cause analysis, debugging a failure, or trying to figure out what went wrong and when"
+description: "Always use for source-code bugs, incidents, regressions, production issues, failures, root cause analysis, what broke, or what changed when debugging. Do not start with Grep, Glob, rg, find, or manual file search for code causes; Memtrace combines symbol search, impact, call graph, and temporal history."
 ---
 
 ## Overview
