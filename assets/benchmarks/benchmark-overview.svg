@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 2640" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" role="img" aria-label="Memtrace benchmark — head-to-head vs ChromaDB, GitNexus, and CodeGrapherContext">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 2820" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" role="img" aria-label="Memtrace v0.3.29 benchmark — head-to-head vs ChromaDB, GitNexus, and CodeGrapherContext on both find_symbol (exact lookup) and find_code (hybrid retrieval) paths">
   <defs>
     <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
       <feGaussianBlur stdDeviation="6" result="blur"/>
@@ -10,23 +10,23 @@
     </filter>
   </defs>
 
-  <rect width="880" height="2640" fill="#0a0e1a"/>
+  <rect width="880" height="2820" fill="#0a0e1a"/>
 
   <!-- ==================== HEADER ==================== -->
   <text x="30" y="52" fill="#f1f5f9" font-size="34" font-weight="800" letter-spacing="-0.8">The agent-native code memory</text>
-  <text x="30" y="86" fill="#94a3b8" font-size="17">1,000 queries · 4 systems · same machine, same ground truth · 100% reproducible (MIT) · v0.3.23</text>
+  <text x="30" y="86" fill="#94a3b8" font-size="17">1,000 queries · 4 systems · same machine, same ground truth · 100% reproducible (MIT) · v0.3.29</text>
 
   <!-- ==================== HERO — 2×2 CTA CARDS ==================== -->
   <g transform="translate(30, 120)">
-    <!-- Card 1: SPEED -->
+    <!-- Card 1: INDEXING — Django in 13.6s, free, local -->
     <g transform="translate(0, 0)">
       <rect width="400" height="200" rx="16" fill="#0d1f1c" stroke="#2dd4bf" stroke-width="1.5"/>
-      <text x="22" y="36" fill="#5eead4" font-size="13" font-weight="800" letter-spacing="2">SUB-MILLISECOND LOOKUP</text>
-      <text x="22" y="120" fill="#2dd4bf" font-size="76" font-weight="800" letter-spacing="-2.5" filter="url(#glow)">0.07<tspan font-size="34" fill="#5eead4">ms</tspan></text>
-      <text x="22" y="158" fill="#f1f5f9" font-size="18" font-weight="700">127× faster than the next best</text>
-      <text x="22" y="180" fill="#94a3b8" font-size="14">778× faster than vector search · 28,000× faster than CGC</text>
+      <text x="22" y="36" fill="#5eead4" font-size="13" font-weight="800" letter-spacing="2">INDEX FOR FREE — LOCAL, FAST</text>
+      <text x="22" y="120" fill="#2dd4bf" font-size="76" font-weight="800" letter-spacing="-2.5" filter="url(#glow)">13.6<tspan font-size="34" fill="#5eead4">s</tspan></text>
+      <text x="22" y="158" fill="#f1f5f9" font-size="18" font-weight="700">Django (50K symbols) in 14 seconds</text>
+      <text x="22" y="180" fill="#94a3b8" font-size="14">vs ChromaDB 4.5 min · Mem0 / Graphiti 1–2 hrs · $0 LLM</text>
     </g>
-    <!-- Card 2: TOKEN DENSITY (80% less noise) -->
+    <!-- Card 2: TOKEN DENSITY -->
     <g transform="translate(420, 0)">
       <rect width="400" height="200" rx="16" fill="#0d1f1c" stroke="#2dd4bf" stroke-width="1.5"/>
       <text x="22" y="36" fill="#5eead4" font-size="13" font-weight="800" letter-spacing="2">80% LESS CONTEXT NOISE</text>
@@ -34,13 +34,14 @@
       <text x="22" y="158" fill="#f1f5f9" font-size="18" font-weight="700">of returned tokens are signal</text>
       <text x="22" y="180" fill="#94a3b8" font-size="14">vs ChromaDB 19% · GitNexus 70% · 5× denser</text>
     </g>
-    <!-- Card 3: INDEX — 1,500 files in seconds, $0 -->
+    <!-- Card 3: HYBRID RETRIEVAL — NEW v0.3.29 -->
     <g transform="translate(0, 220)">
       <rect width="400" height="200" rx="16" fill="#0d1f1c" stroke="#2dd4bf" stroke-width="1.5"/>
-      <text x="22" y="36" fill="#5eead4" font-size="13" font-weight="800" letter-spacing="2">INDEX FOR FREE</text>
-      <text x="22" y="120" fill="#2dd4bf" font-size="76" font-weight="800" letter-spacing="-2.5" filter="url(#glow)">$0<tspan font-size="34" fill="#5eead4">.00</tspan></text>
-      <text x="22" y="158" fill="#f1f5f9" font-size="18" font-weight="700">1,500 files in under 3 seconds, locally</text>
-      <text x="22" y="180" fill="#94a3b8" font-size="14">vs Mem0 / Graphiti $10–50+ and 1–2 hours per repo</text>
+      <text x="22" y="32" fill="#5eead4" font-size="13" font-weight="800" letter-spacing="2">INTENT &amp; TYPO QUERIES</text>
+      <text x="22" y="50" fill="#94a3b8" font-size="11" letter-spacing="1">find_code · NEW in v0.3.29</text>
+      <text x="22" y="124" fill="#2dd4bf" font-size="76" font-weight="800" letter-spacing="-2.5" filter="url(#glow)">73.9<tspan font-size="34" fill="#5eead4">%</tspan></text>
+      <text x="22" y="160" fill="#f1f5f9" font-size="18" font-weight="700">acc@1 on Django, 3,000 cases</text>
+      <text x="22" y="182" fill="#94a3b8" font-size="14">vs GitNexus 38.6% — 1.91× more accurate</text>
     </g>
     <!-- Card 4: FOOTPRINT — 40× lighter -->
     <g transform="translate(420, 220)">
@@ -151,13 +152,46 @@
       <text x="780" y="22" fill="#2dd4bf" font-size="14" font-weight="800" text-anchor="middle">43× lighter</text>
     </g>
 
-    <!-- Group: COST -->
+    <!-- Group: DESCRIBE INTENT (NEW in v0.3.29 — find_code hybrid retrieval) -->
     <g transform="translate(0, 494)">
+      <rect x="30" y="0" width="820" height="32" fill="#0d1117"/>
+      <text x="50" y="22" fill="#f1f5f9" font-size="15" font-weight="700">Describe intent, not a name <tspan fill="#5eead4" font-weight="700">(find_code · NEW v0.3.29)</tspan> <tspan fill="#64748b" font-weight="400">3,000 cases · exact + split + typo</tspan></text>
+    </g>
+    <!-- Find by intent on Django -->
+    <g transform="translate(0, 534)">
+      <rect x="30" y="0" width="820" height="34" fill="#0c1a18"/>
+      <rect x="30" y="0" width="3" height="34" fill="#2dd4bf"/>
+      <text x="50" y="22" fill="#cbd5e1" font-size="15">Find by intent on a real codebase (Django)</text>
+      <text x="460" y="22" fill="#2dd4bf" font-size="17" font-weight="800" text-anchor="middle">73.9% acc@1</text>
+      <text x="620" y="22" fill="#cbd5e1" font-size="14" text-anchor="middle">GitNexus 38.6%</text>
+      <text x="780" y="22" fill="#2dd4bf" font-size="14" font-weight="800" text-anchor="middle">1.91× more accurate</text>
+    </g>
+    <!-- Find by intent on mempalace -->
+    <g transform="translate(0, 570)">
+      <rect x="30" y="0" width="820" height="34" fill="#0c1a18"/>
+      <rect x="30" y="0" width="3" height="34" fill="#2dd4bf"/>
+      <text x="50" y="22" fill="#cbd5e1" font-size="15">Find with typo or split words (mempalace)</text>
+      <text x="460" y="22" fill="#2dd4bf" font-size="17" font-weight="800" text-anchor="middle">93.8% acc@1</text>
+      <text x="620" y="22" fill="#cbd5e1" font-size="14" text-anchor="middle">ChromaDB 59.7%</text>
+      <text x="780" y="22" fill="#2dd4bf" font-size="14" font-weight="800" text-anchor="middle">1.57× more accurate</text>
+    </g>
+    <!-- Tokens per call -->
+    <g transform="translate(0, 606)">
+      <rect x="30" y="0" width="820" height="34" fill="#0c1a18"/>
+      <rect x="30" y="0" width="3" height="34" fill="#2dd4bf"/>
+      <text x="50" y="22" fill="#cbd5e1" font-size="15">Token cost per hybrid query (Django)</text>
+      <text x="460" y="22" fill="#2dd4bf" font-size="17" font-weight="800" text-anchor="middle">473 tok</text>
+      <text x="620" y="22" fill="#fbbf24" font-size="14" text-anchor="middle">ChromaDB 1,837 tok</text>
+      <text x="780" y="22" fill="#2dd4bf" font-size="14" font-weight="800" text-anchor="middle">3.9× cheaper</text>
+    </g>
+
+    <!-- Group: COST -->
+    <g transform="translate(0, 660)">
       <rect x="30" y="0" width="820" height="32" fill="#0d1117"/>
       <text x="50" y="22" fill="#f1f5f9" font-size="15" font-weight="700">The bill at the end of the month</text>
     </g>
     <!-- LLM cost -->
-    <g transform="translate(0, 534)">
+    <g transform="translate(0, 700)">
       <rect x="30" y="0" width="820" height="34" fill="#0c1a18"/>
       <rect x="30" y="0" width="3" height="34" fill="#2dd4bf"/>
       <text x="50" y="22" fill="#cbd5e1" font-size="15">LLM API cost to index a repo</text>
@@ -166,7 +200,7 @@
       <text x="780" y="22" fill="#2dd4bf" font-size="14" font-weight="800" text-anchor="middle">free forever</text>
     </g>
     <!-- Time to index -->
-    <g transform="translate(0, 570)">
+    <g transform="translate(0, 736)">
       <rect x="30" y="0" width="820" height="34" fill="#0c1a18"/>
       <rect x="30" y="0" width="3" height="34" fill="#2dd4bf"/>
       <text x="50" y="22" fill="#cbd5e1" font-size="15">Wait for it to index</text>
@@ -175,7 +209,7 @@
       <text x="780" y="22" fill="#2dd4bf" font-size="14" font-weight="800" text-anchor="middle">~1,000× faster</text>
     </g>
     <!-- Rate limits -->
-    <g transform="translate(0, 606)">
+    <g transform="translate(0, 772)">
       <rect x="30" y="0" width="820" height="34" fill="#0c1a18"/>
       <rect x="30" y="0" width="3" height="34" fill="#2dd4bf"/>
       <text x="50" y="22" fill="#cbd5e1" font-size="15">API rate-limit risk</text>
@@ -185,14 +219,15 @@
     </g>
 
     <!-- Tally -->
-    <g transform="translate(0, 660)">
-      <rect x="30" y="0" width="820" height="44" rx="8" fill="#0d1f1c" stroke="#2dd4bf" stroke-width="1.2"/>
-      <text x="50" y="28" fill="#cbd5e1" font-size="14"><tspan fill="#2dd4bf" font-weight="700">Bottom line:</tspan> on every axis your agent actually feels — speed, density, footprint, indexing — Memtrace leads by 1.4× to 778×.</text>
+    <g transform="translate(0, 826)">
+      <rect x="30" y="0" width="820" height="60" rx="8" fill="#0d1f1c" stroke="#2dd4bf" stroke-width="1.2"/>
+      <text x="50" y="26" fill="#cbd5e1" font-size="14"><tspan fill="#2dd4bf" font-weight="700">Bottom line:</tspan> hybrid retrieval is more accurate than every published competitor —</text>
+      <text x="50" y="48" fill="#cbd5e1" font-size="14">exact lookup is still sub-millisecond. Local, $0 LLM, 26 MB. Memtrace leads by 1.4× to 778×.</text>
     </g>
   </g>
 
   <!-- ==================== WHAT ONLY MEMTRACE DOES ==================== -->
-  <g transform="translate(0, 1370)">
+  <g transform="translate(0, 1510)">
     <rect x="30" y="0" width="820" height="50" rx="10" fill="#111827" stroke="#1f2937" stroke-width="1"/>
     <text x="50" y="32" fill="#f1f5f9" font-size="20" font-weight="700">What only Memtrace does</text>
     <text x="830" y="32" fill="#64748b" font-size="13" text-anchor="end">the parts the others can't even attempt</text>
@@ -327,7 +362,7 @@
   </g>
 
   <!-- ==================== WHY THIS MATTERS — pull quote ==================== -->
-  <g transform="translate(30, 2410)">
+  <g transform="translate(30, 2550)">
     <rect width="820" height="100" rx="14" fill="#0d1f1c" stroke="#2dd4bf" stroke-width="1.2"/>
     <text x="22" y="34" fill="#5eead4" font-size="11" font-weight="800" letter-spacing="2">WHY THIS MATTERS</text>
     <text x="22" y="62" fill="#f1f5f9" font-size="16" font-weight="700">Vector search retrieves snippets. Code graphers list filenames.</text>
@@ -335,7 +370,7 @@
   </g>
 
   <!-- ==================== FOOTER CTA ==================== -->
-  <g transform="translate(30, 2540)">
+  <g transform="translate(30, 2680)">
     <rect width="820" height="64" rx="12" fill="#0d1f1c" stroke="#2dd4bf" stroke-width="1.5"/>
     <text x="22" y="30" fill="#f1f5f9" font-size="16" font-weight="700">Try it: <tspan fill="#2dd4bf" font-weight="800">npm install -g memtrace</tspan> → <tspan fill="#2dd4bf" font-weight="800">memtrace start</tspan></text>
     <text x="22" y="50" fill="#94a3b8" font-size="13">Auto-indexes your project · MCP-ready for Claude Code &amp; Cursor v2.4+ · MIT-licensed · runs offline</text>

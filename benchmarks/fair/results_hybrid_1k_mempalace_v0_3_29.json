@@ -1,0 +1,138 @@
+{
+  "repo": "mempalace",
+  "repo_path": "/Users/alexthh/School/ZeroToDemo/mempalace",
+  "dataset": "benchmarks/fair/dataset_1k_mempalace.json",
+  "n_dataset_rows": 1000,
+  "n_query_cases": 3000,
+  "limit": 10,
+  "query_variants": [
+    "exact",
+    "split",
+    "typo"
+  ],
+  "adapters_requested": [
+    "memtrace"
+  ],
+  "notes": {
+    "cgc": "CGC is excluded from this hybrid benchmark because current CGC source has graph + exact/full-text/substring search, but no BM25/vector/RRF retrieval path."
+  },
+  "tools": {
+    "memtrace_find_code": {
+      "adapter": "memtrace_find_code",
+      "description": "Memtrace find_code, hybrid BM25 + vector + graph/RRF \u2014 backend=memdb-current",
+      "n_queries": 3000,
+      "query_variants": [
+        "exact",
+        "split",
+        "typo"
+      ],
+      "coverage_pct": 100.0,
+      "acc_at_1_pct": 93.77,
+      "acc_at_5_pct": 99.27,
+      "acc_at_10_pct": 99.7,
+      "recall_at_10_pct": 99.7,
+      "precision_at_10": 0.264,
+      "mrr": 0.9614,
+      "conditional_acc_at_1_pct": 93.77,
+      "avg_latency_ms": 450.48,
+      "median_latency_ms": 447.38,
+      "p95_latency_ms": 554.13,
+      "p99_latency_ms": 656.05,
+      "avg_tokens": 419.0,
+      "avg_response_tokens": 419.0,
+      "avg_source_payload_tokens": 0,
+      "avg_source_baseline_tokens": 9230.0,
+      "avg_context_tokens_avoided_est": 8811.0,
+      "source_avoidance_rate_pct": 95.46,
+      "wall_seconds": 1353.59,
+      "peak_rss_mb": 31.3,
+      "index_time_s": 0.0,
+      "embedding_time_s": 0.0,
+      "by_variant": {
+        "exact": {
+          "n_queries": 1000,
+          "coverage_pct": 100.0,
+          "acc_at_1_pct": 94.5,
+          "acc_at_10_pct": 100.0,
+          "mrr": 0.9676
+        },
+        "split": {
+          "n_queries": 1000,
+          "coverage_pct": 100.0,
+          "acc_at_1_pct": 94.9,
+          "acc_at_10_pct": 100.0,
+          "mrr": 0.9704
+        },
+        "typo": {
+          "n_queries": 1000,
+          "coverage_pct": 100.0,
+          "acc_at_1_pct": 91.9,
+          "acc_at_10_pct": 99.1,
+          "mrr": 0.9462
+        }
+      },
+      "sample_results": [
+        {
+          "id": "q1:exact",
+          "variant": "exact",
+          "query": "test_main_no_args_prints_help",
+          "target": "test_main_no_args_prints_help",
+          "expected_file": "mempalace/tests/test_cli.py",
+          "paths_count": 5,
+          "top_paths": [
+            "mempalace/tests/test_cli.py",
+            "mempalace/tests/test_onboarding.py",
+            "mempalace/tests/test_hooks_cli.py"
+          ],
+          "rank": 1,
+          "latency_ms": 1473.8547801971436,
+          "tokens": 380,
+          "response_tokens": 380,
+          "source_payload_tokens": 0,
+          "source_baseline_tokens": 9768,
+          "context_tokens_avoided_est": 9388
+        },
+        {
+          "id": "q1:split",
+          "variant": "split",
+          "query": "test main no args prints help",
+          "target": "test_main_no_args_prints_help",
+          "expected_file": "mempalace/tests/test_cli.py",
+          "paths_count": 5,
+          "top_paths": [
+            "mempalace/tests/test_cli.py",
+            "mempalace/tests/test_searcher.py",
+            "mempalace/tests/test_onboarding.py"
+          ],
+          "rank": 1,
+          "latency_ms": 454.132080078125,
+          "tokens": 369,
+          "response_tokens": 369,
+          "source_payload_tokens": 0,
+          "source_baseline_tokens": 9445,
+          "context_tokens_avoided_est": 9076
+        },
+        {
+          "id": "q1:typo",
+          "variant": "typo",
+          "query": "test_main_no_ars_prints_help",
+          "target": "test_main_no_args_prints_help",
+          "expected_file": "mempalace/tests/test_cli.py",
+          "paths_count": 4,
+          "top_paths": [
+            "mempalace/tests/test_cli.py",
+            "mempalace/tests/test_onboarding.py",
+            "mempalace/tests/test_searcher.py"
+          ],
+          "rank": 1,
+          "latency_ms": 424.3640899658203,
+          "tokens": 374,
+          "response_tokens": 374,
+          "source_payload_tokens": 0,
+          "source_baseline_tokens": 5982,
+          "context_tokens_avoided_est": 5608
+        }
+      ]
+    }
+  }
+}

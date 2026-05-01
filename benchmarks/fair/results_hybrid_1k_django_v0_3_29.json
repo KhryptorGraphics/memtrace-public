@@ -1,0 +1,138 @@
+{
+  "repo": "django",
+  "repo_path": "/Users/alexthh/School/ZeroToDemo/django",
+  "dataset": "benchmarks/fair/dataset_1k_django.json",
+  "n_dataset_rows": 1000,
+  "n_query_cases": 3000,
+  "limit": 10,
+  "query_variants": [
+    "exact",
+    "split",
+    "typo"
+  ],
+  "adapters_requested": [
+    "memtrace"
+  ],
+  "notes": {
+    "cgc": "CGC is excluded from this hybrid benchmark because current CGC source has graph + exact/full-text/substring search, but no BM25/vector/RRF retrieval path."
+  },
+  "tools": {
+    "memtrace_find_code": {
+      "adapter": "memtrace_find_code",
+      "description": "Memtrace find_code, hybrid BM25 + vector + graph/RRF \u2014 backend=memdb-current",
+      "n_queries": 3000,
+      "query_variants": [
+        "exact",
+        "split",
+        "typo"
+      ],
+      "coverage_pct": 100.0,
+      "acc_at_1_pct": 73.9,
+      "acc_at_5_pct": 88.2,
+      "acc_at_10_pct": 89.97,
+      "recall_at_10_pct": 89.97,
+      "precision_at_10": 0.2131,
+      "mrr": 0.8012,
+      "conditional_acc_at_1_pct": 73.9,
+      "avg_latency_ms": 880.12,
+      "median_latency_ms": 871.91,
+      "p95_latency_ms": 1011.81,
+      "p99_latency_ms": 1140.57,
+      "avg_tokens": 473.0,
+      "avg_response_tokens": 473.0,
+      "avg_source_payload_tokens": 0,
+      "avg_source_baseline_tokens": 10513.0,
+      "avg_context_tokens_avoided_est": 10040.0,
+      "source_avoidance_rate_pct": 95.5,
+      "wall_seconds": 2643.96,
+      "peak_rss_mb": 31.2,
+      "index_time_s": 0.0,
+      "embedding_time_s": 0.0,
+      "by_variant": {
+        "exact": {
+          "n_queries": 1000,
+          "coverage_pct": 100.0,
+          "acc_at_1_pct": 77.5,
+          "acc_at_10_pct": 93.4,
+          "mrr": 0.8362
+        },
+        "split": {
+          "n_queries": 1000,
+          "coverage_pct": 100.0,
+          "acc_at_1_pct": 70.8,
+          "acc_at_10_pct": 86.5,
+          "mrr": 0.7697
+        },
+        "typo": {
+          "n_queries": 1000,
+          "coverage_pct": 100.0,
+          "acc_at_1_pct": 73.4,
+          "acc_at_10_pct": 90.0,
+          "mrr": 0.7975
+        }
+      },
+      "sample_results": [
+        {
+          "id": "q1:exact",
+          "variant": "exact",
+          "query": "test_sql_table_creation_suffix_with_encoding_and_template",
+          "target": "test_sql_table_creation_suffix_with_encoding_and_template",
+          "expected_file": "django/tests/backends/postgresql/test_creation.py",
+          "paths_count": 5,
+          "top_paths": [
+            "django/tests/backends/postgresql/test_creation.py",
+            "django/db/backends/base/creation.py",
+            "django/db/backends/postgresql/creation.py"
+          ],
+          "rank": 1,
+          "latency_ms": 2021.2459564208984,
+          "tokens": 612,
+          "response_tokens": 612,
+          "source_payload_tokens": 0,
+          "source_baseline_tokens": 6408,
+          "context_tokens_avoided_est": 5796
+        },
+        {
+          "id": "q1:split",
+          "variant": "split",
+          "query": "test sql table creation suffix with encoding and template",
+          "target": "test_sql_table_creation_suffix_with_encoding_and_template",
+          "expected_file": "django/tests/backends/postgresql/test_creation.py",
+          "paths_count": 6,
+          "top_paths": [
+            "django/tests/backends/postgresql/test_creation.py",
+            "django/tests/generic_views/test_detail.py",
+            "django/db/backends/base/creation.py"
+          ],
+          "rank": 1,
+          "latency_ms": 1047.9629039764404,
+          "tokens": 604,
+          "response_tokens": 604,
+          "source_payload_tokens": 0,
+          "source_baseline_tokens": 9449,
+          "context_tokens_avoided_est": 8845
+        },
+        {
+          "id": "q1:typo",
+          "variant": "typo",
+          "query": "test_sql_table_creation_suffx_with_encoding_and_template",
+          "target": "test_sql_table_creation_suffix_with_encoding_and_template",
+          "expected_file": "django/tests/backends/postgresql/test_creation.py",
+          "paths_count": 5,
+          "top_paths": [
+            "django/tests/backends/postgresql/test_creation.py",
+            "django/db/backends/base/creation.py",
+            "django/db/backends/postgresql/creation.py"
+          ],
+          "rank": 1,
+          "latency_ms": 1066.7228698730469,
+          "tokens": 614,
+          "response_tokens": 614,
+          "source_payload_tokens": 0,
+          "source_baseline_tokens": 6696,
+          "context_tokens_avoided_est": 6082
+        }
+      ]
+    }
+  }
+}

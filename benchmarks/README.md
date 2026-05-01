@@ -9,6 +9,8 @@ Two parallel harnesses live here:
 
 Both write per-query JSONL + a markdown rollup. The suite's rollups are the source of truth for the consolidated numbers below.
 
+> **Hybrid retrieval (Bench #6, NEW in v0.3.29).** `fair/run_hybrid_retrieval_benchmark.py` measures the agent-facing `find_code` path (BM25 + vector + RRF + cross-encoder rerank) over 1,000 dataset rows × 3 query variants (`exact`, `split`, `typo`) = 3,000 cases. The v0.3.29 stack lifts Django acc@1 from 48.9% → 73.9% with 3.2× fewer tokens vs v0_3_21. Numbers and methodology in [`../BENCHMARKS-v0.3.29.md`](../BENCHMARKS-v0.3.29.md). Raw results in `fair/results_hybrid_1k_*_v0_3_29.json`.
+
 ---
 
 ## The consolidated table

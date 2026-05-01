@@ -88,10 +88,15 @@ Five sub-benches across three corpora (mempalace, Django, a 21-file scratch fixt
 
 Full reproduction instructions and per-bench numbers: [`benchmarks/README.md`](benchmarks/README.md). The frozen exact-symbol harness is [`benchmarks/fair/`](benchmarks/fair/); the extended harness covering all five benches is [`benchmarks/suite/`](benchmarks/suite/).
 
+> **Two query paths, two value props.** Memtrace ships both `find_symbol` (exact lookup, sub-millisecond) and `find_code` (hybrid retrieval, agent-style natural-language). They serve different question shapes, and we measure them separately:
+>
+> - **`find_symbol`** — when the agent already knows the symbol name. **0.07 ms, 96.6% acc@1, 26 MB RSS.** Numbers unchanged in v0.3.29; full breakdown in [`BENCHMARKS-v0.3.22.md`](BENCHMARKS-v0.3.22.md).
+> - **`find_code`** _(NEW BM25 + rerank stack in v0.3.29)_ — when the agent describes intent, not a name. **Django: 73.9% acc@1 vs GitNexus 38.6% / ChromaDB 28.9% · mempalace: 93.8% vs ChromaDB 59.7% / GitNexus 11.7%.** 90% recall@10 on Django, 99.7% on mempalace, ~3× fewer tokens than v0_3_21. Latency lifts to ~450–870 ms p50 (cross-encoder rerank). Full breakdown in [`BENCHMARKS-v0.3.29.md`](BENCHMARKS-v0.3.29.md).
+>
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/benchmarks/benchmark-overview.svg"/>
   <source media="(prefers-color-scheme: light)" srcset="assets/benchmarks/benchmark-overview.svg"/>
-  <img alt="Benchmark overview v0.3.22: Memtrace 96.6% Acc@1, 0.967 prec@10, 0.07ms latency, 26 MB RSS, 0.5s HEAD index — vs ChromaDB, GitNexus, CodeGrapher" src="assets/benchmarks/benchmark-overview.svg" width="720"/>
+  <img alt="Memtrace v0.3.29 benchmark overview — find_symbol path (0.07 ms, 96.6% acc@1, 26 MB RSS) plus find_code hybrid retrieval (NEW: 73.9% acc@1 on Django, 93.8% on mempalace, 1.91× / 1.57× over runner-up, 3.9× cheaper tokens) vs ChromaDB, GitNexus, CodeGrapher" src="assets/benchmarks/benchmark-overview.svg" width="720"/>
 </picture>
 
 **Summary across the five benches** (🟢 = Memtrace wins declared primary axis, 🟡 = Memtrace trails):
@@ -104,8 +109,10 @@ Full reproduction instructions and per-bench numbers: [`benchmarks/README.md`](b
 | 3 | Graph queries (mempalace, pyright GT) | `callers_of.recall` | **0.851** 🟢 | CGC 0.584 | 1.46× |
 | 3 | Graph queries (Django, pyright GT) | `callers_of.recall` | **0.816** 🟢 | GitNexus 0.053 | 15.4× |
 | 4 | Incremental freshness (50 edits) | `time_to_queryable_p95` | **42.5 ms** 🟢 | CGC 613.7 ms | 14.4× faster |
+| 6 | Hybrid retrieval (3,000 cases, Django, v0.3.29)    | `acc_at_1_pct` | **73.9%** 🟢 | GitNexus 38.6% | 1.91× |
+| 6 | Hybrid retrieval (3,000 cases, mempalace, v0.3.29) | `acc_at_1_pct` | **93.8%** 🟢 | ChromaDB 59.7% | 1.57× |
 
-Memtrace wins 5 of 6, trails on 1 (Bench #2 — ChromaDB is the expected winner on semantic NL queries). Bench #5 (agent-level) is skeleton-only and gated behind `RUN_AGENT_BENCH=1`.
+Memtrace wins 7 of 8, trails on 1 (Bench #2 — ChromaDB is the expected winner on pure semantic NL queries; Bench #6's hybrid stack closes that gap on the same Django corpus by combining BM25 + vectors + rerank, beating ChromaDB on every accuracy metric). Bench #5 (agent-level) is skeleton-only and gated behind `RUN_AGENT_BENCH=1`.
 
 ### Results (1,000 Python symbol-lookup queries on mempalace, v0.3.22 + ranking)
 
@@ -131,6 +138,47 @@ Numbers from isolated per-adapter processes — full methodology in [`BENCHMARKS
 - **CodeGrapherContext**'s 100% coverage of mempalace shows its FalkorDB-Lite parser works at small scale; latency is dominated by per-query subprocess spawn (2 s/query). It DNFs on Django (24+ min wall, no progress).
 
 **Where each tool shines** — the table above measures exact-symbol lookup only (Bench #0). Different workloads produce different rankings: ChromaDB wins Bench #2 (natural-language / intent retrieval), GitNexus has strong execution-flow traces, Memtrace wins exact lookup, graph queries (Bench #3), incremental freshness (Bench #4), token economy (Bench #1), plus capabilities no competitor has (bi-temporal memory, cross-service HTTP topology, typo tolerance via Levenshtein). See [`benchmarks/README.md`](benchmarks/README.md) for the full consolidated table and per-bench repro.
+
+### Results — Hybrid retrieval (`find_code`, NEW in v0.3.29)
+
+When the agent describes intent rather than naming a symbol — "the function that creates SQL test tables for postgres", or a typo'd identifier — `find_symbol` is the wrong tool. `find_code` runs a hybrid retrieval pipeline (BM25 + vector + graph + RRF + cross-encoder rerank) and returns ranked symbol matches with file/line context.
+
+We measure it across 3,000 query cases per corpus: 1,000 dataset rows × 3 query variants (`exact`, `split` = snake/camelCase tokens, `typo` = single-character typo). The same harness runs Memtrace, GitNexus, and ChromaDB end-to-end.
+
+**Django (50,191 nodes, 180,939 edges, 3,000 cases):**
+
+| Tool | cov | acc@1 | acc@5 | acc@10 | MRR | tokens | p50 lat |
+|:-----|----:|------:|------:|-------:|----:|-------:|--------:|
+| **Memtrace v0.3.29** (rerank on, L=10) | 100.0% | **73.9%** | **88.2%** | **90.0%** | **0.801** | **473** | 872 ms |
+| Memtrace v0_3_21 (no rerank, L=10)     | 100.0% | 48.9% | 84.0% | 88.5% | 0.632 | 1526 | 484 ms |
+| GitNexus query (v0_3_21)               |  98.6% | 38.6% | 69.9% | 72.8% | 0.518 |  200 | 850 ms |
+| ChromaDB vector (v0_3_21)              |  99.4% | 28.9% | 48.9% | 53.3% | 0.372 | 1837 |  57 ms |
+
+**mempalace (2,287 nodes, 5,962 edges, 3,000 cases):**
+
+| Tool | cov | acc@1 | acc@5 | acc@10 | MRR | tokens | p50 lat |
+|:-----|----:|------:|------:|-------:|----:|-------:|--------:|
+| **Memtrace v0.3.29** (rerank on, L=10) | 100.0% | **93.8%** | **99.3%** | **99.7%** | **0.961** | **419** | 447 ms |
+| Memtrace v0_3_21 (no rerank, L=10)     | 100.0% | 44.2% | 92.6% | 98.7% | 0.625 | 1518 |  35 ms |
+| ChromaDB vector (v0_3_21)              | 100.0% | 59.7% | 82.9% | 85.5% | 0.695 | 1936 |  56 ms |
+| GitNexus query (v0_3_21)               | 100.0% | 11.7% | 79.8% | 94.6% | 0.346 |  357 | 390 ms |
+
+**By query variant (Memtrace v0.3.29 acc@1, Django then mempalace):**
+
+| variant | Django v0_3_21 → v0.3.29 | mempalace v0_3_21 → v0.3.29 |
+|:--------|:-------------------------|:-----------------------------|
+| `exact` (literal symbol name) | 79.7% → 77.5% (−2.2 pts) | 96.6% → 94.5% (−2.1 pts) |
+| `split` (snake/camelCase tokens) | **31.1% → 70.8%** (+39.7 pts) | **16.9% → 94.9%** (+78.0 pts) |
+| `typo` (single-char typo) | **35.8% → 73.4%** (+37.6 pts) | **19.0% → 91.9%** (+72.9 pts) |
+
+**What the numbers say, read fairly:**
+
+- **Memtrace v0.3.29 wins acc@1, acc@5, acc@10, MRR, and tokens** vs every published competitor on this task. The `split` and `typo` variants — the realistic agent workload — went from 31–36% acc@1 to 71–73% with the rerank stack.
+- **The win is paid for in latency.** Cross-encoder rerank inference adds ~388 ms vs the no-rerank pipeline. ChromaDB stays faster (57 ms p50) but at a 28.9% / 53.3% accuracy ceiling — wrong answer fast doesn't help an agent. GitNexus is comparable on latency (~850 ms) but trails by 35 pts on acc@1.
+- **`exact` regressed 2.2 pts.** The rerank occasionally over-thinks a clean string match. Within noise for 1k queries (22 cases). For agents that know the exact symbol name, route to `find_symbol` instead — that path is unchanged at 0.07 ms / 96.6% acc@1.
+- **Tokens dropped 3.2×** (1526 → 473). The new pipeline returns smaller per-result envelopes and the LIMIT-decoupled rerank makes `LIMIT=3` viable for token-sensitive callers (same top-3 quality as `LIMIT=10`, ~146 tokens/call).
+
+Full methodology, the same matrix on mempalace, the by-variant acc@10 table, and the reproduction commands are in [`BENCHMARKS-v0.3.29.md`](BENCHMARKS-v0.3.29.md).
 
 <details>
 <summary><strong>Memtrace vs. general memory systems (Mem0, Graphiti)</strong></summary>
@@ -176,6 +224,9 @@ GitNexus and CodeGrapherContext both build AST-based code graphs with structural
 | **Bench #3** graph: callers recall (Django, pyright GT, filtered) | **0.816** | 0.053 | 0.000 |
 | **Bench #3** graph: impact recall (mempalace) | **0.874** | 0.007 | not impl. |
 | **Bench #4** incremental `time_to_queryable` p95 | **42.5 ms** | `NotSupported` | 613.7 ms |
+| **Bench #6** hybrid retrieval acc@1 (3K cases, Django, v0.3.29) | **73.9%** | 38.6% | n/a (no BM25+vec path) |
+| **Bench #6** hybrid retrieval acc@10 (3K cases, Django, v0.3.29) | **90.0%** | 72.8% | n/a |
+| **Bench #6** tokens/query (3K cases, Django, v0.3.29) | **473** | 200 | n/a |
 | Index time (~250 files / 2.3K nodes / 5.8K edges) | **~4 sec** (≈500 ms of real work + ~3 s local database / schema startup on first run) | ~6 sec | ~1 sec (cached) |
 
 All numbers from [`benchmarks/`](benchmarks/) on the same machine, same corpora, same adapter contract. Ground truth is independent of every tool's index (Python `ast` for Bench #0/#1, pyright LSP for Bench #3, deterministic edit scripts for Bench #4) — no system is advantaged in the dataset itself. Bench #3 "filtered" rows only average over symbols with non-empty pyright gold on that axis; unfiltered rollups live in `benchmarks/suite/results/`.
