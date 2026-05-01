@@ -61,6 +61,17 @@ arrays as arrays. No quoting numbers, no `"true"` for booleans.
 | `file_path` | string | no | — | |
 | `limit` | integer | no | `10` | Capped at `50` |
 
+### `get_source_window`
+| Field | Type | Required | Default | Notes |
+|---|---|---|---|---|
+| `file_path` | string | yes | — | Use the path returned by Memtrace search/context tools |
+| `repo_id` | string | no | — | Helps resolve repo-relative and repo-prefixed paths |
+| `start_line` | integer | no | `1` | 1-based line number from a Memtrace result |
+| `end_line` | integer | no | `start_line` | 1-based line number from a Memtrace result |
+| `before_lines` | integer | no | `8` | Context before the span |
+| `after_lines` | integer | no | `24` | Context after the span |
+| `max_lines` | integer | no | `120` | Hard-capped at `400` |
+
 ### `list_indexed_repositories`
 No parameters. Call once at session start to get `repo_id` values.
 

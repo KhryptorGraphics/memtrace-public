@@ -9,12 +9,15 @@ description: "Always use first for indexed source-code repos before searching fi
 
 ```
 IF THE REPO IS INDEXED IN MEMTRACE → USE MEMTRACE TOOLS FIRST.
-Memtrace returns exact file_path + start_line + end_line for every result.
-Read the file at THAT location. Do not Grep/Glob/Find to "locate" anything
-already in the graph.
+After a search hit, route to GRAPH tools (get_symbol_context, get_impact,
+analyze_relationships) — that's what Memtrace uniquely provides. Read source
+ONLY when you're about to edit or quote, and read only the bounded span
+returned by Memtrace (start_line .. end_line + small context). Do not
+Grep/Glob/Find to "locate" anything already in the graph, and do not read
+the whole file when Memtrace has given you exact lines.
 ```
 
-Memtrace is the memory layer of the codebase. It has the full knowledge graph: every symbol, call, import, community, process, and API — with time dimension. File tools are blind to this structure.
+Memtrace is the **memory layer** of the codebase, not a search engine that returns code. It has the full knowledge graph — every symbol, call, import, community, process, and API — with a time dimension. The point is to navigate that graph: who calls this, what's the blast radius, when did this change, what community is it part of. File tools are blind to all of that.
 
 **97% better accuracy. 83% fewer wasted tokens. No exceptions for what's in the graph.**
 
@@ -56,7 +59,7 @@ These are the ONLY cases where file tools beat memtrace:
   (`.git`, `node_modules`, `target`, `dist`) are examples Memtrace cannot see.
 - **Non-source artifacts.** `.env`, `package.json`, build scripts, top-level `README.md`, raw config files. Memtrace indexes parseable code, not configuration text.
 - **Pure file-inventory questions.** "How many `*.test.ts` files exist", "list every Markdown file in `docs/`". You're asking for a file count, not a symbol search.
-- **Reading at a known path.** Once memtrace has handed you `file_path:start_line:end_line`, use `Read` — never substitute `Grep` for `Read`.
+- **Reading at a known path outside Memtrace.** For configs, docs, or non-source artifacts that Memtrace cannot index, file `Read` is fine. For source-code spans returned by Memtrace, read the precise line range (your harness's `Read` with offset/limit, or `get_source_window` if your harness lacks bounded reads). Do not whole-file Read when you have a span.
 
 For everything else inside the indexed repo, memtrace is the right tool.
 
@@ -64,16 +67,18 @@ For everything else inside the indexed repo, memtrace is the right tool.
 
 | Question Claude is asking | Right tool |
 |---|---|
-| "Where is symbol `foo` defined?" | `find_symbol(name="foo")` → file:line. Then `Read` that range. |
+| "Where is symbol `foo` defined?" | `find_symbol(name="foo")` → then `get_symbol_context` for callers/callees/community, NOT a source read unless you're editing. |
 | "What calls `foo`?" | `get_symbol_context(name="foo")` → callers with file:line each. |
-| "How does authentication work?" | `find_code(query="authentication")` → ranked symbols with file:line. |
+| "How does authentication work?" | `find_code(query="authentication")` → `get_symbol_context` on the top hit, NOT a source read. |
+| "Find behavior X" with multi-word phrase (3+ words) | `find_code(verbatim)` first; if low confidence, fan out with identifier-shaped reshapes (camelCase / snake_case). |
 | "Find the function that uses `STRIPE_KEY_FOO_BAR`" | `find_code(query="STRIPE_KEY_FOO_BAR")` → semantic finds it inside any embedded body. |
 | "Where's that error message `'connection refused for tenant'`?" | `find_code(query="connection refused for tenant")` → semantic catches it. |
 | "What breaks if I change `foo`?" | `get_impact(name="foo")` → blast radius with file:line. |
 | "What changed in `auth.ts` last week?" | `get_evolution(file_path="auth.ts", from="7d ago")`. |
 | "List all `*.test.ts` files." | `Glob` (file inventory, not symbol search). |
 | "Find this string in my `.env`." | `Grep` (non-source artifact). |
-| "Read file I already have the path of." | `Read` (path is known). |
+| "I'm about to edit `foo` — show me its source." | Bounded `Read(file_path, offset=start_line, limit=end_line-start_line+8)`, or `get_source_window` if your harness lacks bounded reads. Never whole-file. |
+| "Read config/doc file I already have the path of." | `Read` (non-source artifact, path is known). |
 
 ## Parameter Types — Read This Before Calling Any Tool
 
@@ -101,7 +106,7 @@ If not indexed → offer to index with `mcp__memtrace__index_directory`, then fo
 | What you need | Use instead of Grep/Glob/Read |
 |---|---|
 | Find a function / class / symbol | `find_symbol` or `find_code` |
-| Understand how something works | `get_symbol_context` |
+| Understand how something works | `get_symbol_context` (the default next step) |
 | Find all callers of a function | `get_symbol_context` (callers field) |
 | Find all callees / dependencies | `get_symbol_context` (callees field) |
 | Trace a request / execution path | `get_process_flow` |
@@ -116,14 +121,15 @@ If not indexed → offer to index with `mcp__memtrace__index_directory`, then fo
 | Dependency between two symbols | `find_dependency_path` |
 | What files change together? | `get_cochange_context` |
 | Architecture overview | `list_communities` + `find_central_symbols` |
+| About to edit / quote — need exact lines | Bounded `Read(file, offset=start_line, limit=N)` (preferred), or `get_source_window` for path-resolution parity |
 
 ## Standard Workflows
 
 ### "How does X work?" / "Explain X"
 1. `find_symbol` or `find_code` → locate the symbol
-2. `get_symbol_context` → callers, callees, community, processes
+2. `get_symbol_context` → callers, callees, community, processes (this usually answers "how it works")
 3. `get_process_flow` (if it's a process/request path)
-4. Read source ONLY for the exact lines you need to quote
+4. Only if you need to quote source: bounded `Read` at start_line..end_line, or `get_source_window`
 
 ### Debugging "X is broken"
 1. `find_symbol` → locate the broken thing
@@ -135,7 +141,7 @@ If not indexed → offer to index with `mcp__memtrace__index_directory`, then fo
 ### "Where is X defined / called?"
 1. `find_symbol` with `fuzzy: true`
 2. `get_symbol_context` for full caller/callee map
-3. Read specific file only after locating exact line
+3. Only if you need source text: bounded `Read` at start_line..end_line, or `get_source_window`
 
 ### Before any code modification
 1. `find_symbol` → confirm you have the right target
@@ -150,7 +156,7 @@ You are violating this skill if you think:
 |---|---|
 | "Let me grep for this" | `find_code` or `find_symbol` is faster and structurally aware |
 | "Let me glob for the file" | `find_symbol` returns exact location with context |
-| "Let me read the whole file" | `get_symbol_context` gives you only what matters |
+| "Let me read the whole file" | `get_symbol_context` for the WHY (callers/callees/community); a bounded source read at start_line..end_line for the WHAT |
 | "It's just a quick search" | Grep has no understanding of call graphs, communities, or time |
 | "I don't know if it's indexed" | Check with `list_indexed_repositories` first — takes 1 second |
 | "Memtrace returned 0 results" | Broaden the Memtrace query, check repo_id/path coverage, then reindex if needed |
@@ -161,9 +167,14 @@ You are violating this skill if you think:
 ## When File Tools Are Still Correct
 
 Use Grep/Glob/Read ONLY for:
-- Reading the **exact source lines** of a symbol you already located via Memtrace
+- Non-source files or paths outside every indexed source repo
 - Files that are config, data, or docs (not source code symbols)
 - Repos or paths confirmed outside every Memtrace indexed root
+
+For source-code spans already located by Memtrace, use a **bounded** read —
+your harness's `Read(file, offset, limit)` with the returned `start_line` /
+`end_line`, or `get_source_window` if your harness lacks bounded reads. Do
+not read the whole file.
 
 Never use file tools as a **discovery** mechanism when Memtrace is available.
 

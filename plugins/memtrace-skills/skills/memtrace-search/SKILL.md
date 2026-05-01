@@ -13,6 +13,7 @@ Find code using hybrid BM25 full-text + semantic vector search with Reciprocal R
 |------|----------|
 | `find_code` | Natural-language queries ("authentication middleware", "retry logic"), broad searches |
 | `find_symbol` | Exact identifier names ("getUserById", "PaymentService"), when you know the name |
+| `get_source_window` | Optional: bounded source read after a Memtrace hit, when your harness lacks `Read(file, offset, limit)`. Otherwise prefer your harness's bounded read with the returned `start_line` / `end_line`. |
 
 ## Steps
 
@@ -47,10 +48,36 @@ Find code using hybrid BM25 full-text + semantic vector search with Reciprocal R
 
 ### 3. Use results for next steps
 
+The default next step is a **graph tool** — `get_symbol_context`,
+`analyze_relationships`, or `get_impact`. Those answer "who calls this",
+"what's the blast radius", "what community is it part of" — context no
+file read can give. That's what Memtrace uniquely provides.
+
+Source bytes come last, only when you're about to edit or quote. Use a
+bounded `Read(file_path, offset=start_line, limit=end_line-start_line+8)`,
+or `get_source_window` if your harness lacks bounded reads. Do not whole-file.
+
 Save the symbol `id` from results — pass it to:
 - `analyze_relationships` to map callers/callees
 - `get_symbol_context` for a 360-degree view
 - `get_impact` to assess blast radius before changes
+
+### Multi-word natural-language queries
+
+When your query is 3+ words and feels descriptive (e.g. "validate auth token", "find HTTP server error"), don't stop at the first `find_code` call:
+
+1. First try the verbatim query.
+2. If results look generic or the right doc isn't at rank 1, fan out **in parallel** with up to 3 identifier-shaped reshapes:
+   - camelCase: "validate auth token" → `validateAuthToken`
+   - snake_case: → `validate_auth_token`
+   - Domain-likely identifiers: → `auth_token`, `tokenValidator`, `verifyToken`
+3. Memtrace's tokenizer splits camelCase / snake / kebab at index time, so reshaped queries hit identifier names directly.
+4. Take the union of top-5 from each call, dedupe by `file_path:start_line`.
+
+**Worked examples** (verbatim → reshapes to try in parallel):
+- "validate auth token" → `validateAuthToken`, `validate_auth_token`, `verifyToken`
+- "find http server error" → `findHttpServerError`, `http_error`, `serverError`
+- "render value panel" → `renderValuePanel`, `ValuePanel`, `value_panel`
 
 ## Common Mistakes
 
@@ -60,5 +87,7 @@ Save the symbol `id` from results — pass it to:
 | Using find_symbol for vague queries | Use `find_code` for natural-language; `find_symbol` is for exact names |
 | Ignoring the `kind` filter | Narrow results with kind=Function, kind=Class etc. to reduce noise |
 | Re-searching to get more context | Use the symbol `id` with `get_symbol_context` instead of re-searching |
+| Reading the whole file after a hit | First call `get_symbol_context` for callers/callees. If you still need source, do a bounded `Read(file, offset=start_line, limit=N)` — never whole-file. `get_source_window` is fine if your harness has no bounded read. |
+| Going straight from `find_code` to source read | Memtrace's value is the graph. Default next step is `get_symbol_context` or `get_impact`, not source. |
 | Treating 0 results as permission to grep | 0 results means broaden the Memtrace query, check repo_id/path filters, then reindex if coverage is missing |
 | Assuming a UI subdirectory is unindexed because stats show backend files | If `ui/`, `memtrace-ui/`, or another source directory is under the indexed repo root, diagnose/reindex with Memtrace instead of searching files manually |
