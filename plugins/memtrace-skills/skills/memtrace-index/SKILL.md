@@ -1,6 +1,6 @@
 ---
 name: memtrace-index
-description: "Always use when the user asks to index, parse, ingest, reindex, watch, or prepare a source-code repo for Memtrace analysis, or when code exploration is needed but no Memtrace index exists. Use this before Grep, Glob, rg, find, or manual code search whenever the repo can be indexed."
+description: "Always use when the user asks to index, parse, ingest, reindex, watch, or prepare a source-code repo for Memtrace analysis, when code exploration needs an index, or when searches return 0/partial results for source paths under an indexed root. Use this before Grep, Glob, rg, find, or manual code search whenever the repo can be indexed."
 ---
 
 ## Overview
@@ -25,6 +25,11 @@ Index a local codebase into the persistent code knowledge graph. This is always 
 Use the `list_indexed_repositories` MCP tool first. If the repo is already indexed and recent, skip to step 4.
 
 **Success criteria:** You have a list of repo_ids and their last-indexed timestamps.
+
+If a repo is present but searches miss a source subdirectory under that repo
+root (for example `ui/`, `memtrace-ui/`, `web/`, `frontend/`, or `src/`), treat
+that as a stale/partial index. Do not use grep as a workaround. Run incremental
+indexing on the repo root, then retry the Memtrace query.
 
 ### 2. Index the directory
 

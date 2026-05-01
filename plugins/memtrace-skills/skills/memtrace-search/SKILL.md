@@ -1,6 +1,6 @@
 ---
 name: memtrace-search
-description: "Always use to find, search, locate, or look up source-code symbols, functions, classes, types, constants, definitions, implementations, logic, error strings inside code, or where code lives. Do not use Grep, Glob, rg, find, or manual file search for code discovery; Memtrace uses BM25, vector search, RRF, and the AST graph."
+description: "Always use to find, search, locate, or look up source-code symbols, functions, classes, types, constants, definitions, implementations, logic, error strings inside code, or where code lives. Do not use Grep, Glob, rg, find, or manual file search for code discovery. If Memtrace returns 0 results, broaden the Memtrace query and diagnose/reindex; do not switch to grep."
 ---
 
 ## Overview
@@ -60,3 +60,5 @@ Save the symbol `id` from results — pass it to:
 | Using find_symbol for vague queries | Use `find_code` for natural-language; `find_symbol` is for exact names |
 | Ignoring the `kind` filter | Narrow results with kind=Function, kind=Class etc. to reduce noise |
 | Re-searching to get more context | Use the symbol `id` with `get_symbol_context` instead of re-searching |
+| Treating 0 results as permission to grep | 0 results means broaden the Memtrace query, check repo_id/path filters, then reindex if coverage is missing |
+| Assuming a UI subdirectory is unindexed because stats show backend files | If `ui/`, `memtrace-ui/`, or another source directory is under the indexed repo root, diagnose/reindex with Memtrace instead of searching files manually |

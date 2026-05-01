@@ -1,6 +1,6 @@
 ---
 name: memtrace-first
-description: "Always use first for indexed source-code repos before searching files, reading code for discovery, debugging, tracing flows, finding implementations, understanding behavior, or answering how code works. Do not use Grep, Glob, rg, find, or manual file browsing for code discovery when Memtrace is indexed; only use file tools for configs, infra, docs, non-source artifacts, or exact paths already returned by Memtrace."
+description: "Always use first for indexed source-code repos before searching files, reading code for discovery, debugging, tracing flows, finding implementations, understanding behavior, or answering how code works. Do not use Grep, Glob, rg, find, or manual file browsing for code discovery when Memtrace is indexed. Zero results, missing languages, or partial-looking stats are not permission to grep; diagnose/reindex with Memtrace."
 ---
 
 # Memtrace First
@@ -28,11 +28,32 @@ Memtrace's hybrid search = **BM25 over symbol metadata** (name, signature, file_
 
 The semantic side means **string literals, error messages, magic constants, log strings, and any text inside an indexed symbol's body are findable through `find_code`**. The body got embedded; the embedding catches it. You do NOT need `Grep` to hunt for `STRIPE_KEY_FOO_BAR` if it lives inside a function in your indexed codebase.
 
+## Zero results are not a grep license
+
+If Memtrace returns 0 results, or repository stats look incomplete, do **not**
+infer that a source subdirectory is outside the index. Diagnose through
+Memtrace:
+
+1. Call `list_indexed_repositories` and identify the repo root/repo_id.
+2. If the path is under that indexed repo root, keep using Memtrace.
+3. Retry with broader `find_code` terms and, when available, `file_path` filters
+   such as `ui/`, `memtrace-ui/`, `src/`, or the framework directory.
+4. If the language/path still appears missing, run `index_directory` on the repo
+   root with `incremental: true` (or ask before `clear_existing: true`).
+5. Report the indexing coverage problem instead of silently switching to grep.
+
+**Never say "the index only covers X, so grep is right" when the target path is
+inside the indexed repository.** That is an indexing freshness/coverage issue,
+not permission to abandon Memtrace.
+
 ## The narrow exceptions where grep/glob are still right
 
 These are the ONLY cases where file tools beat memtrace:
 
-- **Files outside the indexed repo.** Vendored deps, system headers, dirs `walker::is_excluded_path` skipped (`.git`, `node_modules`, `target`, `dist`). Memtrace literally cannot see them.
+- **Files outside every indexed repo root.** Confirm this with
+  `list_indexed_repositories`; 0 search results or missing language stats do not
+  prove it. Vendored deps, system headers, and excluded dirs
+  (`.git`, `node_modules`, `target`, `dist`) are examples Memtrace cannot see.
 - **Non-source artifacts.** `.env`, `package.json`, build scripts, top-level `README.md`, raw config files. Memtrace indexes parseable code, not configuration text.
 - **Pure file-inventory questions.** "How many `*.test.ts` files exist", "list every Markdown file in `docs/`". You're asking for a file count, not a symbol search.
 - **Reading at a known path.** Once memtrace has handed you `file_path:start_line:end_line`, use `Read` — never substitute `Grep` for `Read`.
@@ -132,6 +153,8 @@ You are violating this skill if you think:
 | "Let me read the whole file" | `get_symbol_context` gives you only what matters |
 | "It's just a quick search" | Grep has no understanding of call graphs, communities, or time |
 | "I don't know if it's indexed" | Check with `list_indexed_repositories` first — takes 1 second |
+| "Memtrace returned 0 results" | Broaden the Memtrace query, check repo_id/path coverage, then reindex if needed |
+| "Stats only show Rust, but I need `ui/` or `memtrace-ui/`" | That is a coverage diagnostic. Reindex the repo root; do not grep source code. |
 | "The user didn't say to use Memtrace" | User asked about the code. Repo is indexed. Use Memtrace. |
 | "This is a simple question" | Simple questions benefit most — one `find_symbol` vs 20 file reads |
 
@@ -140,7 +163,7 @@ You are violating this skill if you think:
 Use Grep/Glob/Read ONLY for:
 - Reading the **exact source lines** of a symbol you already located via Memtrace
 - Files that are config, data, or docs (not source code symbols)
-- Repos confirmed NOT indexed in Memtrace
+- Repos or paths confirmed outside every Memtrace indexed root
 
 Never use file tools as a **discovery** mechanism when Memtrace is available.
 
