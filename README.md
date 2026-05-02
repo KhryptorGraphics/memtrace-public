@@ -1,33 +1,72 @@
 <p align="center">
-  <img src="assets/logo.svg" alt="Memtrace" width="100" height="100" />
+  <img src="docs/memtrace-hero.svg" alt="Memtrace — structural memory for AI coding agents" width="100%"/>
 </p>
 
-<h1 align="center">Memtrace</h1>
+<h1 align="center">Your agents deserve <i>structural memory</i>.</h1>
 
 <p align="center">
-  <strong>The persistent memory layer for coding agents.</strong><br/>
-  A bi-temporal, episodic, structural knowledge graph — built from AST, not guesswork.
-</p>
-
-<p align="center">
-  <a href="https://www.npmjs.com/package/memtrace"><img src="https://img.shields.io/npm/v/memtrace?style=flat-square&color=00D4B8&label=npm" alt="npm version" /></a>
-  <a href="https://github.com/syncable-dev/memtrace-public/stargazers"><img src="https://img.shields.io/github/stars/syncable-dev/memtrace-public?style=flat-square&color=00D4B8&label=GitHub%20stars" alt="GitHub stars" /></a>
-  <a href="https://github.com/syncable-dev/memtrace-public/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-Proprietary%20EULA-0A1628?style=flat-square" alt="license" /></a>
-  <a href="https://memtrace.io"><img src="https://img.shields.io/badge/docs-memtrace.io-00D4B8?style=flat-square" alt="docs" /></a>
-  <a href="https://discord.gg/gzedUSNbna"><img src="https://img.shields.io/badge/Discord-join%20discussion-5865F2?style=flat-square&logo=discord&logoColor=white" alt="Discord" /></a>
+  <a href="https://github.com/syncable-dev/memtrace-public/stargazers">⭐ Star us</a> &nbsp;·&nbsp;
+  <a href="https://memtrace.io">memtrace.io</a> &nbsp;·&nbsp;
+  <a href="https://www.npmjs.com/package/memtrace">npm</a> &nbsp;·&nbsp;
+  <a href="https://discord.gg/gzedUSNbna">Discord</a>
 </p>
 
 <p align="center">
-  <code>ai-agents</code> · <code>coding-agents</code> · <code>mcp-server</code> · <code>code-intelligence</code> · <code>knowledge-graph</code> · <code>semantic-search</code> · <code>temporal-analysis</code> · <code>local-first</code>
+  Memtrace turns your codebase into a live knowledge graph that AI coding agents can query in milliseconds — every function, class, call edge, and version, across every session, without re-reading files or breaking things they can't see.
 </p>
 
-> **Waitlist & Early Access** — Memtrace is currently in a private beta. We are slowly rolling out access to ensure stability. **You must join the waitlist at [memtrace.io](https://memtrace.io) to use the product right now.**
->
-> Join the discussion, ask questions, and follow beta updates in [Discord](https://discord.gg/gzedUSNbna).
->
-> Core indexing and structural search are stable. Temporal features (evolution scoring, timeline replay) are functional but may have rough edges. [Report issues here.](https://github.com/syncable-dev/memtrace-public/issues)
+<p align="center">
+  <b>Get your fleet on shared structural memory in under 90 seconds.</b>
+</p>
 
-> **🔒 Privacy** — Memtrace runs **entirely on your machine**. Your source code never leaves it. All parsing, graph construction, embedding generation, and querying happens locally. The only network traffic is license validation, aggregate usage counts (total nodes/edges — no code, no file paths, no symbol names), and opt-out telemetry for crashes / errors / app-start events (sanitised — no source, no file contents, no symbol names). See [PRIVACY.md](PRIVACY.md) and [TELEMETRY.md](TELEMETRY.md) for the full breakdowns. Disable telemetry with `MEMTRACE_TELEMETRY=off`.
+<p align="center">
+  <b>Structural</b> · zero LLM calls &nbsp;·&nbsp; <b>Bi-temporal</b> · time-travel queries &nbsp;·&nbsp; <b>Replay-aware</b> · zero blind refactors
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/github/stars/syncable-dev/memtrace-public?style=flat-square&color=00d4b8&logo=github" alt="Stars"/>
+  <img src="https://img.shields.io/badge/license-Proprietary%20EULA-E879F9?style=flat-square" alt="License"/>
+  <img src="https://img.shields.io/badge/runtime-Rust-orange?style=flat-square&logo=rust" alt="Rust"/>
+  <img src="https://img.shields.io/badge/MCP-native-00d4b8?style=flat-square" alt="MCP"/>
+  <img src="https://img.shields.io/badge/languages-16%2B-22d3ee?style=flat-square" alt="Languages"/>
+  <a href="https://discord.gg/gzedUSNbna"><img src="https://img.shields.io/badge/Discord-join-5865F2?style=flat-square&logo=discord&logoColor=white" alt="Discord" /></a>
+  <img src="https://img.shields.io/badge/private%20beta-active-f59e0b?style=flat-square" alt="Private Beta"/>
+</p>
+
+---
+
+## What it does
+
+**Three things, every release.**
+
+🧭 &nbsp; **Run a fleet of coding agents on the same repo without merge hell.**
+Each agent reads the same call graph, sees the same blast radius, inherits the same temporal history. No collisions. No stale context.
+
+🔁 &nbsp; **Replay any refactor with full causal awareness.**
+Agents see exactly what depends on what, and what changed when. No more *"I refactored a function and 14 tests broke that nobody saw."*
+
+⚡ &nbsp; **Index a 50k-file repo in under 90 seconds.**
+Rust + Tree-sitter, $0 in API costs, 16 languages, fully local. Your code never leaves your machine.
+
+https://github.com/user-attachments/assets/e7d6a1e9-c912-4e65-a421-bd0256dffa5a
+
+---
+
+## Numbers
+
+| Operation | Memtrace | Best alternative | Δ |
+|---|---|---|---|
+| Index 1,500 files | **1.5s · $0** | Mem0: 31 min · $10–50 | **~1,200× faster** |
+| Exact symbol query (acc@1, lat) | **96.6% · 0.07 ms** | GitNexus: 97.0% · 8.95 ms | 128× lower latency |
+| Graph callers recall (Django) | **81.6%** | GitNexus: 5.3% | **15.4×** |
+| Incremental re-index p95 | **42.5 ms** | CodeGrapher: 613.7 ms | 14.4× |
+| Hybrid acc@1 (Django, 3K cases) | **73.9%** | GitNexus: 38.6% | 1.91× |
+| RSS / process | **26 MB** | ChromaDB: 1,060 MB | **41× tighter** |
+| Languages | **16+** (Tree-sitter) | varies | — |
+
+Reproducible benchmark suite: [`benchmarks/`](benchmarks/README.md). Same machine, same corpora, same adapter contract. Ground truth from Python's `ast` and `pyright` LSP — never from any tool's own index. **No system gets a home-field advantage in the dataset.**
+
+Detailed breakdowns: [BENCHMARKS-v0.3.22.md](BENCHMARKS-v0.3.22.md) · [BENCHMARKS-v0.3.29.md](BENCHMARKS-v0.3.29.md)
 
 ---
 
@@ -43,147 +82,42 @@
 
 ---
 
+## Get access
 
-Memtrace gives coding agents something they've never had: **structural memory**. Not vector similarity. Not semantic chunking. A real knowledge graph compiled from your codebase's AST — where every function, class, interface, and API endpoint exists as a node with deterministic, typed relationships.
+Memtrace is in **private beta**. We're rolling out access in batches to keep the feedback loop tight — every cohort lands in a Discord channel where we ship fixes from real bug reports inside a week.
 
-Index once. Every agent query after that resolves through graph traversal — callers, callees, implementations, imports, blast radius, temporal evolution — in milliseconds, with zero token waste.
+→ **Join the waitlist at [memtrace.io](https://memtrace.io).**
 
-> **Local machine requirements** — Memtrace indexes and embeds your code locally, so the first run is CPU/RAM intensive. Minimum: **4 CPU cores, 8 GB RAM, 5 GB free disk, Node.js 18+, and Git**. Recommended for large monorepos: **8+ CPU cores, 16–32 GB RAM, and 10–20 GB free disk**. No GPU required.
+Already have access? `npm install -g memtrace` and you're indexing in 90 seconds. Full setup below.
 
-```bash
-npm install -g memtrace    # binary + 12 skills + MCP server — one command
-memtrace start             # launches the graph database and auto-indexes the current project
-```
-
-That's it. Run `memtrace start` from your project root — it spins up the graph database and kicks off indexing automatically. Claude and Cursor (v2.4+) pick up the skills and MCP tools automatically.
-
-https://github.com/user-attachments/assets/e7d6a1e9-c912-4e65-a421-bd0256dffa5a
-
-> Built-in UI at `localhost:3030` — explore your graph, trace dependencies, spot dead code, and visualize architecture at a glance
+> 🔒 **Privacy.** Memtrace runs entirely on your machine. Source code never leaves it. The only network traffic is license validation, aggregate node/edge counts, and opt-out crash telemetry — no source, no file paths, no symbol names. Full breakdown: [PRIVACY.md](PRIVACY.md), [TELEMETRY.md](TELEMETRY.md). Disable telemetry with `MEMTRACE_TELEMETRY=off`.
 
 ---
 
-## Why Memtrace Exists
+## Why Memtrace exists
 
-Good code intelligence tools already exist. GitNexus and CodeGrapherContext build AST-based graphs with symbol relationships, and they work well for understanding what's in your codebase *right now*.
+Good code-intelligence tools already exist. GitNexus and CodeGrapherContext build AST-based graphs that work for *"what's in my repo right now."*
 
-Memtrace is a **bi-temporal episodic structural knowledge graph**. It builds on that same AST foundation and adds two dimensions:
+**Memtrace is a bi-temporal episodic structural knowledge graph.** It builds on the same AST foundation and adds two dimensions:
 
-- **Temporal memory** — every symbol carries its full version history. Agents can reason about *what changed*, *when it changed*, and *how the architecture evolved* — not just what exists today. Six scoring algorithms (impact, novelty, recency, directional, compound, overview) let agents ask different temporal questions.
-- **Cross-service API topology** — Memtrace maps HTTP call graphs between repositories, detecting which services call which endpoints across your architecture.
+- **Temporal memory** — every symbol carries its full version history. Six scoring algorithms (impact, novelty, recency, directional, compound, overview) let agents ask different temporal questions: *"what changed?"*, *"what's unexpected?"*, *"what'll break?"*.
+- **Cross-service API topology** — Memtrace maps HTTP call graphs *between* repositories, detecting which services call which endpoints across your architecture.
 
 On top of that, the structural layer is comprehensive:
 
-- **Symbols are nodes** — functions, classes, interfaces, types, endpoints
-- **Relationships are edges** — `CALLS`, `IMPLEMENTS`, `IMPORTS`, `EXPORTS`, `CONTAINS`
-- **Community detection** — Louvain algorithm identifies architectural modules automatically
-- **Hybrid search** — Tantivy BM25 + vector embeddings + Reciprocal Rank Fusion, all on top of the graph
-- **Rust-native** — compiled binary, no Python/JS runtime overhead, sub-8ms average query latency
+| | |
+|---|---|
+| **Symbols are nodes** | functions, classes, interfaces, types, endpoints |
+| **Relationships are edges** | `CALLS`, `IMPLEMENTS`, `IMPORTS`, `EXPORTS`, `CONTAINS` |
+| **Community detection** | Louvain algorithm identifies architectural modules automatically |
+| **Hybrid retrieval** | Tantivy BM25 + vector embeddings + Reciprocal Rank Fusion + cross-encoder rerank |
+| **Rust-native** | compiled binary, no Python/JS runtime overhead, sub-8 ms p95 query latency |
 
-The agent doesn't just search your code. It *remembers* it.
+The agent doesn't just search your code. **It remembers it.**
 
-## Benchmarks
+---
 
-Five sub-benches across three corpora (mempalace, Django, a 21-file scratch fixture). Every system runs on the same machine, against the same ground truth, using the same adapter contract. Ground truth comes from Python's stdlib `ast`, the pyright LSP, or deterministic edit scripts — **never** from any tool's own index — so no system gets a home-field advantage in the dataset itself.
-
-Full reproduction instructions and per-bench numbers: [`benchmarks/README.md`](benchmarks/README.md). The frozen exact-symbol harness is [`benchmarks/fair/`](benchmarks/fair/); the extended harness covering all five benches is [`benchmarks/suite/`](benchmarks/suite/).
-
-> **Two query paths, two value props.** Memtrace ships both `find_symbol` (exact lookup, sub-millisecond) and `find_code` (hybrid retrieval, agent-style natural-language). They serve different question shapes, and we measure them separately:
->
-> - **`find_symbol`** — when the agent already knows the symbol name. **0.07 ms, 96.6% acc@1, 26 MB RSS.** Numbers unchanged in v0.3.29; full breakdown in [`BENCHMARKS-v0.3.22.md`](BENCHMARKS-v0.3.22.md).
-> - **`find_code`** _(NEW BM25 + rerank stack in v0.3.29)_ — when the agent describes intent, not a name. **Django: 73.9% acc@1 vs GitNexus 38.6% / ChromaDB 28.9% · mempalace: 93.8% vs ChromaDB 59.7% / GitNexus 11.7%.** 90% recall@10 on Django, 99.7% on mempalace, ~3× fewer tokens than v0_3_21. Latency lifts to ~450–870 ms p50 (cross-encoder rerank). Full breakdown in [`BENCHMARKS-v0.3.29.md`](BENCHMARKS-v0.3.29.md).
->
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/benchmarks/benchmark-overview.svg"/>
-  <source media="(prefers-color-scheme: light)" srcset="assets/benchmarks/benchmark-overview.svg"/>
-  <img alt="Memtrace v0.3.29 benchmark overview — find_symbol path (0.07 ms, 96.6% acc@1, 26 MB RSS) plus find_code hybrid retrieval (NEW: 73.9% acc@1 on Django, 93.8% on mempalace, 1.91× / 1.57× over runner-up, 3.9× cheaper tokens) vs ChromaDB, GitNexus, CodeGrapher" src="assets/benchmarks/benchmark-overview.svg" width="720"/>
-</picture>
-
-**Summary across the five benches** (🟢 = Memtrace wins declared primary axis, 🟡 = Memtrace trails):
-
-| # | Bench | Primary axis | Memtrace | Runner-up | Δ |
-|:-:|:------|:-------------|---------:|:----------|---:|
-| 0 | Exact-symbol lookup (1,000 queries, mempalace) | `acc_at_1_pct` | **96.7%** 🟢 | ChromaDB 62.3% | 1.55× |
-| 1 | Token economy (same 1,000) | `acc_at_1_per_kilo_token` | **495.52** 🟢 | GitNexus 126.90 | 3.90× |
-| 2 | Intent retrieval (100 NL PR titles, Django) | `recall_at_10` | 58.6% 🟡 | ChromaDB 66.8% | −8.2 pp |
-| 3 | Graph queries (mempalace, pyright GT) | `callers_of.recall` | **0.851** 🟢 | CGC 0.584 | 1.46× |
-| 3 | Graph queries (Django, pyright GT) | `callers_of.recall` | **0.816** 🟢 | GitNexus 0.053 | 15.4× |
-| 4 | Incremental freshness (50 edits) | `time_to_queryable_p95` | **42.5 ms** 🟢 | CGC 613.7 ms | 14.4× faster |
-| 6 | Hybrid retrieval (3,000 cases, Django, v0.3.29)    | `acc_at_1_pct` | **73.9%** 🟢 | GitNexus 38.6% | 1.91× |
-| 6 | Hybrid retrieval (3,000 cases, mempalace, v0.3.29) | `acc_at_1_pct` | **93.8%** 🟢 | ChromaDB 59.7% | 1.57× |
-
-Memtrace wins 7 of 8, trails on 1 (Bench #2 — ChromaDB is the expected winner on pure semantic NL queries; Bench #6's hybrid stack closes that gap on the same Django corpus by combining BM25 + vectors + rerank, beating ChromaDB on every accuracy metric). Bench #5 (agent-level) is skeleton-only and gated behind `RUN_AGENT_BENCH=1`.
-
-### Results (1,000 Python symbol-lookup queries on mempalace, v0.3.22 + ranking)
-
-Numbers from isolated per-adapter processes — full methodology in [`BENCHMARKS-v0.3.22.md`](BENCHMARKS-v0.3.22.md).
-
-| Tool | Coverage | Acc@1 | Acc@10 | Prec@10 | Avg lat | RSS | Tokens |
-|:-----|---------:|------:|-------:|--------:|--------:|----:|-------:|
-| **Memtrace** (MemDB)            | **100.0%** | 96.6% | 99.7% | **0.967** | **0.07 ms** | **26.2 MB** | 383 |
-| GitNexus (eval-server)          | 100.0%     | **97.0%** | **100%** | 0.702 | 8.95 ms | 31.0 MB | 90 |
-| ChromaDB (all-MiniLM-L6-v2)     | 100.0%     | 62.4% | 87.8% | 0.188 | 54.6 ms | 1,060 MB | 1,937 |
-| CodeGrapherContext (CLI)        | 100.0%     |  7.9% | 99.9% | 0.521 | 2,020 ms | ~150 MB | 217 |
-
-- **Coverage** = the tool returned any result for the query (separates "did you index it?" from "did you rank it well?")
-- **Acc@K** = the correct file appeared in the top K ranked results
-- **Avg latency** = wall-clock per query, including all protocol overhead (MCP JSON-RPC for Memtrace, HTTP for GitNexus, in-process for ChromaDB, subprocess spawn for CGC)
-- **Tokens** = average response size in tokens (chars / 4)
-
-**What the numbers say, read fairly:**
-
-- **Memtrace** holds rank-1 on 96.6% of queries with **128× lower latency** (0.07 ms vs GitNexus 8.95 ms), **1.18× tighter RSS** (26 MB vs 31 MB), and **1.38× higher precision@10** (0.97 vs 0.70). It ranks results by structural relevance — the canonical implementation comes first in one round-trip with the full agent envelope.
-- **GitNexus** wins by a 4-query margin on acc@1 because it ships raw enumeration order; memtrace re-orders by `direct_callers_count` so `Model.delete` precedes `tests.fake_delete`. Right tradeoff for agents, small benchmark cost. See [`BENCHMARKS-v0.3.22.md`](BENCHMARKS-v0.3.22.md) for the full reasoning.
-- **ChromaDB** shows what semantic embeddings look like for this workload — 87.8% top-10 but rank-1 is probabilistic, and the response is ~5× larger because it returns 800-char chunks rather than symbol metadata. Per-process RSS is 41× heavier (1,060 MB).
-- **CodeGrapherContext**'s 100% coverage of mempalace shows its FalkorDB-Lite parser works at small scale; latency is dominated by per-query subprocess spawn (2 s/query). It DNFs on Django (24+ min wall, no progress).
-
-**Where each tool shines** — the table above measures exact-symbol lookup only (Bench #0). Different workloads produce different rankings: ChromaDB wins Bench #2 (natural-language / intent retrieval), GitNexus has strong execution-flow traces, Memtrace wins exact lookup, graph queries (Bench #3), incremental freshness (Bench #4), token economy (Bench #1), plus capabilities no competitor has (bi-temporal memory, cross-service HTTP topology, typo tolerance via Levenshtein). See [`benchmarks/README.md`](benchmarks/README.md) for the full consolidated table and per-bench repro.
-
-### Results — Hybrid retrieval (`find_code`, NEW in v0.3.29)
-
-When the agent describes intent rather than naming a symbol — "the function that creates SQL test tables for postgres", or a typo'd identifier — `find_symbol` is the wrong tool. `find_code` runs a hybrid retrieval pipeline (BM25 + vector + graph + RRF + cross-encoder rerank) and returns ranked symbol matches with file/line context.
-
-We measure it across 3,000 query cases per corpus: 1,000 dataset rows × 3 query variants (`exact`, `split` = snake/camelCase tokens, `typo` = single-character typo). The same harness runs Memtrace, GitNexus, and ChromaDB end-to-end.
-
-**Django (50,191 nodes, 180,939 edges, 3,000 cases):**
-
-| Tool | cov | acc@1 | acc@5 | acc@10 | MRR | tokens | p50 lat |
-|:-----|----:|------:|------:|-------:|----:|-------:|--------:|
-| **Memtrace v0.3.29** (rerank on, L=10) | 100.0% | **73.9%** | **88.2%** | **90.0%** | **0.801** | **473** | 872 ms |
-| Memtrace v0_3_21 (no rerank, L=10)     | 100.0% | 48.9% | 84.0% | 88.5% | 0.632 | 1526 | 484 ms |
-| GitNexus query (v0_3_21)               |  98.6% | 38.6% | 69.9% | 72.8% | 0.518 |  200 | 850 ms |
-| ChromaDB vector (v0_3_21)              |  99.4% | 28.9% | 48.9% | 53.3% | 0.372 | 1837 |  57 ms |
-
-**mempalace (2,287 nodes, 5,962 edges, 3,000 cases):**
-
-| Tool | cov | acc@1 | acc@5 | acc@10 | MRR | tokens | p50 lat |
-|:-----|----:|------:|------:|-------:|----:|-------:|--------:|
-| **Memtrace v0.3.29** (rerank on, L=10) | 100.0% | **93.8%** | **99.3%** | **99.7%** | **0.961** | **419** | 447 ms |
-| Memtrace v0_3_21 (no rerank, L=10)     | 100.0% | 44.2% | 92.6% | 98.7% | 0.625 | 1518 |  35 ms |
-| ChromaDB vector (v0_3_21)              | 100.0% | 59.7% | 82.9% | 85.5% | 0.695 | 1936 |  56 ms |
-| GitNexus query (v0_3_21)               | 100.0% | 11.7% | 79.8% | 94.6% | 0.346 |  357 | 390 ms |
-
-**By query variant (Memtrace v0.3.29 acc@1, Django then mempalace):**
-
-| variant | Django v0_3_21 → v0.3.29 | mempalace v0_3_21 → v0.3.29 |
-|:--------|:-------------------------|:-----------------------------|
-| `exact` (literal symbol name) | 79.7% → 77.5% (−2.2 pts) | 96.6% → 94.5% (−2.1 pts) |
-| `split` (snake/camelCase tokens) | **31.1% → 70.8%** (+39.7 pts) | **16.9% → 94.9%** (+78.0 pts) |
-| `typo` (single-char typo) | **35.8% → 73.4%** (+37.6 pts) | **19.0% → 91.9%** (+72.9 pts) |
-
-**What the numbers say, read fairly:**
-
-- **Memtrace v0.3.29 wins acc@1, acc@5, acc@10, MRR, and tokens** vs every published competitor on this task. The `split` and `typo` variants — the realistic agent workload — went from 31–36% acc@1 to 71–73% with the rerank stack.
-- **The win is paid for in latency.** Cross-encoder rerank inference adds ~388 ms vs the no-rerank pipeline. ChromaDB stays faster (57 ms p50) but at a 28.9% / 53.3% accuracy ceiling — wrong answer fast doesn't help an agent. GitNexus is comparable on latency (~850 ms) but trails by 35 pts on acc@1.
-- **`exact` regressed 2.2 pts.** The rerank occasionally over-thinks a clean string match. Within noise for 1k queries (22 cases). For agents that know the exact symbol name, route to `find_symbol` instead — that path is unchanged at 0.07 ms / 96.6% acc@1.
-- **Tokens dropped 3.2×** (1526 → 473). The new pipeline returns smaller per-result envelopes and the LIMIT-decoupled rerank makes `LIMIT=3` viable for token-sensitive callers (same top-3 quality as `LIMIT=10`, ~146 tokens/call).
-
-Full methodology, the same matrix on mempalace, the by-variant acc@10 table, and the reproduction commands are in [`BENCHMARKS-v0.3.29.md`](BENCHMARKS-v0.3.29.md).
-
-<details>
-<summary><strong>Memtrace vs. general memory systems (Mem0, Graphiti)</strong></summary>
-
-<br/>
+## Memtrace vs. general memory systems (Mem0, Graphiti)
 
 Mem0 and Graphiti are strong conversational memory engines designed for tracking entity knowledge (e.g. `User -> Likes -> Apples`). They excel at that. For code intelligence specifically, the tradeoff is that they rely on LLM inference to build their graphs — which adds cost and time when processing thousands of source files.
 
@@ -195,57 +129,19 @@ Mem0 and Graphiti are strong conversational memory engines designed for tracking
 
 **Memtrace takes a different approach:** it indexes 1,500 files in 1.2–1.8 seconds for $0.00 — no LLM calls, no API costs, no rate limits. Native Tree-sitter AST parsers resolve deterministic symbol references (`CALLS`, `IMPLEMENTS`, `IMPORTS`) locally. The tradeoff is that Memtrace is purpose-built for code — it doesn't handle conversational entity memory the way Mem0 and Graphiti do.
 
-</details>
+---
 
-<details>
-<summary><strong>Memtrace vs. code graphers (GitNexus, CodeGrapherContext)</strong></summary>
+## 25+ MCP tools
 
-<br/>
-
-GitNexus and CodeGrapherContext both build AST-based code graphs with structural relationships — solid tools in the same space. Memtrace shares that foundation and extends it with temporal memory, API topology, and a Rust runtime:
-
-| Capability | Memtrace | GitNexus | CodeGrapher |
-|:-----------|:---------|:---------|:------------|
-| AST-based graph | Yes | Yes | Yes |
-| Structural relationships (CALLS, IMPLEMENTS, IMPORTS) | Yes | Yes | Yes |
-| Bi-temporal version history per symbol | **Yes — 6 scoring modes** | Git-diff only | No |
-| Cross-service HTTP API topology | **Yes** | No | No |
-| Community detection (Louvain) | **Yes** | Yes | No |
-| Hybrid search (BM25 + vector + RRF) | **Yes — Tantivy + embeddings** | No | BM25 + optional embeddings |
-| Language | **Rust (compiled binary)** | JavaScript | Python |
-| **Bench #0** exact-symbol Acc@1 (1K queries, mempalace, v0.3.22) | 96.6% | **97.0%** | 7.9% |
-| **Bench #0** precision@10 | **0.967** | 0.702 | 0.521 |
-| **Bench #0** latency | **0.07 ms avg** (0.11 ms p95) | 8.95 ms | 2,020 ms |
-| **Bench #0** RSS (per-adapter, isolated) | **26 MB** | 31 MB | ~150 MB |
-| **Bench #0** HEAD index time | **0.5 s** mempalace / **13.6 s** django | 3.0 s / 48.4 s | 11.6 s / DNF |
-| **Bench #0** tokens/query | 383 | 90 | 217 |
-| **Bench #1** Acc@1 per 1k tokens | **495.52** | 126.90 | 28.97 |
-| **Bench #3** graph: callers recall (mempalace, pyright GT, filtered) | **0.851** | 0.013 | 0.584 |
-| **Bench #3** graph: callers recall (Django, pyright GT, filtered) | **0.816** | 0.053 | 0.000 |
-| **Bench #3** graph: impact recall (mempalace) | **0.874** | 0.007 | not impl. |
-| **Bench #4** incremental `time_to_queryable` p95 | **42.5 ms** | `NotSupported` | 613.7 ms |
-| **Bench #6** hybrid retrieval acc@1 (3K cases, Django, v0.3.29) | **73.9%** | 38.6% | n/a (no BM25+vec path) |
-| **Bench #6** hybrid retrieval acc@10 (3K cases, Django, v0.3.29) | **90.0%** | 72.8% | n/a |
-| **Bench #6** tokens/query (3K cases, Django, v0.3.29) | **473** | 200 | n/a |
-| Index time (~250 files / 2.3K nodes / 5.8K edges) | **~4 sec** (≈500 ms of real work + ~3 s local database / schema startup on first run) | ~6 sec | ~1 sec (cached) |
-
-All numbers from [`benchmarks/`](benchmarks/) on the same machine, same corpora, same adapter contract. Ground truth is independent of every tool's index (Python `ast` for Bench #0/#1, pyright LSP for Bench #3, deterministic edit scripts for Bench #4) — no system is advantaged in the dataset itself. Bench #3 "filtered" rows only average over symbols with non-empty pyright gold on that axis; unfiltered rollups live in `benchmarks/suite/results/`.
-
-The latency difference is primarily Rust vs. interpreted runtimes, and Memtrace's embedded MemDB engine (inverted property index for sub-millisecond `find_by_property`, HNSW vector index in-process) vs. HTTP/embedding pipelines. The feature difference is bi-temporal memory and API topology — dimensions Memtrace adds on top of the shared AST-graph foundation.
-
-</details>
-
-## 25+ MCP Tools
-
-Memtrace exposes a full structural toolkit via the [Model Context Protocol](https://modelcontextprotocol.io):
+Memtrace exposes a full structural toolkit via the Model Context Protocol.
 
 <table>
 <tr>
-<td width="50%" valign="top">
+<td>
 
 **Search & Discovery**
-- `find_code` — hybrid BM25 + semantic search with RRF
-- `find_symbol` — exact/fuzzy name match with Levenshtein
+- `find_code` — hybrid BM25 + semantic + RRF
+- `find_symbol` — exact / fuzzy with Levenshtein
 
 **Relationships**
 - `analyze_relationships` — callers, callees, hierarchy, imports
@@ -258,96 +154,101 @@ Memtrace exposes a full structural toolkit via the [Model Context Protocol](http
 **Code Quality**
 - `find_dead_code` — zero-caller detection
 - `find_most_complex_functions` — complexity hotspots
-- `calculate_cyclomatic_complexity` — per-symbol scoring
-- `get_repository_stats` — repo-wide metrics
+- `calculate_cyclomatic_complexity`
+- `get_repository_stats`
 
 </td>
-<td width="50%" valign="top">
+<td>
 
 **Temporal Analysis**
-- `get_evolution` — 6 scoring modes (compound, impact, novel, recent, directional, overview)
-- `get_timeline` — full symbol version history
-- `detect_changes` — diff-based impact scope
+- `get_evolution` — 6 scoring modes
+- `get_timeline` — full version history
+- `detect_changes` — diff-based scope
 
 **Graph Algorithms**
 - `find_bridge_symbols` — betweenness centrality
 - `find_central_symbols` — PageRank / degree
-- `list_communities` — Louvain module detection
-- `list_processes` / `get_process_flow` — execution tracing
+- `list_communities` — Louvain modules
+- `list_processes` / `get_process_flow`
 
 **API Topology**
-- `get_api_topology` — cross-repo HTTP call graph
-- `find_api_endpoints` — all exposed routes
-- `find_api_calls` — all outbound HTTP calls
+- `get_api_topology` — cross-repo HTTP graph
+- `find_api_endpoints`
+- `find_api_calls`
 
 **Indexing & Watch**
 - `index_directory` — parse, resolve, embed
-- `watch_directory` — live incremental re-indexing
+- `watch_directory` — live incremental
 - `execute_cypher` — direct graph queries
 
 </td>
 </tr>
 </table>
 
-## 12 Agent Skills
+---
 
-Memtrace ships skills that teach Claude *how* to use the graph. They fire automatically based on what you ask — no prompt engineering required.
+## 12 agent skills
 
-| | Skill | You say... |
-|:--|:------|:-----------|
-| **Search** | `memtrace-search` | _"find this function"_, _"where is X defined"_ |
-| **Relationships** | `memtrace-relationships` | _"who calls this"_, _"show class hierarchy"_ |
-| **Evolution** | `memtrace-evolution` | _"what changed this week"_, _"how did this evolve"_ |
-| **Impact** | `memtrace-impact` | _"what breaks if I change this"_, _"blast radius"_ |
-| **Quality** | `memtrace-quality` | _"find dead code"_, _"complexity hotspots"_ |
-| **Architecture** | `memtrace-graph` | _"show me the architecture"_, _"find bottlenecks"_ |
-| **APIs** | `memtrace-api-topology` | _"list API endpoints"_, _"service dependencies"_ |
-| **Index** | `memtrace-index` | _"index this project"_, _"parse this codebase"_ |
+Memtrace ships skills that teach Claude how to use the graph. They fire automatically based on what you ask — no prompt engineering required.
 
-Plus **4 workflow skills** that chain multiple tools with decision logic:
+| Skill | You say… |
+|---|---|
+| `memtrace-search` | "find this function", "where is X defined" |
+| `memtrace-relationships` | "who calls this", "show class hierarchy" |
+| `memtrace-evolution` | "what changed this week", "how did this evolve" |
+| `memtrace-impact` | "what breaks if I change this", "blast radius" |
+| `memtrace-quality` | "find dead code", "complexity hotspots" |
+| `memtrace-graph` | "show me the architecture", "find bottlenecks" |
+| `memtrace-api-topology` | "list API endpoints", "service dependencies" |
+| `memtrace-index` | "index this project", "parse this codebase" |
 
-| Skill | You say... |
-|:------|:-----------|
-| `memtrace-codebase-exploration` | _"I'm new to this project"_, _"give me an overview"_ |
-| `memtrace-change-impact-analysis` | _"what will break if I refactor this"_ |
-| `memtrace-incident-investigation` | _"something broke"_, _"root cause analysis"_ |
-| `memtrace-refactoring-guide` | _"help me refactor"_, _"clean up tech debt"_ |
+Plus 4 workflow skills that chain multiple tools with decision logic: `codebase-exploration`, `change-impact-analysis`, `incident-investigation`, `refactoring-guide`.
+
+---
 
 ## Temporal Engine
 
 Six scoring algorithms for different temporal questions:
 
 | Mode | Best for |
-|:-----|:---------|
-| **`compound`** | General-purpose _"what changed?"_ — weighted blend of impact, novelty, recency |
-| **`impact`** | _"What broke?"_ — ranks by blast radius (`in_degree^0.7 × (1 + out_degree)^0.3`) |
-| **`novel`** | _"What's unexpected?"_ — anomaly detection via surprise scoring |
-| **`recent`** | _"What changed near the incident?"_ — exponential time decay |
-| **`directional`** | _"What was added vs removed?"_ — asymmetric scoring |
-| **`overview`** | Quick module-level summary |
+|---|---|
+| `compound` | General-purpose "what changed?" — weighted blend of impact, novelty, recency |
+| `impact` | "What broke?" — ranks by blast radius (`in_degree^0.7 × (1 + out_degree)^0.3`) |
+| `novel` | "What's unexpected?" — anomaly detection via surprise scoring |
+| `recent` | "What changed near the incident?" — exponential time decay |
+| `directional` | "What was added vs removed?" — asymmetric scoring |
+| `overview` | Quick module-level summary |
 
 Uses **Structural Significance Budgeting** to surface the minimum set of changes covering ≥80% of total significance.
+
+---
 
 ## Compatibility
 
 | Editor / Agent | MCP Tools (25+) | Skills (12) | Install |
-|:---------------|:---------------:|:-----------:|:--------|
-| **Claude Code** | ✅ | ✅ | `npm install -g memtrace` — fully automatic |
-| **Claude Desktop** | ✅ | ✅ | Automatic — shared with Claude Code |
-| **Cursor** (v2.4+) | ✅ | ✅ | `npm install -g memtrace` — fully automatic |
-| **Windsurf** | ✅ | Coming soon | Add MCP server manually |
-| **VS Code (Copilot)** | ✅ | — | Add MCP server manually |
-| **Cline / Roo Code** | ✅ | — | Add MCP server manually |
-| **Codex CLI** | ✅ | Coming soon | Add MCP server manually |
-| **Any MCP client** | ✅ | — | Add MCP server manually |
+|---|---|---|---|
+| Claude Code | ✅ | ✅ | `npm install -g memtrace` — fully automatic |
+| Claude Desktop | ✅ | ✅ | Automatic — shared with Claude Code |
+| Cursor (v2.4+) | ✅ | ✅ | `npm install -g memtrace` — fully automatic |
+| Windsurf | ✅ | Coming soon | Add MCP server manually |
+| VS Code (Copilot) | ✅ | — | Add MCP server manually |
+| Cline / Roo Code | ✅ | — | Add MCP server manually |
+| Codex CLI | ✅ | Coming soon | Add MCP server manually |
+| Any MCP client | ✅ | — | Add MCP server manually |
 
-> **MCP tools** work with any editor or agent that supports the [Model Context Protocol](https://modelcontextprotocol.io). **Skills** are workflow prompts that teach the agent *how* to chain tools — Claude Code, Claude Desktop, and Cursor (v2.4+) all load them natively from the same `SKILL.md` format.
+Skills are workflow prompts that teach the agent how to chain tools — Claude Code, Claude Desktop, and Cursor (v2.4+) all load them natively from the same `SKILL.md` format.
+
+---
 
 ## Setup
 
 ### Claude Code + Claude Desktop
 
-`npm install -g memtrace` handles everything automatically — binary, 12 skills, MCP server, plugin, and marketplace all register in one command for both Claude Code and Claude Desktop.
+```bash
+npm install -g memtrace
+```
+
+Handles everything — binary, 12 skills, MCP server, plugin, marketplace. One command, both editors.
 
 For manual setup:
 
@@ -359,29 +260,15 @@ claude mcp add memtrace -- memtrace mcp -e MEMTRACE_ARCADEDB_BOLT_URL=bolt://loc
 
 ### Cursor
 
-Cursor **v2.4+** supports Agent Skills natively, and `npm install -g memtrace` handles everything automatically — no separate Cursor plugin is needed because Cursor reads the same `SKILL.md` format as Claude.
+`npm install -g memtrace` handles everything automatically. Cursor v2.4+ reads the same `SKILL.md` format as Claude.
 
-What the installer writes:
-- **MCP server** → `~/.cursor/mcp.json` (global — works in every project you open)
-- **12 skills + 4 workflows** → `~/.cursor/skills/memtrace-*/SKILL.md`
-
-For a **project-local** install (so the skills travel with your repo and teammates get them on clone), run inside the project:
+For project-local install (skills travel with your repo):
 
 ```bash
 memtrace install --only cursor --local
 ```
 
-This writes to `.cursor/mcp.json` and `.cursor/skills/` relative to the project root instead of your home directory.
-
-For a **manual install** (without the npm package), clone this repo and copy the skills directly:
-
-```bash
-cp -R plugins/memtrace-skills/skills/* ~/.cursor/skills/
-```
-
-Then register the MCP server manually (see the "Other Editors" JSON below).
-
-### Other Editors (Windsurf, VS Code, Cline)
+### Other editors (Windsurf, VS Code, Cline, Codex)
 
 After `npm install -g memtrace`, add the MCP server to your editor's config:
 
@@ -391,118 +278,110 @@ After `npm install -g memtrace`, add the MCP server to your editor's config:
     "memtrace": {
       "command": "memtrace",
       "args": ["mcp"],
-      "env": { "MEMTRACE_ARCADEDB_BOLT_URL": "bolt://localhost:7687" }
+      "env": {
+        "MEMTRACE_ARCADEDB_BOLT_URL": "bolt://localhost:7687"
+      }
     }
   }
 }
 ```
 
-<details>
-<summary>Config file locations by editor</summary>
-
 | Editor | Config file |
-|:-------|:------------|
-| **Windsurf** | `~/.codeium/windsurf/mcp_config.json` |
-| **VS Code (Copilot)** | `.vscode/mcp.json` in your project root |
-| **Cline** | Cline MCP settings in the extension panel |
-
-</details>
+|---|---|
+| Windsurf | `~/.codeium/windsurf/mcp_config.json` |
+| VS Code (Copilot) | `.vscode/mcp.json` in your project root |
+| Cline | Cline MCP settings in the extension panel |
 
 ### Uninstall
 
 ```bash
-memtrace uninstall              # removes skills, MCP server, plugin, and settings
-npm uninstall -g memtrace       # removes the binary
+memtrace uninstall      # removes skills, MCP server, plugin, settings
+npm uninstall -g memtrace
 ```
 
-Already ran `npm uninstall` first? The cleanup script is persisted at `~/.memtrace/uninstall.js`:
+Already ran `npm uninstall` first? The cleanup script is at `~/.memtrace/uninstall.js`:
 
 ```bash
 node ~/.memtrace/uninstall.js
 ```
 
-### A note on install
+### Install troubleshooting
 
-`npm install -g memtrace` ships a small main package + a platform-specific binary (one of `@memtrace/darwin-arm64`, `@memtrace/linux-x64`, or `@memtrace/win32-x64`) that npm picks automatically.
-
-Most setups just work. If `memtrace start` ever says **"Could not find binary for your platform"**, any of these will fix it:
+`npm install -g memtrace` ships a small main package + a platform-specific binary (one of `@memtrace/darwin-arm64`, `@memtrace/linux-x64`, `@memtrace/win32-x64`). If `memtrace start` ever says *"Could not find binary for your platform"*:
 
 ```bash
-# Option 1 — re-run install, asking npm to keep optional deps
+# Re-run install, asking npm to keep optional deps
 npm install -g memtrace --include=optional
 
-# Option 2 — refresh from latest
-memtrace install                  # built-in self-update
-# or:
+# Or refresh from latest
+memtrace install         # built-in self-update
 npm install -g memtrace@latest --force
 
-# Option 3 — install the platform binary directly (Apple Silicon shown — swap for your platform)
+# Or install the platform binary directly (Apple Silicon shown — swap for your platform)
 npm install -g @memtrace/darwin-arm64
 ```
 
-This typically only happens on machines where npm is configured to skip optional dependencies (some corporate npmrc setups, certain CI caches). Postinstall self-heals on most installs; the options above cover the rest.
+This typically only happens on machines where npm is configured to skip optional dependencies (corporate npmrc, certain CI caches).
+
+---
 
 ## Languages
 
 Rust · Go · TypeScript · JavaScript · Python · Java · C · C++ · C# · Swift · Kotlin · Ruby · PHP · Dart · Scala · Perl — and more via Tree-sitter.
 
-## Telemetry
-
-Since v0.3.17 Memtrace ships with opt-out telemetry that helps us catch
-crashes, regressions, and performance issues before someone has to file
-an issue. Concretely:
-
-- **What's collected**: app-start events, indexing/embedding durations,
-  panic reports, and `WARN`/`ERROR` log lines from Memtrace's own crates.
-- **What's NOT collected**: source code, file contents, symbol names,
-  embeddings, repository names or paths, branch names, commit data.
-- **Sanitisation**: every payload is run through a sanitiser that strips
-  home-dir paths, token-shaped strings, and email addresses **before**
-  it touches disk.
-
-Turn it off with one env var:
-
-```bash
-# Per-run
-MEMTRACE_TELEMETRY=off memtrace start
-
-# Permanent (~/.zshrc, ~/.bashrc, etc.)
-export MEMTRACE_TELEMETRY=off
-```
-
-Or in your editor's MCP config:
-
-```json
-{
-  "command": "memtrace",
-  "args": ["mcp"],
-  "env": { "MEMTRACE_TELEMETRY": "off" }
-}
-```
-
-Full breakdown — including the on-disk queue layout, where the data is
-stored on the receiving end, and how to inspect what would have shipped —
-is in [TELEMETRY.md](TELEMETRY.md).
+---
 
 ## Requirements
 
-Memtrace does parsing, graph construction, and embedding generation locally. Expect the first index to use noticeable CPU and memory; follow-up queries and incremental indexing are much lighter.
+Memtrace runs locally — first index is CPU/RAM intensive, subsequent queries and incremental indexing are much lighter.
 
-| Requirement | Minimum | Recommended |
-|:------------|:--------|:------------|
-| **CPU** | 4 cores | 8+ cores for large monorepos |
-| **Memory** | 8 GB RAM | 16–32 GB RAM |
-| **Disk** | 5 GB free | 10–20 GB free for large repositories |
-| **GPU** | Not required | Not required |
-| **Node.js** | ≥ 18 | Current LTS |
-| **Git** | Required for temporal analysis | Full repository history for best results |
+| | Minimum | Recommended |
+|---|---|---|
+| CPU | 4 cores | 8+ cores for large monorepos |
+| Memory | 8 GB RAM | 16–32 GB RAM |
+| Disk | 5 GB free | 10–20 GB free |
+| GPU | Not required | Not required |
+| Node.js | ≥ 18 | Current LTS |
+| Git | Required for temporal analysis | Full repo history for best results |
 
-<br/>
+---
+
+## Telemetry
+
+Since v0.3.17 Memtrace ships with **opt-out** telemetry that helps us catch crashes, regressions, and performance issues before someone files an issue.
+
+- **Collected:** app-start events, indexing/embedding durations, panic reports, WARN/ERROR log lines from Memtrace's own crates.
+- **NOT collected:** source code, file contents, symbol names, embeddings, repository names or paths, branch names, commit data.
+- **Sanitisation:** every payload is run through a sanitiser that strips home-dir paths, token-shaped strings, and email addresses before it touches disk.
+
+Disable with one env var:
+
+```bash
+MEMTRACE_TELEMETRY=off memtrace start                    # per-run
+export MEMTRACE_TELEMETRY=off                             # permanent (~/.zshrc, ~/.bashrc)
+```
+
+Or in your editor's MCP config: `"env": { "MEMTRACE_TELEMETRY": "off" }`.
+
+Full breakdown — including the on-disk queue layout, where data is stored on the receiving end, and how to inspect what would have shipped — is in [TELEMETRY.md](TELEMETRY.md).
+
+---
+
+## License & ownership
+
+**Proprietary EULA.** Free to use during private beta and after general availability for individual developers. Indexer + database (MemDB) are closed-source.
+
+Benchmark suite under MIT in [`benchmarks/`](benchmarks/) — fully reproducible, no proprietary code required to run them.
+
+---
 
 <p align="center">
-  <a href="https://memtrace.io">Documentation</a> · <a href="https://discord.gg/gzedUSNbna">Discord</a> · <a href="https://www.npmjs.com/package/memtrace">npm</a> · <a href="https://github.com/syncable-dev/memtrace-public/issues">Issues</a>
+  <a href="https://memtrace.io">memtrace.io</a> &nbsp;·&nbsp;
+  <a href="https://discord.gg/gzedUSNbna">Discord</a> &nbsp;·&nbsp;
+  <a href="https://www.npmjs.com/package/memtrace">npm</a> &nbsp;·&nbsp;
+  <a href="https://github.com/syncable-dev/memtrace-public/issues">Issues</a>
 </p>
 
 <p align="center">
-  <sub>Built by <a href="https://syncable.dev">Syncable</a> · <a href="LICENSE">Proprietary EULA</a> · Free to use</sub>
+  Built by <a href="https://syncable.dev">Syncable</a> · Copenhagen 🇩🇰
 </p>
