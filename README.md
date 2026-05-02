@@ -187,9 +187,9 @@ Memtrace exposes a full structural toolkit via the Model Context Protocol.
 
 ---
 
-## 12 agent skills
+## 17 agent skills
 
-Memtrace ships skills that teach Claude how to use the graph. They fire automatically based on what you ask — no prompt engineering required.
+Memtrace ships skills/guidance that teach agents how to use the graph. They fire automatically based on what you ask — no prompt engineering required.
 
 | Skill | You say… |
 |---|---|
@@ -201,8 +201,9 @@ Memtrace ships skills that teach Claude how to use the graph. They fire automati
 | `memtrace-graph` | "show me the architecture", "find bottlenecks" |
 | `memtrace-api-topology` | "list API endpoints", "service dependencies" |
 | `memtrace-index` | "index this project", "parse this codebase" |
+| `memtrace-cochange` | "what else changes with this", "hidden coupling" |
 
-Plus 4 workflow skills that chain multiple tools with decision logic: `codebase-exploration`, `change-impact-analysis`, `incident-investigation`, `refactoring-guide`.
+Plus 8 workflow skills that chain multiple tools with decision logic: `memtrace-first`, `codebase-exploration`, `change-impact-analysis`, `incident-investigation`, `refactoring-guide`, `continuous-memory`, `episode-replay`, and `session-continuity`.
 
 ---
 
@@ -225,18 +226,21 @@ Uses **Structural Significance Budgeting** to surface the minimum set of changes
 
 ## Compatibility
 
-| Editor / Agent | MCP Tools (25+) | Skills (12) | Install |
+| Editor / Agent | MCP Tools (25+) | Skills / Guidance | Install |
 |---|---|---|---|
 | Claude Code | ✅ | ✅ | `npm install -g memtrace` — fully automatic |
 | Claude Desktop | ✅ | ✅ | Automatic — shared with Claude Code |
 | Cursor (v2.4+) | ✅ | ✅ | `npm install -g memtrace` — fully automatic |
-| Windsurf | ✅ | Coming soon | Add MCP server manually |
-| VS Code (Copilot) | ✅ | — | Add MCP server manually |
+| Codex CLI | ✅ | ✅ | `npm install -g memtrace` — fully automatic |
+| Windsurf | ✅ | ✅ | `npm install -g memtrace` — fully automatic |
+| VS Code (Copilot) | ✅ | ✅ | `npm install -g memtrace` — fully automatic |
+| Hermes | ✅ | ✅ | `npm install -g memtrace` — fully automatic |
+| OpenCode | ✅ | ✅ | `npm install -g memtrace` — fully automatic |
+| Kiro | ✅ | Steering | `npm install -g memtrace` — fully automatic |
 | Cline / Roo Code | ✅ | — | Add MCP server manually |
-| Codex CLI | ✅ | Coming soon | Add MCP server manually |
 | Any MCP client | ✅ | — | Add MCP server manually |
 
-Skills are workflow prompts that teach the agent how to chain tools — Claude Code, Claude Desktop, and Cursor (v2.4+) all load them natively from the same `SKILL.md` format.
+Skills are workflow prompts that teach the agent how to chain tools. Kiro does not use `SKILL.md`, so Memtrace writes equivalent auto steering files instead.
 
 ---
 
@@ -248,7 +252,7 @@ Skills are workflow prompts that teach the agent how to chain tools — Claude C
 npm install -g memtrace
 ```
 
-Handles everything — binary, 12 skills, MCP server, plugin, marketplace. One command, both editors.
+Handles everything — binary, 17 skills, MCP server, plugin, marketplace. One command, both editors.
 
 For manual setup:
 
@@ -265,12 +269,37 @@ claude mcp add memtrace -- memtrace mcp -e MEMTRACE_ARCADEDB_BOLT_URL=bolt://loc
 For project-local install (skills travel with your repo):
 
 ```bash
-memtrace install --only cursor --local
+npx memtrace-skills install --only cursor --local
 ```
 
-### Other editors (Windsurf, VS Code, Cline, Codex)
+### Codex, Windsurf, VS Code, Hermes, OpenCode, and Kiro
 
-After `npm install -g memtrace`, add the MCP server to your editor's config:
+The installer also writes skills/guidance and MCP configuration for the newer agent surfaces:
+
+| Agent | Global skills / guidance | Global MCP config | Project-local support |
+|---|---|---|---|
+| Codex | `~/.agents/skills/` | `~/.codex/config.toml` | `.agents/skills/`, `.codex/config.toml` |
+| Windsurf | `~/.codeium/windsurf/skills/` | `~/.codeium/windsurf/mcp_config.json` | `.windsurf/skills/`; MCP remains user-level |
+| VS Code / Copilot | `~/.copilot/skills/` | VS Code user `mcp.json` | `.github/skills/`, `.vscode/mcp.json` |
+| Hermes | `~/.hermes/skills/` | `~/.hermes/config.yaml` | user-level only |
+| OpenCode | `~/.config/opencode/skills/` | `~/.config/opencode/opencode.json` | `.opencode/skills/`, `opencode.json` |
+| Kiro | `~/.kiro/steering/` | `~/.kiro/settings/mcp.json` | `.kiro/steering/`, `.kiro/settings/mcp.json` |
+
+Install only selected integrations:
+
+```bash
+npx memtrace-skills install --only codex,windsurf,vscode,hermes,opencode,kiro
+```
+
+Install project-local config where supported:
+
+```bash
+npx memtrace-skills install --only codex,vscode,opencode,kiro --local
+```
+
+### Other MCP clients
+
+For Cline, Roo Code, or any client that only needs MCP tools, add this server manually:
 
 ```json
 {
@@ -290,6 +319,10 @@ After `npm install -g memtrace`, add the MCP server to your editor's config:
 |---|---|
 | Windsurf | `~/.codeium/windsurf/mcp_config.json` |
 | VS Code (Copilot) | `.vscode/mcp.json` in your project root |
+| Codex | `~/.codex/config.toml` or `.codex/config.toml` |
+| Hermes | `~/.hermes/config.yaml` |
+| OpenCode | `~/.config/opencode/opencode.json` or project `opencode.json` |
+| Kiro | `~/.kiro/settings/mcp.json` or `.kiro/settings/mcp.json` |
 | Cline | Cline MCP settings in the extension panel |
 
 ### Uninstall
