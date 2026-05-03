@@ -26,6 +26,7 @@
 
 <p align="center">
   <a href="https://github.com/syncable-dev/memtrace-public/stargazers"><img src="https://img.shields.io/github/stars/syncable-dev/memtrace-public?style=flat-square&color=00d4b8&logo=github&logoColor=white&label=stars&cacheSeconds=300" alt="Stars"/></a>
+  <a href="https://www.npmjs.com/package/memtrace"><img src="https://img.shields.io/npm/v/memtrace?style=flat-square&color=00d4b8&logo=npm&logoColor=white&label=npm&cacheSeconds=300" alt="npm version"/></a>
   <img src="https://img.shields.io/badge/license-Proprietary%20EULA-E879F9?style=flat-square" alt="License"/>
   <img src="https://img.shields.io/badge/runtime-Rust-orange?style=flat-square&logo=rust" alt="Rust"/>
   <img src="https://img.shields.io/badge/MCP-native-00d4b8?style=flat-square" alt="MCP"/>
