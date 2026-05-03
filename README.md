@@ -5,6 +5,7 @@
 <h1 align="center">Your agents deserve <i>structural memory</i>.</h1>
 
 <p align="center">
+  <a href="docs/">📖 Docs</a> &nbsp;·&nbsp;
   <a href="https://github.com/syncable-dev/memtrace-public/stargazers">⭐ Star us</a> &nbsp;·&nbsp;
   <a href="https://memtrace.io">memtrace.io</a> &nbsp;·&nbsp;
   <a href="https://www.npmjs.com/package/memtrace">npm</a> &nbsp;·&nbsp;
@@ -24,7 +25,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/github/stars/syncable-dev/memtrace-public?style=flat-square&color=00d4b8&logo=github" alt="Stars"/>
+  <a href="https://github.com/syncable-dev/memtrace-public/stargazers"><img src="https://img.shields.io/github/stars/syncable-dev/memtrace-public?style=flat-square&color=00d4b8&logo=github&logoColor=white&label=stars&cacheSeconds=300" alt="Stars"/></a>
   <img src="https://img.shields.io/badge/license-Proprietary%20EULA-E879F9?style=flat-square" alt="License"/>
   <img src="https://img.shields.io/badge/runtime-Rust-orange?style=flat-square&logo=rust" alt="Rust"/>
   <img src="https://img.shields.io/badge/MCP-native-00d4b8?style=flat-square" alt="MCP"/>
