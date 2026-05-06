@@ -50,6 +50,9 @@ Agents see exactly what depends on what, and what changed when. No more *"I refa
 ⚡ &nbsp; **Index a 50k-file repo in under 90 seconds.**
 Rust + Tree-sitter, $0 in API costs, 16 languages, fully local. Your code never leaves your machine.
 
+🆕 &nbsp; **LeanCTX Native — compressed reads, smart trees, and a value ledger.**
+Four new compression modes on `get_source_window`, single-call directory maps, real-time token-savings dashboard, and an opt-in adaptive learner that beats the static table by ~14%. Full breakdown: [`docs/leanctx-native.md`](docs/leanctx-native.md). Available in v0.3.57+.
+
 https://github.com/user-attachments/assets/e7d6a1e9-c912-4e65-a421-bd0256dffa5a
 
 ---
