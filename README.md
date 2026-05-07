@@ -1,5 +1,3 @@
-[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/syncable-dev-memtrace-public-badge.png)](https://mseep.ai/app/syncable-dev-memtrace-public)
-
 <p align="center">
   <img src="docs/memtrace-hero.svg" alt="Memtrace — structural memory for AI coding agents" width="100%"/>
 </p>
@@ -425,3 +423,6 @@ Benchmark suite under MIT in [`benchmarks/`](benchmarks/) — fully reproducible
 <p align="center">
   Built by <a href="https://syncable.dev">Syncable</a> · Copenhagen 🇩🇰
 </p>
+
+
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/syncable-dev-memtrace-public-badge.png)](https://mseep.ai/app/syncable-dev-memtrace-public)
