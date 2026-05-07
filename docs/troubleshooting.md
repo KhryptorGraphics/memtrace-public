@@ -10,7 +10,9 @@ find your symptom, follow the fix.
 - [Agent isn't using the MCP](#agent-isnt-using-the-mcp)
 - [`MEMTRACE_TRANSPORT=sse` hangs](#memtrace_transportsse-hangs)
 - [Indexing hangs / never finishes](#indexing-hangs--never-finishes)
+- [Indexing pulls in too much](#indexing-pulls-in-too-much--generated-code-vendored-deps-fixtures)
 - [Indexing eats all my RAM](#indexing-eats-all-my-ram)
+- [Embedding warns about batch timeouts on slow CPUs](#embedding-warns-about-batch-timeouts-on-slow-cpus)
 - [`find_code` returns 0 results](#find_code-returns-0-results)
 - [Stale records / orphan symbols after deletes](#stale-records--orphan-symbols-after-deletes)
 - [Vector dim mismatch error](#vector-dim-mismatch-error)
@@ -230,6 +232,34 @@ Currently parsed: Python, JS, TS, Rust, Go, Java, Ruby, C, C++, C#.
 If your codebase is in a different language (Elixir, OCaml, Haskell,
 etc.), Memtrace can't parse it yet. The graph will be empty.
 
+### Indexing pulls in too much — generated code, vendored deps, fixtures
+
+If the indexed graph contains files you'd rather Memtrace skipped,
+you have three layers of control. From most-to-least common:
+
+1. **Make sure your `.gitignore` is doing its job.** Memtrace honours
+   gitignore by default. Run `git check-ignore -v <path>` to confirm
+   a path is ignored — if it's not, add it to `.gitignore` and reindex.
+2. **Drop a `.memtraceignore` at the repo root** for paths you want
+   git to track but Memtrace to skip (generated code, vendored
+   dependencies, fixture blobs). Same syntax as `.gitignore`.
+3. **The built-in always-on skip list** already handles `node_modules`,
+   `target`, `dist`, `.next`, `__pycache__`, `.venv`, `coverage`,
+   `vendor`, `.terraform`, `.git`, `.memdb`, `.claude`, plus binary /
+   media file extensions — no config needed.
+
+Full reference (precedence rules, the complete built-in list, common
+patterns): [`indexing-and-ignore-rules.md`](indexing-and-ignore-rules.md).
+
+After updating ignore rules, reindex from scratch to drop previously-
+indexed files that are now ignored:
+
+```bash
+memtrace index --clear-existing /path/to/repo
+```
+
+Or via MCP: `index_directory(path="…", clear_existing=true)`.
+
 ## Indexing eats all my RAM
 
 This was the v0.3.30 failure mode. v0.3.31+ caps thread fan-out and
@@ -262,6 +292,77 @@ memtrace stop && memtrace start
 
 See [`performance-tuning.md`](performance-tuning.md) for the full
 range of options.
+
+## Embedding warns about batch timeouts on slow CPUs
+
+You see this in the daemon's stderr during the initial bootstrap:
+
+```
+WARN code_intelligence::search::semantic: Embedding batch timed out
+after 60s on 32 symbols — abandoning worker; will respawn on next call.
+Bump MEMTRACE_EMBED_BATCH_TIMEOUT_SECS for slow CPU paths, or set
+MEMTRACE_EMBED_TIMEOUT_DEBUG=1 to log the offending input previews.
+```
+
+**It's not fatal.** The pipeline is self-healing — the worker is
+abandoned, a fresh one respawns on the next call, and the batch is
+retried. The bootstrap will eventually finish; you'll just see the
+warning a lot in the meantime.
+
+The default 60s ceiling is tuned for AVX2-capable CPUs running int8 or
+fp32 quantised models. On a pre-AVX2 host (Intel Ivy Bridge / Xeon E5
+v2 and older, AMD pre-Excavator) inference is 5–10× slower per batch
+because the model falls back to scalar / SSE codepaths.
+
+### Confirm you're on the slow path
+
+`memtrace start` prints a host-profile line near the top of stderr:
+
+```
+Host profile: Intel(R) Xeon(R) CPU E5-2697 v2 @ 2.70GHz · 24 cores · 15 GB · score=5 · tier=standard · embed=int8
+```
+
+`tier=standard` + a known pre-AVX2 CPU = you're hitting the slow path.
+
+### Fix: raise the timeout, lower the batch size
+
+```bash
+export MEMTRACE_EMBED_BATCH_TIMEOUT_SECS=240   # 4 min per batch instead of 60s
+export MEMTRACE_EMBED_BATCH_SIZE=32            # smaller batches finish faster per call
+memtrace stop && memtrace start
+```
+
+`MEMTRACE_EMBED_BATCH_TIMEOUT_SECS` and `MEMTRACE_EMBED_BATCH_SIZE`
+compose: smaller batches reduce per-call wall time so the timeout is
+less likely to fire; the higher ceiling absorbs the occasional outlier
+batch (a long symbol body, GC pause, etc.).
+
+If you need to know **which** symbols are timing out, set
+`MEMTRACE_EMBED_TIMEOUT_DEBUG=1` — the warning will log a preview of
+the offending input. Off by default because these previews include
+source snippets.
+
+### Persistence
+
+| how memtrace is launched | where to set the env vars |
+|---|---|
+| Shell-launched `memtrace start` | `export …` in `~/.bashrc` / `~/.zshrc` |
+| systemd service | `[Service]` block: `Environment=MEMTRACE_EMBED_BATCH_TIMEOUT_SECS=240` |
+| Claude Code / Cursor MCP server | `~/.claude/settings.json` → memtrace MCP entry → `"env": { … }` block |
+| direnv | `export …` in `.envrc` at the workspace root |
+| docker / Kubernetes | `-e MEMTRACE_EMBED_BATCH_TIMEOUT_SECS=240` or pod env |
+
+### Once the bootstrap is done
+
+The watcher steady-state is incremental embeds on file save (small
+batches), so the warning stops on its own once the initial pass is
+complete. You can leave the env vars set; they just become a higher
+ceiling that's almost never hit.
+
+See also [`pre-avx2-cpus.md`](pre-avx2-cpus.md) if memtrace itself
+won't launch (CPU baseline gate refuses to start with `"this CPU does
+not support AVX2"`) — that's a different failure mode about the
+bundled ONNX Runtime requiring an AVX2-capable CPU.
 
 ## `find_code` returns 0 results
 

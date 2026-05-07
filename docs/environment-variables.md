@@ -41,7 +41,9 @@ the defaults auto-tune to your machine.
 | `MEMTRACE_EMBED_QUANT` | auto-picked from host tier (int8 on Standard, fp32 on Heavy) | Embedding quantisation. Force with `int8` or `fp32`. |
 | `MEMTRACE_VECTOR_DIMS` | `768` (matches default model) | Vector dimensionality of the HNSW index. **Must match the model's output dim.** Switching models with a mismatch raises a clear "dim mismatch" error pointing at the right value. |
 | `MEMTRACE_EMBED_INTRA_OP_THREADS` | tier-aware (1 / 2 / 4 for Light / Standard / Heavy) | Cap on ORT intra-op threads. Single biggest lever for memory on tight machines. |
-| `MEMTRACE_EMBED_BATCH_SIZE` | tier-aware (8 / 16 / 64 for Light / Standard / Heavy) | Per-batch size handed to the embedder. Memory scales linearly with this. |
+| `MEMTRACE_EMBED_BATCH_SIZE` | tier-aware (8 / 16 / 64 for Light / Standard / Heavy) | Per-batch size handed to the embedder. Memory scales linearly with this. Smaller batches finish faster per call, which matters on slow CPU paths (see `MEMTRACE_EMBED_BATCH_TIMEOUT_SECS`). |
+| `MEMTRACE_EMBED_BATCH_TIMEOUT_SECS` | `60` | Per-batch wall-clock ceiling. When exceeded, the embedding worker is abandoned and respawned on the next call (the bootstrap is self-healing — it just retries). On slow CPU paths (pre-AVX2 hosts: Intel Ivy Bridge / Xeon E5 v2 and older, AMD pre-Excavator) bump to `240` or higher; you'll see the warning `"Embedding batch timed out after 60s …"` if you need it. |
+| `MEMTRACE_EMBED_TIMEOUT_DEBUG` | (unset) | Set to `1` to log the offending input previews when a batch times out. Useful for diagnosing whether a single very long symbol body is dragging an otherwise fast batch over the limit. Off by default — these logs include source snippets. |
 | `MEMTRACE_EMBED_RSS_LIMIT_GB` | tier-aware (3 / 6 / 10 / 20 GB) | Soft RSS ceiling that triggers back-pressure when exceeded. Set to `0` to disable the check. |
 | `MEMTRACE_EMBED_MIN_LINES` | `4` | Don't embed symbols with fewer body lines than this. Prevents wasting cache on trivial helpers. |
 | `MEMTRACE_DISABLE_COREML` | (unset) | Set to `1` on Apple Silicon to force CPU execution provider instead of CoreML / ANE. Useful if CoreML's first-run graph compile hangs on your machine. |
@@ -91,6 +93,7 @@ default.
 | Var | Default | Purpose |
 |---|---|---|
 | `MEMTRACE_TELEMETRY_DISABLED` | (unset) | Set to `1` to block telemetry regardless of consent state. Hard override. |
+| `MEMTRACE_NO_REMOTE_RECEIPT` | (unset) | Set to `1` to omit the weekly-receipt symbol-name surface from heartbeats. Even if the user opted in to weekly emails on memtrace.io, this env var ensures no symbol names cross the network from this machine. The cloud then has nothing concrete to anchor an email and skips the send for that week. See [`privacy-and-telemetry.md`](privacy-and-telemetry.md#4-weekly-memtrace-receipt-opt-in-off-by-default). |
 | `MEMTRACE_LICENSE_KEY` | (unset) | Optional bearer-style license key for non-interactive (CI / server) authentication. Most users authenticate via device flow on first run instead. |
 
 ## Redis / pub-sub (multi-process deployments)
