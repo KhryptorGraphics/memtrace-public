@@ -82,6 +82,68 @@ memtrace start
 License keys are obtainable at [memtrace.io](https://memtrace.io)
 once you're past the waitlist.
 
+### "ONNX Runtime not available" (exit 75 on `memtrace start`)
+
+Symptom: `memtrace start` prints something like
+
+```text
+  ✗  ONNX Runtime not available: Failed to load ONNX Runtime dylib: …dlopen failed
+  macOS: install via `brew install onnxruntime` OR set `DYLD_LIBRARY_PATH` …
+
+  Workarounds:
+    1. Install the dylib (recommended) — see hint above
+    2. MEMTRACE_SKIP_EMBED=1 memtrace start — skips embedding, structural graph still works
+    3. MEMTRACE_NO_REPLAY=1 — also skips git replay
+```
+
+…and the daemon exits with code 75 (`EX_TEMPFAIL`).
+
+This is the pre-flight probe added in v0.3.83. Before v0.3.83, the
+same dylib-missing condition presented as a silent hang or a long
+delayed exit-0 (the panic was deep inside a worker thread and got
+swallowed by the supervisor). The probe surfaces the failure in
+microseconds, before any worker spawns.
+
+**Fix — install the dylib:**
+
+- macOS: `brew install onnxruntime`. Or if you have a custom build:
+  `export DYLD_LIBRARY_PATH=/path/to/dir/with/libonnxruntime.dylib`
+- Linux: install via your package manager (`apt install libonnxruntime`,
+  `dnf install onnxruntime`, etc.). Or:
+  `export LD_LIBRARY_PATH=/path/to/dir/with/libonnxruntime.so`
+- Windows: ensure `onnxruntime.dll` is on `PATH` (the npm install
+  normally drops it next to the `memtrace.exe` binary; if you moved
+  the binary, copy the dll alongside).
+
+**Workaround — run structural-only:**
+
+If you don't need semantic search (vectors), skip the embedding stage
+entirely:
+
+```bash
+MEMTRACE_SKIP_EMBED=1 memtrace start
+```
+
+The structural graph (symbols, callers, callees, references, processes)
+still indexes. `find_symbol`, `find_code` (substring path), `get_impact`,
+`get_evolution`, and the API-topology tools all work; `find_code` in
+semantic mode and any vector-leg retrieval return empty.
+
+Pair with `MEMTRACE_NO_REPLAY=1` if you also want to skip the git replay
+stage (faster cold start on large repos):
+
+```bash
+MEMTRACE_SKIP_EMBED=1 MEMTRACE_NO_REPLAY=1 memtrace start
+```
+
+**Power-user override:** if you have a non-default ONNX Runtime build
+(non-AVX2, custom EP, etc.), point the `ort` resolver at it directly:
+
+```bash
+export MEMTRACE_ORT_DYLIB_PATH=/path/to/libonnxruntime.dylib
+memtrace start
+```
+
 ### Daemon starts but exits immediately
 
 Check the stderr — usually it's printing the actual reason. If it's

@@ -230,3 +230,19 @@ EmbedQuant: int8                    (override: MEMTRACE_EMBED_QUANT=fp32)
 **Field reporters — credits:**
 - Apple Silicon Heavy operators flagged the ~614 MB resident + 10-20× slowdown via the runtime banner — the `embed=fp32` value paired with the slow CoreML compile pointed straight at the regression.
 
+### ONNX Runtime startup probe (the real root cause of the silent hangs)
+
+The benchmark validating the int8 default exposed the actual cause of the helix-db crash class: ort 2.0.0-rc.11's `setup_api` panics deep inside a worker thread when `libonnxruntime.dylib` isn't where it expects. The panic was being swallowed by the supervisor (silent hang) OR percolating up after a long delay (silent exit-0).
+
+Now `memtrace start` calls `probe_ort_runtime()` BEFORE Phase 2 — fast, microseconds. If the dylib can't load, daemon exits 75 immediately with `BreakerReason: OrtUnavailable` and a clear diagnostic showing platform-specific install instructions plus the `MEMTRACE_SKIP_EMBED=1` workaround.
+
+Affects all Apple Silicon hosts where `libonnxruntime.dylib` isn't system-installed (most homebrew-less setups). Workarounds:
+
+- `brew install onnxruntime` (recommended)
+- `MEMTRACE_SKIP_EMBED=1 memtrace start` (structural graph only — embedding stage skipped, semantic search disabled, structural graph + symbol search still work)
+- `MEMTRACE_NO_REPLAY=1` (also skips git replay)
+
+The probe is idempotent and skipped entirely when `MEMTRACE_SKIP_EMBED=1` is already set, so structural-only operators on hosts without the dylib don't see a startup gate.
+
+Exit code 75 is `EX_TEMPFAIL` from `sysexits.h` — the "try again after fixing the host" code, distinct from 78 (`EX_CONFIG`, used by the AVX2 baseline check on x86_64).
+
