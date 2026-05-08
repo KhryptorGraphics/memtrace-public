@@ -38,6 +38,24 @@ After install:
 memtrace --version    # confirms the install
 ```
 
+### Recommended next step (Apple Silicon especially): warm the embedding model
+
+```bash
+memtrace warmup
+```
+
+The first `model.embed()` call on Apple Silicon triggers a one-time
+CoreML graph compile for the ANE that takes 60–300 s. If you skip this
+step and run `memtrace start` first, that compile happens during the
+embedding phase — the wait is the same, but the daemon is already
+holding open ports and a watcher. Running `memtrace warmup` once after
+install gets the cache populated outside the daemon lifecycle so every
+subsequent `memtrace start` reaches embedding in single-digit seconds.
+
+Linux and Windows operators can skip this step — the cold-start cost on
+non-Apple-Silicon hosts is small enough that the v0.3.84 first-run
+detection covers it transparently.
+
 ### Cargo (build from source)
 
 If you'd rather build from source — for example to enable a

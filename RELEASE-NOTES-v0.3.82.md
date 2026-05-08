@@ -246,3 +246,75 @@ The probe is idempotent and skipped entirely when `MEMTRACE_SKIP_EMBED=1` is alr
 
 Exit code 75 is `EX_TEMPFAIL` from `sysexits.h` — the "try again after fixing the host" code, distinct from 78 (`EX_CONFIG`, used by the AVX2 baseline check on x86_64).
 
+---
+
+## v0.3.84 — First-run-aware embed warmup
+
+**The bug:** with the v0.3.82 JINA-code migration AND the v0.3.83 int8 default flip in place, the very first `model.embed()` call on Apple Silicon triggers a CoreML graph compile for the ANE that takes 60–300 s the first time the graph is seen for a given model. The `MEMTRACE_EMBED_BATCH_TIMEOUT_SECS` default (60 s) was sized for warm caches; the cold-start spike exceeded it on most M1/M2 8 GB hosts, the embed circuit breaker tripped on `TimeoutAfter { secs: 60 }`, and the daemon died before a single batch completed. Subsequent runs are 5–15 s because both `~/.memtrace/fastembed_cache/` (the .onnx file) and `~/Library/Caches/com.apple.coremlcompiler/` (the compiled ANE bytecode) are warm — so the bug was first-run-only, but it was a hard wall every operator hit.
+
+**The fix:** three pieces, all opt-out-able.
+
+### 1. Process-local two-tier batch timeout
+
+`MEMTRACE_EMBED_BATCH_TIMEOUT_SECS` (60 s default) is now used only for the *steady-state* path. The first batch of a process gets a separate, longer window driven by a new env var:
+
+| Env var | Default | When it applies |
+|---|---|---|
+| `MEMTRACE_EMBED_FIRST_BATCH_TIMEOUT_SECS` | `600` (10 min) | Until any embed batch completes successfully in this process |
+| `MEMTRACE_EMBED_BATCH_TIMEOUT_SECS` | `60` | Every batch after the first one completes |
+
+Detection is process-local — a single `AtomicBool` flips false → true when the writer task receives the first `EmbedJob::Batch`. Daemon restart resets it (which matches reality: macOS may evict the CoreML compiler cache between runs, rare but documented). On Linux / Windows the cold-start cost is much smaller; the wider first-batch window is harmless there because once warm the steady-state default is identical to the pre-v0.3.84 behaviour.
+
+### 2. `memtrace warmup` subcommand
+
+```bash
+memtrace warmup
+memtrace warmup --model bge-small  # opt-out for non-default model
+```
+
+Loads the active embedding model (downloading via fastembed if missing), runs ONE dummy `embed("warmup")` call to force the CoreML graph compile, and reports timing + cache locations:
+
+```text
+  memtrace warmup — pre-compile embedding-model graph
+
+  ✓  ONNX Runtime: ready
+  ◆  Model: jina-embeddings-v2-base-code/int8
+
+  ⏳  Loading + compiling graph (may take 60-300s on cold Apple Silicon)...
+  ✓  Warmup complete in 2.2s  (model dim = 768)
+
+  Caches:
+    fastembed model    : ~/.memtrace/fastembed_cache (612 MB on disk)
+    per-repo embeds    : ~/.memtrace/embed-cache
+    CoreML compiled    : ~/Library/Caches/com.apple.coremlcompiler/ (managed by macOS)
+```
+
+Exits 0 on success, 1 with a structured diagnostic on failure (same surface shape as `cmd_start`'s ort probe gate). Recommended use: run once after `npm install -g memtrace` so the first `memtrace start` finds everything warm.
+
+### 3. First-run UX line
+
+When the embed phase detects "this process has not yet completed a batch AND the per-repo embed-cache redb has zero entries for the active model id", it emits a one-shot status line on stderr:
+
+```text
+  ⏳  First-run: warming embedding model graph for Apple Silicon ANE (one-time, ~60-180s)...
+```
+
+After the first batch completes, a follow-up line:
+
+```text
+  ✓  Model warm — subsequent starts will be fast
+```
+
+Purely informational — sets expectations so an operator doesn't kill a daemon that's mid-graph-compile.
+
+**Scope summary:**
+
+- All Apple Silicon hosts: first-batch timeout silently lifted to 600 s on cold start
+- Linux / Windows hosts: identical defaults to v0.3.83 in steady state; first-batch window is wider but the cold-start cost is small enough that nothing changes in practice
+- `MEMTRACE_EMBED_BATCH_TIMEOUT_SECS` semantics: unchanged for the warm path
+- New: `MEMTRACE_EMBED_FIRST_BATCH_TIMEOUT_SECS` (override the 600 s cold-start cap)
+- New: `memtrace warmup [--model <name>]` (one-shot pre-compile)
+
+**Field reporters — credits:**
+- Apple Silicon operators on the v0.3.83 int8 default flip flagged the cold-start breaker trip immediately after upgrading. The repro shape ("daemon dies on first index, runs fine on every subsequent start after the cache warms") was diagnostic.
+
