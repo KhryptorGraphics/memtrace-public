@@ -38,14 +38,19 @@ the defaults auto-tune to your machine.
 | Var | Default | Purpose |
 |---|---|---|
 | `MEMTRACE_EMBED_MODEL` | `jina-code` (jinaai/jina-embeddings-v2-base-code, 768d) | Model to use. Other accepted values: `bge-small` (384d, ~140 MB — legacy rollback), `bge-base` (768d, ~440 MB), `nomic` (768d). |
-| `MEMTRACE_EMBED_QUANT` | auto-picked from host tier (int8 on Standard, fp32 on Heavy) | Embedding quantisation. Force with `int8` or `fp32`. |
+| `MEMTRACE_EMBED_QUANT` | auto-picked: `int8` on Apple Silicon (any tier), `fp32` on Heavy tier elsewhere, `int8` on Standard / Light | Embedding quantisation. Force with `int8` or `fp32`. **(v0.3.83)** Apple Silicon now defaults to `int8` for every tier — restores pre-f0fcf221 performance characteristics on M-Max / M-Ultra hosts where fp32 fell back to the slow CoreML CPU path (the Apple Neural Engine only accelerates `int8`). Set `MEMTRACE_EMBED_QUANT=fp32` to opt back into fp32 on Apple Silicon (e.g. for a recall-vs-speed benchmark). Workstation Linux / Windows on Heavy tier are unchanged — CUDA / DirectML still accelerates fp32 there. |
 | `MEMTRACE_VECTOR_DIMS` | `768` (matches default model) | Vector dimensionality of the HNSW index. **Must match the model's output dim.** Switching models with a mismatch raises a clear "dim mismatch" error pointing at the right value. |
 | `MEMTRACE_EMBED_INTRA_OP_THREADS` | tier-aware (1 / 2 / 4 for Light / Standard / Heavy) | Cap on ORT intra-op threads. Single biggest lever for memory on tight machines. |
 | `MEMTRACE_EMBED_BATCH_SIZE` | tier-aware (8 / 16 / 64 for Light / Standard / Heavy) | Per-batch size handed to the embedder. Memory scales linearly with this. Smaller batches finish faster per call, which matters on slow CPU paths (see `MEMTRACE_EMBED_BATCH_TIMEOUT_SECS`). |
 | `MEMTRACE_EMBED_BATCH_TIMEOUT_SECS` | `60` | Per-batch wall-clock ceiling. When exceeded, the embedding worker is abandoned and respawned on the next call (the bootstrap is self-healing — it just retries). On slow CPU paths (pre-AVX2 hosts: Intel Ivy Bridge / Xeon E5 v2 and older, AMD pre-Excavator) bump to `240` or higher; you'll see the warning `"Embedding batch timed out after 60s …"` if you need it. |
 | `MEMTRACE_EMBED_TIMEOUT_DEBUG` | (unset) | Set to `1` to log the offending input previews when a batch times out. Useful for diagnosing whether a single very long symbol body is dragging an otherwise fast batch over the limit. Off by default — these logs include source snippets. |
-| `MEMTRACE_EMBED_RSS_LIMIT_GB` | tier-aware (3 / 6 / 10 / 20 GB) | Soft RSS ceiling that triggers back-pressure when exceeded. Set to `0` to disable the check. |
+| `MEMTRACE_EMBED_RSS_LIMIT_GB` | tier-aware (3 / 6 / 10 / 20 GB) | Soft RSS ceiling on the embed process that triggers back-pressure when exceeded. Set to `0` to disable the check. |
+| `MEMTRACE_EMBED_PRESSURE` | `warn` | **(v0.3.82)** System-pressure gate threshold. Values: `off` (no gating), `normal` (block on any pressure), `warn` (block on Warn/Critical), `critical` (block only on Critical). The probe reads system-wide free + compressor + swap-rate (Mach `host_statistics64` on macOS, `/proc/meminfo` on Linux, `GlobalMemoryStatusEx` on Windows). Sustained `Critical` pressure for 60 s consecutive trips a circuit breaker; daemon exits 75 with a clear banner instead of hanging silently. |
 | `MEMTRACE_EMBED_MIN_LINES` | `4` | Don't embed symbols with fewer body lines than this. Prevents wasting cache on trivial helpers. |
+| `MEMTRACE_LONGFN_CHUNK_THRESHOLD` | `80` | **(v0.3.82)** Functions with more body lines than this are embedded as overlapping sub-spans rather than one blob. Improves recall on natural-language queries that match content deep inside long functions. Set to a very large number (e.g. `100000`) to disable. |
+| `MEMTRACE_LONGFN_CHUNK_SIZE` | `60` | Sub-span size when chunking. |
+| `MEMTRACE_LONGFN_CHUNK_OVERLAP` | `20` | Sub-span overlap when chunking. |
+| `MEMTRACE_FIELD_BOOST_BODY_STRINGS` | `0.5` | **(v0.3.82)** BM25 weight on the new `body_strings` field (function-body string literals extracted at index time). Improves recall on natural-language → log-line queries. |
 | `MEMTRACE_DISABLE_COREML` | (unset) | Set to `1` on Apple Silicon to force CPU execution provider instead of CoreML / ANE. Useful if CoreML's first-run graph compile hangs on your machine. |
 | `MEMTRACE_TIER` | auto-detected (`light` / `standard` / `heavy`) | Force the host tier instead of letting Memtrace pick from RAM + CPU + accelerator signals. |
 
@@ -73,6 +78,49 @@ edge cases where you want to bias the ranking yourself.
 | Var | Default | Purpose |
 |---|---|---|
 | `MEMTRACE_MAX_THREADS` | `n-2` for `memtrace index`, `n/2` for `memtrace start` | Rayon parse-thread pool size. Useful to leave cores free for your editor. |
+
+## Workspace daemon (v0.3.82)
+
+The `--workspace` daemon now auto-watches `.git/refs/heads/<active_branch>` for new commits in addition to source files. A fresh `git commit` is picked up within 5 s without any explicit ping.
+
+| Var | Default | Purpose |
+|---|---|---|
+| `MEMTRACE_GIT_REF_WATCH` | `on` (for `--workspace`), `off` otherwise | Enable / disable the git-ref watcher. |
+| `MEMTRACE_GIT_REF_WATCH_DEBOUNCE_MS` | `2000` | Debounce window for rapid ref changes (interactive rebase = many ref updates collapse to one delta sync after this settles). |
+
+Branch switch (`git checkout other-branch`) re-targets the watcher to the new active ref without restart. Detached-HEAD doesn't crash — the watcher logs once and falls back to the file-save trigger.
+
+## Pre-commit hook (v0.3.82 — now opt-in)
+
+⚠️ **Breaking from prior versions:** `memtrace install` no longer auto-installs the pre-commit hook. To opt in: `memtrace install-hooks --pre-commit`. To remove an existing one: `memtrace uninstall-hooks`.
+
+| Var | Default | Purpose |
+|---|---|---|
+| `MEMTRACE_PRECOMMIT` | (unset) | Set to `off` / `0` / `false` / `no` / `disabled` for a silent no-op (kill switch checked in bash before the binary spawns, so even a broken binary can't block a commit). |
+| `MEMTRACE_PRECOMMIT_MODE` | `blocking` | `blocking` (default — sync, 1.5 s capped) OR `agent` (fire-and-forget — forks daemon-ping detached and exits in ~15 ms). For agentic CI / Orbit-style pipelines, set to `agent`. |
+| `MEMTRACE_PRECOMMIT_TIMEOUT_MS` | `1500` | Hard wall-clock cap on the blocking-mode hook (hook also wraps in `\|\| true` so it never blocks the commit even on timeout). |
+| `MEMTRACE_PRECOMMIT_MAX_RSS_MB` | `512` | RLIMIT_AS cap on the pre-commit binary (Linux enforced; macOS no-op per kernel — documented). Prevents OOM. Set to `0` to disable. |
+| `MEMTRACE_PRECOMMIT_MAX_DIFF_BYTES` | `1048576` | If `git diff --cached` exceeds this, skip analysis (huge commits aren't worth the wait). Set to `0` to disable. |
+| `MEMTRACE_PRECOMMIT_MAX_SYMBOLS` | `500` | If parsed-affected-symbols list exceeds this, truncate (don't try to render warnings for 5,000 symbols). Set to `0` to disable. |
+
+## Claude Code hooks (v0.3.82)
+
+| Var | Default | Purpose |
+|---|---|---|
+| `MEMTRACE_HOOK_MODE` | `advisory` | Set to `off` for unconditional no-op of the UserPromptSubmit hook. |
+| `MEMTRACE_HOOK_DEBOUNCE_SECS` | `120` | Per-session debounce window. After the hook fires once for a session, suppresses further fires within this window. Set to `0` to disable debounce (every message fires). |
+| `MEMTRACE_HEALTH_URL` | `http://localhost:3030/health` | Where the hook probes daemon liveness. Override for non-default UI ports. |
+
+Session ID resolution (used to key the lock file at `~/.memtrace/hook-debounce/<session_id>.lock`):
+1. `CLAUDE_SESSION_ID` env (if Claude Code sets it)
+2. `CLAUDE_CONVERSATION_ID` env
+3. Fallback: SHA-1 of `PPID + parent process start-time`
+
+## Pre-push fortress hook (v0.3.82)
+
+| Var | Default | Purpose |
+|---|---|---|
+| `MEMTRACE_PREPUSH` | (unset) | Set to `off` / `0` / `false` / `no` / `disabled` for kill switch on the pre-push fortress hook (installed via `memtrace install-hooks --pre-push`). |
 
 ## MemDB connection (advanced)
 
